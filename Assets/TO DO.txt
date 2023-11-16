@@ -1,0 +1,18 @@
+
+
+- find the correct particles / missiles for abilities
+
+- handle movement of enemies
+
+- figure out where to spawn power-ups
+
+
+- leadership board
+
+
+
+
+- clean up
+- fix up scripts
+- asset credits
+- setup itch page
