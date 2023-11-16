@@ -16,11 +16,19 @@ public class MissileHitEnemy : MonoBehaviour
         if (enemy.gameObject.tag == "Enemy")
         {
             Debug.Log($"{gameObject} hit enemy");
+
             enemy.gameObject.SetActive(false);
-            Debug.Log($"{gameObject} disabled {enemy.gameObject}");
-            
             GetComponent<MeshRenderer>().enabled = false;
-            explosionParticle.Play();
+
+            StartCoroutine("DisableAfterParticleEnds");
         }
+    }
+
+    IEnumerator DisableAfterParticleEnds()
+    {
+        explosionParticle.Play();
+        yield return new WaitUntil(() => !explosionParticle.isPlaying);
+        Debug.Log("particle ended");
+        gameObject.SetActive(false);
     }
 }
