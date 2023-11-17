@@ -4,5 +4,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    
+
+    void Start() =>
+        Invoke("TestMultiplier", 3f);
+
+
+    void TestMultiplier() =>
+        TestSpawnMissile.Instance.missileFireMultiplier = 10;        
 }

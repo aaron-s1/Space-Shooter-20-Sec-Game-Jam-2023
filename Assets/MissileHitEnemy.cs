@@ -9,7 +9,8 @@ public class MissileHitEnemy : MonoBehaviour
 
     void Awake()
     {
-        explosionParticle = GetComponentInChildren<ParticleSystem>();    
+        explosionParticle = GetComponentInChildren<ParticleSystem>();
+        Invoke("DisableAfterSeconds", 3f);
     }
 
     void OnTriggerEnter2D(Collider2D enemy) {
@@ -28,7 +29,11 @@ public class MissileHitEnemy : MonoBehaviour
     {
         explosionParticle.Play();
         yield return new WaitUntil(() => !explosionParticle.isPlaying);
-        Debug.Log("particle ended");
         gameObject.SetActive(false);
     }
+
+
+    // if hit nothing.
+    void DisableAfterSeconds() =>
+        gameObject.SetActive(false);
 }
