@@ -1,3 +1,4 @@
+using System.Net;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,12 +30,13 @@ public class TestSpawnMissile : MonoBehaviour
         missilePool = new List<GameObject>();
         InitializeMissilePool();
 
-        InvokeRepeating("PlayerStartsFiring", 2f, timeBetweenMissileFirings / missileFireMultiplier);
-        Invoke("AmplifyTurretSize", 5f);
+        InvokeRepeating("PlayerStartsFiring", 2f, timeBetweenMissileFirings / fireRateMultiplier);
+        // ScaleUpTurrets(3f);
+        // Invoke("UpgradeFireRate", 5f);
     }
 
 
-    public int missileFireMultiplier
+    public int fireRateMultiplier
     {
         get { return _missileFireMultiplier; }
 
@@ -117,18 +119,32 @@ public class TestSpawnMissile : MonoBehaviour
 
     void OnMissileFireMultiplierChanged()
     {
+        ScaleUpTurrets(fireRateMultiplier);
         CancelInvoke("PlayerStartsFiring");
-        InvokeRepeating("PlayerStartsFiring", 0, timeBetweenMissileFirings / missileFireMultiplier);
+        InvokeRepeating("PlayerStartsFiring", 0, timeBetweenMissileFirings / fireRateMultiplier);
     }
 
 
 
-    public void AmplifyTurretSize()
+    // add an animation later
+    public void ScaleUpTurrets(float fireRateMultiplier)
     {
+        // prevent model from getting too large.        
+                // int fireRateMultiplier = 2;
+        float scaleMultiplier = 1f;
+
+        // make dynamic later.
+        if (fireRateMultiplier == 2)
+            scaleMultiplier = 1.5f;
+        else if (fireRateMultiplier >= 3)
+            scaleMultiplier = 1.75f;
+
+        
+
         var leftTurret = leftMissileOriginPoint.transform.parent.gameObject.transform;
         var rightTurret = rightMissileOriginPoint.transform.parent.gameObject.transform;
 
-        leftTurret.localScale *= 1.5f;
-        rightTurret.localScale *= 1.5f;
+        leftTurret.localScale *= scaleMultiplier;
+        rightTurret.localScale *= scaleMultiplier;
     }
 }

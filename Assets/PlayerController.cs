@@ -10,5 +10,5 @@ public class PlayerController : MonoBehaviour
 
 
     void TestMultiplier() =>
-        TestSpawnMissile.Instance.missileFireMultiplier = 10;        
+        TestSpawnMissile.Instance.fireRateMultiplier = 10;        
 }
