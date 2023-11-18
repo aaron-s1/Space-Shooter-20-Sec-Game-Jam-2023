@@ -126,20 +126,15 @@ public class TestSpawnMissile : MonoBehaviour
 
 
 
-    // add an animation later
+    // add an animation later?
     public void ScaleUpTurrets(float fireRateMultiplier)
     {
-        // prevent model from getting too large.        
-                // int fireRateMultiplier = 2;
-        float scaleMultiplier = 1f;
+        // Prevent model from getting too large. 
+        // 2 = scaleMultiplier of 1.5f. 3 or greater is 1.75f.
+        float scaleMultiplier = 1.25f;
+        scaleMultiplier += (0.25f * (fireRateMultiplier - 1));
+        scaleMultiplier = Mathf.Min(scaleMultiplier, 1.75f);
 
-        // make dynamic later.
-        if (fireRateMultiplier == 2)
-            scaleMultiplier = 1.5f;
-        else if (fireRateMultiplier >= 3)
-            scaleMultiplier = 1.75f;
-
-        
 
         var leftTurret = leftMissileOriginPoint.transform.parent.gameObject.transform;
         var rightTurret = rightMissileOriginPoint.transform.parent.gameObject.transform;
