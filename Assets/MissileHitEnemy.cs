@@ -11,6 +11,8 @@ public class MissileHitEnemy : MonoBehaviour
         
     ParticleSystem explosionParticle;
 
+    bool canAddScore = true;
+
 
 
     void Awake()
@@ -33,6 +35,9 @@ public class MissileHitEnemy : MonoBehaviour
     
 
     void OnDisable() {
+        if (startPiercingWhenEnabledAgain)
+            bulletCanPierce = true;
+            
         Debug.Log("missile disabled itself");
     }
 
@@ -40,6 +45,7 @@ public class MissileHitEnemy : MonoBehaviour
     void OnTriggerEnter2D(Collider2D enemy) {
         if (enemy.gameObject.tag == "Enemy")
         {
+            canAddScore = false;
             gameManager.AddToKills(true);
             CancelInvoke("DisableAfterSeconds");
             Debug.Log($"{gameObject} hit enemy");
