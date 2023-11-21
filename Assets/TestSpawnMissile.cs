@@ -6,6 +6,7 @@ using UnityEngine;
 public class TestSpawnMissile : MonoBehaviour
 {
 
+
     public static TestSpawnMissile Instance { get; private set; }
     
     [SerializeField] GameObject missilePrefab;
@@ -31,6 +32,8 @@ public class TestSpawnMissile : MonoBehaviour
         InitializeMissilePool();
 
         InvokeRepeating("PlayerStartsFiring", 2f, timeBetweenMissileFirings / fireRateMultiplier);
+
+        Invoke("NewMissilesNowPierce", 4f);
         // ScaleUpTurrets(3f);
         // Invoke("UpgradeFireRate", 5f);
     }
@@ -141,5 +144,12 @@ public class TestSpawnMissile : MonoBehaviour
 
         leftTurret.localScale *= scaleMultiplier;
         rightTurret.localScale *= scaleMultiplier;
+    }
+
+    public void NewMissilesNowPierce()
+    {
+        foreach (GameObject bullet in missilePool)
+            bullet.GetComponent<MissileHitEnemy>().StartPiercingWhenEnabledAgain();
+            // .StartCoroutine("StartPiercingUponEnable()");
     }
 }

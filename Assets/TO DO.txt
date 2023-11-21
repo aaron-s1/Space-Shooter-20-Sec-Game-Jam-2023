@@ -6,13 +6,38 @@
 
 - figure out where to spawn power-ups
 
+- score handling
 
-- leadership board
+- UI and such
+
+- leaderboard
+
+- restarting game
+
+- determine what max missile pool should be
+
+
+- add abilities:
+    - black hole when losing
+    - make enemies explode
+        - make exploded enemies explode (without further chaining)
 
 
 
 
-- clean up
+
+- clean up project
+- clean up hierarchy
 - fix up scripts
 - asset credits
 - setup itch page
+- clean push
+- file backup
+
+
+
+
+added:
+- ability for missiles to pierce
+- ability for missiles to fire faster
+- when firing faster, turrets automatically get bigger

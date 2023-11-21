@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6769351534380764610}
   - component: {fileID: 1569421338}
   - component: {fileID: 5511128800398629584}
+  - component: {fileID: -3018775935624979029}
   m_Layer: 0
   m_Name: SingleLine-LightSaber
   m_TagString: Untagged
@@ -168,7 +169,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0df97de36bd064c9771a06a0eda06e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.5
+  moveSpeed: 0.05
+--- !u!114 &-3018775935624979029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f878c0c7950f3945b9c58b2f1c3b71b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pullable: 1
 --- !u!1001 &969931012
 PrefabInstance:
   m_ObjectHideFlags: 0
