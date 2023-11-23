@@ -2,23 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class MissileHitEnemy : MonoBehaviour
 {
     GameManager gameManager;
 
-    bool bulletCanPierce = false;
-    bool startPiercingWhenEnabledAgain = false;
+    bool bulletCanPierce;
+    bool startPiercingWhenEnabledAgain;
         
-    ParticleSystem explosionParticle;
+    bool canExplodeEnemies = true; //
+    bool canExplodeEnemiesWhenEnabledAgain;
+
 
     bool canAddScore = true;
 
 
-
-    void Awake()
-    {
-        explosionParticle = GetComponentInChildren<ParticleSystem>();        
-    }
 
     void Start()
     {
@@ -31,12 +29,16 @@ public class MissileHitEnemy : MonoBehaviour
 
         if (startPiercingWhenEnabledAgain)
             bulletCanPierce = true;
+        if (canExplodeEnemiesWhenEnabledAgain)
+            canExplodeEnemies = true;
     }
     
 
     void OnDisable() {
-        if (startPiercingWhenEnabledAgain)
-            bulletCanPierce = true;
+        // if (startPiercingWhenEnabledAgain)
+        //     bulletCanPierce = true;
+        // if (canExplodeEnemiesWhenEnabledAgain)
+        //     canExplodeEnemiesWhenEnabledAgain = true;            
             
         Debug.Log("missile disabled itself");
     }
@@ -45,31 +47,22 @@ public class MissileHitEnemy : MonoBehaviour
     void OnTriggerEnter2D(Collider2D enemy) {
         if (enemy.gameObject.tag == "Enemy")
         {
-            canAddScore = false;
-            gameManager.AddToKills(true);
             CancelInvoke("DisableAfterSeconds");
-            Debug.Log($"{gameObject} hit enemy");
 
+            EnemyIsHit enemyIsHit = enemy.gameObject.GetComponent<EnemyIsHit>();
 
-            enemy.gameObject.SetActive(false);
-            explosionParticle.Play();
-
-
-            if (!bulletCanPierce)
+            if (!enemyIsHit.alreadyHit)
             {
-                GetComponent<MeshRenderer>().enabled = false;
-                StartCoroutine("DisableAfterParticleEnds");
+                Debug.Log("missile blew up enemy. should only happen once.");
+                IEnumerator startDying = enemyIsHit.StartDying(canExplodeEnemies);
+                StartCoroutine(startDying);
             }
-            else
-                Invoke("DisableAfterSeconds", 1f);
-        }
-    }
 
-    IEnumerator DisableAfterParticleEnds()
-    {
-        yield return new WaitUntil(() => !explosionParticle.isPlaying);
-        Debug.Log("DisableAfterParticleEnds() disabled missile");
-        gameObject.SetActive(false);
+            if (bulletCanPierce)
+                Invoke("DisableAfterSeconds", 20f);
+            else
+                gameObject.SetActive(false);
+        }
     }
 
 
@@ -83,4 +76,7 @@ public class MissileHitEnemy : MonoBehaviour
 
     public void StartPiercingWhenEnabledAgain() =>
         startPiercingWhenEnabledAgain = true;
+
+    public void CanExplodeEnemiesWhenEnabledAgain() =>
+        canExplodeEnemiesWhenEnabledAgain = true;
 }

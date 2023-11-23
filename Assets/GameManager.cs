@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
 
     bool gameHasStarted = false;
     bool gameHasEnded = false;
+
+    // bool enemiesNowExplode;
     
 
     // public int Score =>
@@ -51,13 +53,17 @@ public class GameManager : MonoBehaviour
 
 
         if (secondsPassedSinceGameStart == 20)
+        {
+            secondsRemainingUI.text = " ";
             yield return StartCoroutine("EndGame");
+        }
         else
             yield return StartCoroutine("CountdownToEndGame");
     }
 
     IEnumerator EndGame()
     {
+        // gameHasEnded = true;
         // do nothing for now
         yield return null;
     }
