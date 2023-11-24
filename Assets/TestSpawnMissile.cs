@@ -32,10 +32,7 @@ public class TestSpawnMissile : MonoBehaviour
         InitializeMissilePool();
 
         InvokeRepeating("PlayerStartsFiring", 2f, timeBetweenMissileFirings / fireRateMultiplier);
-
-        Invoke("NewMissilesNowPierce", 4f);
-        // ScaleUpTurrets(3f);
-        // Invoke("UpgradeFireRate", 5f);
+        // Invoke("NewMissilesNowPierce", 4f);
     }
 
 
@@ -52,17 +49,8 @@ public class TestSpawnMissile : MonoBehaviour
             }
         }
     }
-    
 
 
-
-    // when calling this, cancel invoke on it first.
-    // public void PlayerStartsFiring(int fireMultiplier = 1)
-    // {
-
-    //     // CancelInvoke("PlayerStartsFiring");
-    //     // Debug.Log("tomato");
-    // }
 
     void InitializeMissilePool()
     {
@@ -74,27 +62,11 @@ public class TestSpawnMissile : MonoBehaviour
         }
     }
 
+
+    // Get missiles from the pool for both turrets.
     public void PlayerStartsFiring()
     {
-        // Get missiles from the pool for both turrets
         GameObject missileLeft = GetPooledMissile();
-        // GameObject missileRight = GetPooledMissile();
-
-        // if (missileLeft != null && missileRight != null)
-        // {
-        //     // Set missile positions and rotations
-        //     missileLeft.transform.position = leftOriginPoint.position;
-        //     missileLeft.transform.rotation = leftOriginPoint.rotation;
-
-        //     missileRight.transform.position = rightOriginPoint.position;
-        //     missileRight.transform.rotation = rightOriginPoint.rotation;
-
-        //     // Activate the missiles
-        //     missileLeft.SetActive(true);
-        //     missileRight.SetActive(true);
-        //     Debug.Log(missileLeft);
-        //     Debug.Log(missileRight);
-        // }
 
         if (missileLeft != null)
         {
@@ -146,10 +118,16 @@ public class TestSpawnMissile : MonoBehaviour
         rightTurret.localScale *= scaleMultiplier;
     }
 
+
     public void NewMissilesNowPierce()
     {
         foreach (GameObject bullet in missilePool)
             bullet.GetComponent<MissileHitEnemy>().StartPiercingWhenEnabledAgain();
-            // .StartCoroutine("StartPiercingUponEnable()");
     }
+
+    public void NewMissilesNowExplode()
+    {
+        foreach (GameObject bullet in missilePool)
+            bullet.GetComponent<MissileHitEnemy>().StartExplodingEnemiesWhenEnabledAgain();
+    }    
 }

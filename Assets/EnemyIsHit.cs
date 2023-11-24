@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,18 +11,19 @@ public class EnemyIsHit : MonoBehaviour
     bool bulletCanPierce = false;
     bool startPiercingWhenEnabledAgain = false;
         
-    [SerializeField] ParticleSystem poofParticle;
-    [SerializeField] ParticleSystem explosionParticle;
+    [SerializeField] public ParticleSystem poofParticle;
+    [SerializeField] public ParticleSystem explosionParticle;
 
     SpriteRenderer renderer;
 
     [HideInInspector] bool canAddScoreFurther = true;
 
     public bool alreadyHit;
-    bool canExplodeEnemies;
+    bool canExplodeOtherEnemies;
 
 
-    bool explodeWhenHit;
+    int totalExplosionChains;
+    // bool explodeWhenHit;
 
 
     void Awake()
@@ -44,74 +46,70 @@ public class EnemyIsHit : MonoBehaviour
 
     void OnDisable()
     {
-        ResetVariables();
+        ResetVariablesToDefaults();
     }
 
-    void ResetVariables()
+    void ResetVariablesToDefaults()
     {
-        alreadyHit = canExplodeEnemies = false;
+        alreadyHit = canExplodeOtherEnemies = false;
         renderer.enabled = true;
         canAddScoreFurther = true;
+        
+        totalExplosionChains = 0;
     }
 
 
-    public IEnumerator StartDying(bool exploded = false)
+
+    public IEnumerator StartDying(int totalExplosionChains = 0, bool dontExplode = false)
     {
         alreadyHit = true;
-        canAddScoreFurther = false;
-        gameManager.AddToKills();
-
-        canExplodeEnemies = exploded;
-
-        renderer.enabled = false;
-
+        this.totalExplosionChains = totalExplosionChains;
 
         ParticleSystem activeParticle;
-        
-        if (exploded)
+
+        // OnTriggerStay2D will try to explode nearby enemies until explosionParticle stops playing.
+        if (this.totalExplosionChains > 0)
+        {
+            canExplodeOtherEnemies = true;
             activeParticle = explosionParticle;
+        }
+
         else
             activeParticle = poofParticle;
 
-        // OnTriggerEnter/Stay checks for explosion hits while this happens.
-        Debug.Log("start dying log");
-        yield return DisableAfterParticleEnds(activeParticle);
+        yield return HandleDeathFlagsThenDie(activeParticle);
+
     }
 
 
-    // if doesn't work, try on stay.
     void OnTriggerStay2D(Collider2D other)
-    {
-        // !canAddScoreFurther is a quick hack to see if the other enemy has triggered DieByExplosion() already        
-        if (other.gameObject.tag == "Enemy" && canExplodeEnemies && !other.gameObject.GetComponent<EnemyIsHit>().alreadyHit)
-
-        // if (other.gameObject.tag == "Enemy" && canExplodeEnemies && alreadyHit)
+    {        
+        if (other.gameObject.tag == "Enemy" && canExplodeOtherEnemies)
         {
-            Debug.Log("enemy is exploding shit");
-            StartCoroutine(other.gameObject.GetComponent<EnemyIsHit>().DieByExplosion());
+            EnemyIsHit otherEnemy = other.gameObject.GetComponent<EnemyIsHit>();
+            
+            if (!otherEnemy.alreadyHit)
+                StartCoroutine(otherEnemy.StartDying(totalExplosionChains - 1));
+
         }
     }
 
 
-    // Can only trigger via other enemies.
-    // Is another instance.
-    IEnumerator DieByExplosion()
+    // Can only trigger via another enemy instance.    
+    IEnumerator HandleDeathFlagsThenDie(ParticleSystem particle)
     {
-        //should prevent missile from hitting exploding enemies multiple times
         alreadyHit = true;
-
         canAddScoreFurther = false;
         gameManager.AddToKills();
         renderer.enabled = false;
 
-        yield return DisableAfterParticleEnds(poofParticle);
+        yield return DisableAfterParticleEnds(particle);
     }
     
 
 
     IEnumerator DisableAfterParticleEnds(ParticleSystem particle)
     {
-        Debug.Log("DisableAfterParticleEnds");
         particle.Play();
         yield return new WaitUntil(() => !explosionParticle.isPlaying);        
         gameObject.SetActive(false);
@@ -120,8 +118,4 @@ public class EnemyIsHit : MonoBehaviour
 
     void DisableAfterSeconds() =>
         gameObject.SetActive(false);
-
-
-    public void StartExplodingWhenHit() =>
-        explodeWhenHit = true;
 }

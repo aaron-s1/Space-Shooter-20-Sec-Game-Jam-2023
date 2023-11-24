@@ -13,6 +13,9 @@ public class MissileHitEnemy : MonoBehaviour
     bool canExplodeEnemies = true; //
     bool canExplodeEnemiesWhenEnabledAgain;
 
+    // increment 
+    int totalExplosionChains = 0;
+
 
     bool canAddScore = true;
 
@@ -34,14 +37,9 @@ public class MissileHitEnemy : MonoBehaviour
     }
     
 
-    void OnDisable() {
-        // if (startPiercingWhenEnabledAgain)
-        //     bulletCanPierce = true;
-        // if (canExplodeEnemiesWhenEnabledAgain)
-        //     canExplodeEnemiesWhenEnabledAgain = true;            
-            
-        Debug.Log("missile disabled itself");
-    }
+    // void OnDisable() {
+        // Debug.Log("missile disabled itself");
+    // }
 
 
     void OnTriggerEnter2D(Collider2D enemy) {
@@ -54,7 +52,7 @@ public class MissileHitEnemy : MonoBehaviour
             if (!enemyIsHit.alreadyHit)
             {
                 Debug.Log("missile blew up enemy. should only happen once.");
-                IEnumerator startDying = enemyIsHit.StartDying(canExplodeEnemies);
+                IEnumerator startDying = enemyIsHit.StartDying(totalExplosionChains);
                 StartCoroutine(startDying);
             }
 
@@ -71,12 +69,16 @@ public class MissileHitEnemy : MonoBehaviour
         gameObject.SetActive(false);
         Debug.Log("DisableAfterSeconds() disabled missile");
     }
-    
 
+
+    
 
     public void StartPiercingWhenEnabledAgain() =>
         startPiercingWhenEnabledAgain = true;
 
-    public void CanExplodeEnemiesWhenEnabledAgain() =>
+    public void StartExplodingEnemiesWhenEnabledAgain()
+    {
+        totalExplosionChains++;
         canExplodeEnemiesWhenEnabledAgain = true;
+    }
 }
