@@ -30,6 +30,7 @@ public class EnemyIsHit : MonoBehaviour
     {
         explosionParticle = GetComponentInChildren<ParticleSystem>();     
         renderer = GetComponent<SpriteRenderer>();
+        Debug.Log("I'm an enemy.");
     }
 
     void Start()

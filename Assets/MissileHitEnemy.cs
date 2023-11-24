@@ -10,11 +10,11 @@ public class MissileHitEnemy : MonoBehaviour
     bool bulletCanPierce;
     bool startPiercingWhenEnabledAgain;
         
-    bool canExplodeEnemies = true; //
+    // bool canExplodeEnemies;
     bool canExplodeEnemiesWhenEnabledAgain;
 
     // increment 
-    int totalExplosionChains = 0;
+    int totalExplosionChains = 1;
 
 
     bool canAddScore = true;
@@ -32,8 +32,12 @@ public class MissileHitEnemy : MonoBehaviour
 
         if (startPiercingWhenEnabledAgain)
             bulletCanPierce = true;
+
         if (canExplodeEnemiesWhenEnabledAgain)
-            canExplodeEnemies = true;
+        {
+            canExplodeEnemiesWhenEnabledAgain = false;
+            totalExplosionChains++;
+        }
     }
     
 
@@ -49,15 +53,15 @@ public class MissileHitEnemy : MonoBehaviour
 
             EnemyIsHit enemyIsHit = enemy.gameObject.GetComponent<EnemyIsHit>();
 
-            if (!enemyIsHit.alreadyHit)
+            if (!enemyIsHit.alreadyHit && gameObject.activeInHierarchy)
             {
                 Debug.Log("missile blew up enemy. should only happen once.");
                 IEnumerator startDying = enemyIsHit.StartDying(totalExplosionChains);
                 StartCoroutine(startDying);
             }
 
-            if (bulletCanPierce)
-                Invoke("DisableAfterSeconds", 20f);
+            if (bulletCanPierce || enemyIsHit.alreadyHit)
+                Invoke("DisableAfterSeconds", 3f);
             else
                 gameObject.SetActive(false);
         }
@@ -71,14 +75,18 @@ public class MissileHitEnemy : MonoBehaviour
     }
 
 
-    
-
     public void StartPiercingWhenEnabledAgain() =>
         startPiercingWhenEnabledAgain = true;
 
-    public void StartExplodingEnemiesWhenEnabledAgain()
+
+
+    // void IncrementChainExplosions() =>
+    //     totalExplosionChains++;
+
+
+    public void IncrementChainExplosionsWhenEnabledAgain()
     {
-        totalExplosionChains++;
         canExplodeEnemiesWhenEnabledAgain = true;
+        // IncrementChainExplosions();
     }
 }

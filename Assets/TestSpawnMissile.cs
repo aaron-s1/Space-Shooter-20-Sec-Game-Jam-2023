@@ -125,9 +125,9 @@ public class TestSpawnMissile : MonoBehaviour
             bullet.GetComponent<MissileHitEnemy>().StartPiercingWhenEnabledAgain();
     }
 
-    public void NewMissilesNowExplode()
+    public void NewMissilesExplodeMore()
     {
         foreach (GameObject bullet in missilePool)
-            bullet.GetComponent<MissileHitEnemy>().StartExplodingEnemiesWhenEnabledAgain();
+            bullet.GetComponent<MissileHitEnemy>().IncrementChainExplosionsWhenEnabledAgain();
     }    
 }

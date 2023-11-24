@@ -2,11 +2,15 @@
 
 - find the correct particles / missiles for abilities
 
+- find self-destruct explosion for player/ship
+
+- find correct 'poof' particle
+
 - handle movement of enemies
 
-- figure out where to spawn power-ups
+- integrate lots of different enemies with varying movements
 
-- score handling
+- figure out where to spawn power-ups
 
 - UI and such
 
@@ -16,13 +20,15 @@
 
 - restarting game
 
-- determine what max missile pool should be
+- determine values:
+    - what max missile pool should be
+    - 
 
+- randomize ability pool
 
-- add abilities:
-    - black hole when losing
-    - make enemies explode
-        - make exploded enemies explode (without further chaining)
+- add ways to activate abilities
+
+- UI transitions and such
 
 
 
