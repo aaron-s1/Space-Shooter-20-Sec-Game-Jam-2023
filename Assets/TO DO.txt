@@ -14,6 +14,8 @@
 
 - figure out where to spawn power-ups
 
+- dying explosions (as player's ship starts falling apart)
+
 - UI and such
 
 - ability graphics, interactions
