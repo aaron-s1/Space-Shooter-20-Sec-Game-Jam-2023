@@ -4,6 +4,8 @@
 
 - find self-destruct explosion for player/ship
 
+- enemy models 
+
 - find correct 'poof' particle
 
 - handle movement of enemies
