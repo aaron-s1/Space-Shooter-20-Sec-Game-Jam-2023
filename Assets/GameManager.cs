@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreUI;
     [SerializeField] TextMeshProUGUI secondsRemainingUI;
 
+    [SerializeField] GameObject blackHolePowerUpParticle;
+
+    
     int secondsPassedSinceGameStart;
 
     int regularKills;
@@ -21,6 +24,8 @@ public class GameManager : MonoBehaviour
 
     bool gameHasStarted = false;
     bool gameHasEnded = false;
+
+    GameObject player;
 
     // bool enemiesNowExplode;
     
@@ -36,6 +41,9 @@ public class GameManager : MonoBehaviour
     {
         // later on, add conditionals before starting
         StartCoroutine("CountdownToEndGame", 1f);
+        player = GameObject.FindGameObjectWithTag("Player");
+        StartCoroutine("ActivateBlackHole");
+        // Invoke("ActivateBlackHole", 6f);
     }
     
     void StartGame()
@@ -71,6 +79,28 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Power-ups.
+
+
+
+    
+
+    public IEnumerator ActivateBlackHole()
+    {
+        player.GetComponent<TestSpawnMissile>().fireRateMultiplier = 0;
+        foreach (Transform child in player.transform)
+            child.gameObject.SetActive(false);
+        
+        GameObject blackHoleInstance = Instantiate(blackHolePowerUpParticle, player.transform);
+        // Instantiate(blackHolePowerUpParticle, player.transform);
+        // Debug.Log(blackHoleInstance);
+
+        // wait for particles to prepare before pulling
+        yield return new WaitForSeconds(1f);
+        Debug.Break();
+        blackHoleInstance.transform.GetChild(3).gameObject.SetActive(true);
+    }
+
+
     
 
     #endregion

@@ -12,7 +12,9 @@ public class SingularityCore : MonoBehaviour
     void OnTriggerStay2D (Collider2D other) {
         if (other.GetComponent<SingularityPullable>())
         {
-            GameManager.Instance.AddToKills(true);
+            if (other.gameObject.tag == "Enemy")
+                GameManager.Instance.AddToKills(true);
+                
             other.gameObject.SetActive(false);
         }
     }

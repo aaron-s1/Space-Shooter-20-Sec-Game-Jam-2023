@@ -16,7 +16,10 @@ public class Singularity : MonoBehaviour
     void OnTriggerStay2D (Collider2D other) {
         if (other.attachedRigidbody && other.GetComponent<SingularityPullable>())
         {
-            Debug.Log("singularity hit object: " + other.gameObject);
+            if (other.gameObject.GetComponent<EnemyIsHit>())
+                other.gameObject.GetComponent<EnemyIsHit>().alreadyHit = true;
+
+            // Debug.Log("singularity hit object: " + other.gameObject);
             float gravityIntensity = Vector3.Distance(transform.position, other.transform.position) / m_GravityRadius;
             other.attachedRigidbody.AddForce((transform.position - other.transform.position) * gravityIntensity * other.attachedRigidbody.mass * GRAVITY_PULL * Time.smoothDeltaTime);
         }

@@ -94,9 +94,12 @@ public class TestSpawnMissile : MonoBehaviour
 
     void OnMissileFireMultiplierChanged()
     {
-        ScaleUpTurrets(fireRateMultiplier);
-        CancelInvoke("PlayerStartsFiring");
-        InvokeRepeating("PlayerStartsFiring", 0, timeBetweenMissileFirings / fireRateMultiplier);
+        if (fireRateMultiplier != 0)
+        {
+            ScaleUpTurrets(fireRateMultiplier);
+            CancelInvoke("PlayerStartsFiring");
+            InvokeRepeating("PlayerStartsFiring", 0, timeBetweenMissileFirings / fireRateMultiplier);
+        }
     }
 
 

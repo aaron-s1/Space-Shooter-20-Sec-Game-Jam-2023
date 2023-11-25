@@ -14,7 +14,7 @@ public class MissileHitEnemy : MonoBehaviour
     bool canExplodeEnemiesWhenEnabledAgain;
 
     // increment 
-    int totalExplosionChains = 1;
+    int totalExplosionChains = 0;
 
 
     bool canAddScore = true;

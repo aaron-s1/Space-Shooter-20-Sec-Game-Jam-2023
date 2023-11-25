@@ -91,7 +91,6 @@ public class EnemyIsHit : MonoBehaviour
             
             if (!otherEnemy.alreadyHit)
                 StartCoroutine(otherEnemy.StartDying(totalExplosionChains - 1));
-
         }
     }
 
