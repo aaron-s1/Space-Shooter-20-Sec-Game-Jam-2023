@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator ActivateBlackHole()
     {
-        player.GetComponent<TestSpawnMissile>().fireRateMultiplier = 0;
+        player.GetComponent<FireMissile>().fireRateMultiplier = 0;
         foreach (Transform child in player.transform)
             child.gameObject.SetActive(false);
         

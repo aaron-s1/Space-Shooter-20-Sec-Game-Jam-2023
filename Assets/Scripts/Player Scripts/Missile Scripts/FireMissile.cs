@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestSpawnMissile : MonoBehaviour
+public class FireMissile : MonoBehaviour
 {
-
-
-    public static TestSpawnMissile Instance { get; private set; }
+    public static FireMissile Instance { get; private set; }
     
     [SerializeField] GameObject missilePrefab;
     [SerializeField] float timeBetweenMissileFirings = 1f;
