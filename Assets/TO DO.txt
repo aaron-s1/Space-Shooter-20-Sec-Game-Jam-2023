@@ -1,12 +1,13 @@
 
 
-- find the correct particles / missiles for abilities
 
-- find self-destruct explosion for player/ship
+- create a third player weapon ability
+
+    - find self-destruct explosion for player/ship
 
 - enemy models 
 
-- find correct 'poof' particle
+- find better 'poof' particle?
 
 - handle movement of enemies
 
@@ -14,9 +15,7 @@
 
 - figure out where to spawn power-ups
 
-- dying explosions (as player's ship starts falling apart)
-
-- UI and such
+- UI and such (and for power-ups)
 
 - ability graphics, interactions
 

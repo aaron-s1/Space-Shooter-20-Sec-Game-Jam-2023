@@ -84,9 +84,10 @@ public class MissileHitEnemy : MonoBehaviour
     //     totalExplosionChains++;
 
 
-    public void IncrementChainExplosionsWhenEnabledAgain()
+    public void IncrementChainExplosionsWhenEnabledAgain(int newChainAmount)
     {
         canExplodeEnemiesWhenEnabledAgain = true;
+        totalExplosionChains = newChainAmount;
         // IncrementChainExplosions();
     }
 }

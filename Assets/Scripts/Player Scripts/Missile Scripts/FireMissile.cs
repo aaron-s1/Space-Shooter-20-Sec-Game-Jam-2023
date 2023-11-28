@@ -16,7 +16,10 @@ public class FireMissile : MonoBehaviour
 
     List<GameObject> missilePool;
 
+
+
     private int _missileFireMultiplier = 1;
+    private int _explosionChains = 0;
 
 
     void Awake()
@@ -47,6 +50,20 @@ public class FireMissile : MonoBehaviour
             }
         }
     }
+
+    public int explosionChains
+    {
+        get { return _explosionChains; }
+
+        set
+        {
+            if (_explosionChains != value)
+            {
+                _explosionChains = value;
+                OnExplodeChainIncrementation();
+            }
+        }
+    }    
 
 
 
@@ -100,6 +117,11 @@ public class FireMissile : MonoBehaviour
         }
     }
 
+    void OnExplodeChainIncrementation()
+    {
+        NewMissilesExplodeMoreEnemies();
+    }
+
 
 
     // add an animation later?
@@ -126,9 +148,9 @@ public class FireMissile : MonoBehaviour
             bullet.GetComponent<MissileHitEnemy>().StartPiercingWhenEnabledAgain();
     }
 
-    public void NewMissilesExplodeMore()
+    public void NewMissilesExplodeMoreEnemies()
     {
         foreach (GameObject bullet in missilePool)
-            bullet.GetComponent<MissileHitEnemy>().IncrementChainExplosionsWhenEnabledAgain();
+            bullet.GetComponent<MissileHitEnemy>().IncrementChainExplosionsWhenEnabledAgain(_explosionChains);
     }    
 }
