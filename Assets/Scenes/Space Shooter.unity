@@ -1010,6 +1010,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireRateBoost UI (3x)
       objectReference: {fileID: 0}
+    - target: {fileID: 7505903340975452702, guid: 9caa6463de5e8854f9116c7417592be2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9caa6463de5e8854f9116c7417592be2, type: 3}
 --- !u!224 &497134349 stripped
@@ -4244,7 +4249,12 @@ PrefabInstance:
     - target: {fileID: 8498710565554407382, guid: 171c1411f04c87341a4243b47106566f,
         type: 3}
       propertyPath: m_Name
-      value: blah blah pierce missile UI
+      value: MissilesPierce UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8498710565554407382, guid: 171c1411f04c87341a4243b47106566f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8498710565554407383, guid: 171c1411f04c87341a4243b47106566f,
         type: 3}
@@ -4439,6 +4449,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1552751115}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1573208092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1573208093}
+  m_Layer: 0
+  m_Name: power-up holster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1573208093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573208092}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 927646731}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1622144479
 GameObject:
   m_ObjectHideFlags: 0
@@ -4927,8 +4967,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf9f69e83246be488ca4fbd8960b9f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftDrone: {fileID: 0}
-  rightDrone: {fileID: 0}
+  leftDrone: {fileID: 927646732}
+  rightDrone: {fileID: 1382948156}
+  droneRespawnTime: 3
   powerUpsUIList: []
 --- !u!1001 &1822637412
 PrefabInstance:
@@ -5072,6 +5113,36 @@ Transform:
   - {fileID: 639790203}
   m_Father: {fileID: 1225027724}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1938844595
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1938844596}
+  m_Layer: 0
+  m_Name: power-up holster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1938844596
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938844595}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1382948155}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2035091028
 PrefabInstance:
@@ -5567,6 +5638,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExplodeEnemies (More) UI
       objectReference: {fileID: 0}
+    - target: {fileID: 7204327916389726682, guid: 1c745b385f6aa6649a9173a90661b8df,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7204327916389726685, guid: 1c745b385f6aa6649a9173a90661b8df,
         type: 3}
       propertyPath: m_Pivot.x
@@ -5791,6 +5867,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireRateBoost UI (2x)
       objectReference: {fileID: 0}
+    - target: {fileID: 7505903340975452702, guid: 9caa6463de5e8854f9116c7417592be2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9caa6463de5e8854f9116c7417592be2, type: 3}
 --- !u!224 &7505903342642658308 stripped
@@ -5810,6 +5891,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ExplodeEnemies UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 347357751618506880, guid: edef39898a8a3744db8777387a009983,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 347357751618506895, guid: edef39898a8a3744db8777387a009983,
         type: 3}
@@ -5929,6 +6015,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlackHole UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8498710565554407382, guid: 171c1411f04c87341a4243b47106566f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8498710565554407383, guid: 171c1411f04c87341a4243b47106566f,
         type: 3}
