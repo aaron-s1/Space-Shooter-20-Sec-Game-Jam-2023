@@ -14,6 +14,9 @@ public class PowerUpSelector : MonoBehaviour
     public GameObject leftDrone;
     public GameObject rightDrone;
 
+    Animator leftDroneAnim;
+    Animator rightDroneAnim;
+
     GameObject leftDronePowerUpUI;
     GameObject rightDronePowerUpUI;
     public List<GameObject> powerUpsUIList;
@@ -33,6 +36,9 @@ public class PowerUpSelector : MonoBehaviour
         gameManager = GameManager.Instance;
         playerMissiles = FireMissile.Instance;
 
+        leftDroneAnim = leftDrone.GetComponent<Animator>();
+        rightDroneAnim = rightDrone.GetComponent<Animator>();
+
         AddPowerUps();
     }
 
@@ -41,19 +47,12 @@ public class PowerUpSelector : MonoBehaviour
     {
         if (!allowPowerUpChoice)
             return;
-            // set true elsewhere later.
 
         if (Input.GetMouseButton(0))
-        {
-            allowPowerUpChoice = false;
             ExecuteChosenPowerUp(leftDronePowerUp);
-        }
         
         if (Input.GetMouseButton(1))
-        {
-            allowPowerUpChoice = false;            
             ExecuteChosenPowerUp(rightDronePowerUp);
-        }        
     }
 
 
@@ -67,31 +66,66 @@ public class PowerUpSelector : MonoBehaviour
         availablePowerUps.Add(new PowerUp("BlackHoleOnDeath"));
 
         foreach (GameObject child in gameObject.transform)
+        {
             powerUpsUIList.Add(child);
+            child.SetActive(false);
+        }
 
-        DronesFindRandomPowerUp();
+        StartCoroutine(DronesFindRandomPowerUp());
     }
 
 
-    void DronesFindRandomPowerUp()
+    IEnumerator DronesFindRandomPowerUp()
     {
-        // Get first (left side) power-up.
+        ResetDroneAnimationTriggers();
 
+        PowerUp currentPowerUpLeft, currentPowerUpRight;
+        DeterminePowerUp(out currentPowerUpLeft, out currentPowerUpRight);        
+        DeterminePowerUpUIs(currentPowerUpLeft, currentPowerUpRight);
+
+        leftDroneAnim.SetTrigger("engage");
+        rightDroneAnim.SetTrigger("engage");
+        float animLengths = leftDroneAnim.GetCurrentAnimatorStateInfo(0).length;
+
+        yield return WaitForDronesToReachPlayer(animLengths);
+
+        // Player can finally now choose a power-up.
+        allowPowerUpChoice = true;
+    }
+
+    private void DeterminePowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUpRight)
+    {
         int randomIndexLeft = Random.Range(0, availablePowerUps.Count + 1);
-        PowerUp currentPowerUpLeft = availablePowerUps[randomIndexLeft];
+        currentPowerUpLeft = availablePowerUps[randomIndexLeft];
 
         // Get second (right side) power-up. Prevent from picking what left-side picked.
 
-            // List<PowerUp> remainingPowerUps = availablePowerUps;
+        // List<PowerUp> remainingPowerUps = availablePowerUps;
         availablePowerUps.Remove(currentPowerUpLeft);
         int randomIndexRight = Random.Range(0, availablePowerUps.Count + 1);
         availablePowerUps.Add(currentPowerUpLeft);
 
-        PowerUp currentPowerUpRight = availablePowerUps[randomIndexRight];
+        currentPowerUpRight = availablePowerUps[randomIndexRight];
+    }
 
+    private void DeterminePowerUpUIs(PowerUp currentPowerUpLeft, PowerUp currentPowerUpRight)
+    {
         GetUI(currentPowerUpLeft, leftDronePowerUpUI);
         GetUI(currentPowerUpRight, rightDronePowerUpUI);
+
+        SetupUI(leftDronePowerUpUI);
+        SetupUI(rightDronePowerUpUI);
     }
+
+    private void ResetDroneAnimationTriggers()
+    {
+        leftDroneAnim.ResetTrigger("engage");
+        leftDroneAnim.ResetTrigger("disengage");
+        rightDroneAnim.ResetTrigger("engage");
+        rightDroneAnim.ResetTrigger("disengage");
+    }
+
+
 
 
     // Really don't wanna do it this way but I need the UI working, and fast.
@@ -128,6 +162,7 @@ public class PowerUpSelector : MonoBehaviour
                 powerUpUI = powerUpsUIList[5];
                 break;
             }
+                       
 
             default:
                 break;
@@ -135,21 +170,31 @@ public class PowerUpSelector : MonoBehaviour
     }
 
 
+    void SetupUI(GameObject powerUpUI)
+    {        
+        powerUpUI.SetActive(true);
+        powerUpUI.transform.localPosition = new Vector3(0, 3f, -1.5f);        
+    }
+
+
     void ExecuteChosenPowerUp(PowerUp powerUp)
     {
-        StartCoroutine(WaitBeforePowerUpToReachPlayer(powerUp));
+        allowPowerUpChoice = false;
 
         MissilePiercingWasSelected(powerUp);
         MissileFireRateWasSelected(powerUp);
         EnemyExplosionWasSelected(powerUp);
         BlackHoleWasSelected(powerUp);
+
+        // powerUp flashes, plays an animation, comes into player.
+
+        leftDroneAnim.SetTrigger("disengage");
+        rightDroneAnim.SetTrigger("disengage");        
     }
 
-    IEnumerator WaitBeforePowerUpToReachPlayer(PowerUp powerUp)
+    IEnumerator WaitForDronesToReachPlayer(float length)
     {
-            // powerup animation
-            yield return new WaitForSeconds(0.5f);
-        yield break;
+        yield return new WaitForSeconds(length);        
     }
 
 
