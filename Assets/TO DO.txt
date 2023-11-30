@@ -1,7 +1,7 @@
 
 
 
-- create a third player weapon ability
+- (create a third player weapon ability?)
 
     - find self-destruct explosion for player/ship
 
@@ -9,11 +9,7 @@
 
 - find better 'poof' particle?
 
-- handle movement of enemies
-
 - integrate lots of different enemies with varying movements
-
-- figure out where to spawn power-ups
 
 - UI and such (and for power-ups)
 
@@ -27,9 +23,7 @@
     - what max missile pool should be
     - 
 
-- randomize ability pool
-
-- add ways to activate abilities
+- limit number of drone/ability spawns
 
 - UI transitions and such
 

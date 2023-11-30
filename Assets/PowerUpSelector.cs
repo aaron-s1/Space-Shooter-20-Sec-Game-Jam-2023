@@ -56,7 +56,7 @@ public class PowerUpSelector : MonoBehaviour
             ExecuteChosenPowerUp(leftDrone, leftDronePowerUp, leftDronePowerUpUI);
         
         if (Input.GetMouseButton(1))
-            ExecuteChosenPowerUp(rightDrone, rightDronePowerUp, leftDronePowerUpUI);
+            ExecuteChosenPowerUp(rightDrone, rightDronePowerUp, rightDronePowerUpUI);
     }
 
 
@@ -80,61 +80,40 @@ public class PowerUpSelector : MonoBehaviour
 
 IEnumerator SpawnDrones()
 {
+    yield return new WaitForSeconds(droneRespawnTime);
     Debug.Log("spawned");
     ResetDroneAnimationTriggers();
 
     PowerUp currentPowerUpLeft, currentPowerUpRight;
     GetRandomPowerUp(out currentPowerUpLeft, out currentPowerUpRight);
 
-    leftDronePowerUpUI = GetUIOfPowerUp(currentPowerUpLeft);
-    SetupUI(leftDronePowerUpUI, leftDrone);  // Pass left drone as the parent
+    leftDronePowerUp = currentPowerUpLeft;
+    rightDronePowerUp = currentPowerUpRight;
 
-    rightDronePowerUpUI = GetUIOfPowerUp(currentPowerUpRight);
-    SetupUI(rightDronePowerUpUI, rightDrone);  // Pass right drone as the parent
+            Debug.Log("spawning... " +leftDronePowerUp );
+            Debug.Log("spawning... " +rightDronePowerUp );
+            Debug.Log("spawning... " +leftDronePowerUp.Name );
+            Debug.Log("spawning... " +rightDronePowerUp.Name );
+
+        leftDronePowerUpUI = GetUIOfPowerUp(leftDronePowerUp);
+        rightDronePowerUpUI = GetUIOfPowerUp(rightDronePowerUp);
+    // leftDronePowerUpUI = GetUIOfPowerUp(currentPowerUpLeft);
+    // rightDronePowerUpUI = GetUIOfPowerUp(currentPowerUpRight);        
+
+    SetupUI(leftDronePowerUpUI, leftDrone);
+    SetupUI(rightDronePowerUpUI, rightDrone);
 
     leftDroneAnim.SetTrigger("engage");
     rightDroneAnim.SetTrigger("engage");
-    float dronePlayerEngageLength = leftDroneAnim.GetCurrentAnimatorStateInfo(0).length;
 
+
+    float dronePlayerEngageLength = leftDroneAnim.GetCurrentAnimatorStateInfo(0).length;
     yield return WaitForSomething(dronePlayerEngageLength);
 
     // Player can finally now choose a power-up.
     allowPowerUpChoice = true;
 }
 
-        // IEnumerator SpawnDrones()
-        // {
-        //     Debug.Log("spawned");
-        //     ResetDroneAnimationTriggers();
-
-        //     PowerUp currentPowerUpLeft, currentPowerUpRight;
-        //     GetRandomPowerUp(out currentPowerUpLeft, out currentPowerUpRight);
-
-        //     // Debug.Log(currentPowerUpLeft.Name);
-        //     // Debug.Log(currentPowerUpRight.Name);
-
-        //     leftDronePowerUpUI = powerUpsUIList[0];
-        //     yield break;
-        //     GetUIOfPowerUp(currentPowerUpLeft, leftDronePowerUpUI);
-        //     GetUIOfPowerUp(currentPowerUpRight, rightDronePowerUpUI);
-
-        //     SetupUI(leftDronePowerUpUI);
-        //     SetupUI(rightDronePowerUpUI);
-
-
-        //     // GetUIOfPowerUp(currentPowerUpLeft, currentPowerUpRight);
-        //     //     SetupUI(leftDronePowerUpUI);
-        // //     SetupUI(rightDronePowerUpUI);
-
-        //     leftDroneAnim.SetTrigger("engage");
-        //     rightDroneAnim.SetTrigger("engage");
-        //     float dronePlayerEngageLength = leftDroneAnim.GetCurrentAnimatorStateInfo(0).length;
-
-        //     yield return WaitForSomething(dronePlayerEngageLength);
-
-        //     // Player can finally now choose a power-up.
-        //     allowPowerUpChoice = true;
-        // }
 void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUpRight)
 {
     int randomIndex = Random.Range(0, availablePowerUps.Count);
@@ -146,58 +125,49 @@ void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUp
     availablePowerUps.Add(currentPowerUpLeft);  // Note: Add back the removed power-up
 }        
 
-        // void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUpRight)
-        // {
-        //     Debug.Log("aaa");
-        //                 Debug.Log(Random.Range(0, availablePowerUps.Count));
-        //                 Debug.Log("bbb");
-        //     int randomIndex = Random.Range(0, availablePowerUps.Count);
-        //     Debug.Log("ccc");
-            
-        //         currentPowerUpLeft = availablePowerUps[randomIndex];
-        //         Debug.Log("ddd");
-
-        //     availablePowerUps.Remove(currentPowerUpLeft);
-        //         Debug.Log("eee");
-
-
-        //                 // Debug.Log(Random.Range(0, availablePowerUps.Count + 1));
-                        
-        //     randomIndex = Random.Range(0, availablePowerUps.Count);
-        //         Debug.Log("fff");
-
-    
-        //         currentPowerUpRight = availablePowerUps[randomIndex];
-        //         Debug.Log("ggg");
-
-        //     availablePowerUps.Add(currentPowerUpLeft);
-        //     Debug.Log("hhh");
-        // }
-GameObject GetUIOfPowerUp(PowerUp powerUp)
-{
-    switch (powerUp.Name)
+    // Not how I wanted to do it but I need this done and fast.
+    GameObject GetUIOfPowerUp(PowerUp powerUp)
     {
-        case "FireRateBoost":
-            return playerMissiles.fireRateMultiplier == 0 ? powerUpsUIList[0] : powerUpsUIList[1];
-        case "MissilesPierce":
-            return powerUpsUIList[2];
-        case "ExplodeEnemies":
-            return playerMissiles.explosionChains == 0 ? powerUpsUIList[3] : powerUpsUIList[4];
-        case "BlackHoleOnDeath":
-            return powerUpsUIList[5];
-        default:
-            return null;
-    }
-}        
+        Debug.Log("GetUIOfPowerUp called");
+        foreach (GameObject powerUpUI in powerUpsUIList)
+        {            
+            switch (powerUp.Name)
+            {
+                case "FireRateBoost":
+                    var currentFireRate = playerMissiles.fireRateMultiplier;
+                    Debug.Log("fire rate called");
+                    
+                    if (currentFireRate == 1 && powerUpUI.name == "FireRateBoost UI (2x)")
+                        return powerUpUI;
+                    else if (currentFireRate == 2 && powerUpUI.name == "FireRateBoost UI (3x)")
+                        return powerUpUI;
+                    break;
 
-        // void GetUIOfPowerUp(PowerUp leftPowerUp, PowerUp rightPowerUp)
-        // {
-        //     // GetUIOfPowerUp(leftPowerUp, leftDronePowerUpUI);
-        //     // GetUIOfPowerUp(rightPowerUp, rightDronePowerUpUI);
+                case "ExplodeEnemies":
+                    Debug.Log("explode enemies  called");
+                    var explodeChains = playerMissiles.explosionChains;
 
-        //     SetupUI(leftDronePowerUpUI);
-        //     SetupUI(rightDronePowerUpUI);
-        // }
+                    if (explodeChains == 0 && powerUpUI.name == "ExplodeEnemies UI")
+                        return powerUpUI;
+                    if (explodeChains == 1 && powerUpUI.name == "ExplodeEnemies (More) UI")                    
+                        return powerUpUI;
+                    break;
+
+                case "MissilesPierce":
+                    if (powerUpUI.name == "MissilesPierce UI")
+                        return powerUpUI;
+                    break;
+
+
+                case "BlackHoleOnDeath":
+                    if (powerUpUI.name == "BlackHole UI")
+                        return powerUpUI;
+                    break;
+            }
+        }
+
+        return null;
+    }        
 
     void ResetDroneAnimationTriggers()
     {
@@ -209,62 +179,18 @@ GameObject GetUIOfPowerUp(PowerUp powerUp)
 
 
 
-
-    // Really don't wanna do it this way but I need the UI working, and fast.
-    void GetUIOfPowerUp(PowerUp powerUp, GameObject powerUpUI)
-    {        
-        switch (powerUp.Name)
-        {
-            case "FireRateBoost":
-            {
-                if (playerMissiles.fireRateMultiplier == 0)
-                    powerUpUI = powerUpsUIList[0];
-                else if (playerMissiles.fireRateMultiplier == 2)
-                    powerUpUI = powerUpsUIList[1];
-                break;
-            }
-
-            case "MissilesPierce":
-            {
-                powerUpUI = powerUpsUIList[2];
-                break;
-            }
-
-            case "ExplodeEnemies":
-            {
-                if (playerMissiles.explosionChains == 0)
-                    powerUpUI = powerUpsUIList[3];
-                else if (playerMissiles.explosionChains == 1)
-                    powerUpUI = powerUpsUIList[4];
-                break;
-            }
-
-            case "BlackHoleOnDeath":
-            {
-                powerUpUI = powerUpsUIList[5];
-                break;
-            }
-                       
-
-            default:
-                break;
-        }
-    }
-
 void SetupUI(GameObject powerUpUI, GameObject drone)
 {
+    Debug.Log(powerUpUI);
+    Debug.Log(powerUpUI.name);
+
+    Debug.Log($"power up UI = {powerUpUI.name}");
     powerUpUI.SetActive(true);
-    powerUpUI.transform.parent = drone.transform;  // Parent to the specified drone
+    powerUpUI.transform.SetParent(drone.transform);
+    // powerUpUI.transform.parent = drone.transform;  // Parent to the specified drone
     powerUpUI.transform.localPosition = new Vector3(0, 3f, -1.5f);
 }
 
-
-    // void SetupUI(GameObject powerUpUI)
-    // {
-    //     powerUpUI.SetActive(true);
-    //     powerUpUI.transform.parent = gameObject.transform.GetChild(0);
-    //     powerUpUI.transform.localPosition = new Vector3(0, 3f, -1.5f);        
-    // }
 
 
     void ExecuteChosenPowerUp(GameObject drone, PowerUp powerUp, GameObject powerUpUI)
@@ -276,32 +202,33 @@ void SetupUI(GameObject powerUpUI, GameObject drone)
         EnemyExplosionWasSelected(powerUp);
         BlackHoleWasSelected(powerUp);
 
-        powerUpUI.transform.parent = drone.transform;
+        StartCoroutine(powerUpUI.GetComponent<DroppedPowerUpMovesToPlayer>().Move(drone.transform.position, this.gameObject));
 
-        // Animator animatorOfPowerUp = drone.GetComponentInChildren<Animator>().play
-        // animatorOfPowerUp.SetTrigger("PowerUpMovesToPlayer");
-        // float lengthUntilMovedToPlayer = animatorOfPowerUp.GetCurrentAnimatorStateInfo(0).length;
+        // powerUpUI.GetComponent<DroppedPowerUpMovesToPlayer>().StartCoroutine("Move", drone.transform.localPosition, this.gameObject);
+        // powerUpUI.SetActive(false);
 
-        // powerUp flashes, plays an animation(?), comes into player.
         
-        // Animator powerUpAnim = powerUp.gameObject.GetComponent<Animator>();
-
-        // GetCurrentAnimatorStateInfo
-        // StartCoroutine(WaitForSomething(powerUp.Animator))
-
-        StartCoroutine(WaitForSomething(2f));
-        powerUpUI.transform.parent = gameObject.transform;
-        powerUpUI.SetActive(false);
-
         leftDroneAnim.SetTrigger("disengage");
         rightDroneAnim.SetTrigger("disengage");
+        float droneDisengageLength = leftDroneAnim.GetCurrentAnimatorStateInfo(0).length;
+        StartCoroutine(ReturnPowerUpUIsToPowerUpUIList(droneDisengageLength));        
 
-        Invoke("SpawnDrones", droneRespawnTime);
+        StartCoroutine(SpawnDrones());
+        
     }
 
     IEnumerator WaitForSomething(float length)
     {
+        Debug.Log($"waiting {length} seconds");
         yield return new WaitForSeconds(length);        
+    }
+
+    IEnumerator ReturnPowerUpUIsToPowerUpUIList(float droneDisengageLength)
+    {
+        yield return StartCoroutine(WaitForSomething(droneDisengageLength - 0.1f));
+        leftDronePowerUpUI.transform.SetParent(gameObject.transform);
+        rightDronePowerUpUI.transform.SetParent(gameObject.transform);
+        yield break;
     }
 
 
@@ -336,6 +263,7 @@ void SetupUI(GameObject powerUpUI, GameObject drone)
     {
         if (selectedPowerUp.Name == "ExplodeEnemies")
         {
+            playerMissiles.explosionChains++;
             if (playerMissiles.explosionChains == 0)
                 playerMissiles.explosionChains++;
 

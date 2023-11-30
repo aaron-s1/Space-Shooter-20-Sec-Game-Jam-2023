@@ -10,13 +10,17 @@ GameObject:
   m_Component:
   - component: {fileID: 8498710565554407383}
   - component: {fileID: 8498710565554407384}
+  - component: {fileID: 1693261328}
+  - component: {fileID: 1693261329}
+  - component: {fileID: 2103408088}
+  - component: {fileID: 2103408089}
   m_Layer: 5
   m_Name: (Power-Up) {white square backdrop}
   m_TagString: PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8498710565554407383
 RectTransform:
   m_ObjectHideFlags: 0
@@ -89,6 +93,56 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1693261328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8498710565554407382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa8d803351334b540a489bdadfe95abe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1693261329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8498710565554407382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 528865b7462008048b9448e4fb2f4ee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDuration: 1
+--- !u!114 &2103408088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8498710565554407382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa8d803351334b540a489bdadfe95abe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2103408089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8498710565554407382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 528865b7462008048b9448e4fb2f4ee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDuration: 1
 --- !u!1001 &8519666616985783743
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -155,6 +209,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: (Power-Up) Black Swhole
+      objectReference: {fileID: 0}
+    - target: {fileID: 6963633909181017756, guid: e4fa070f1b6aafa4b9cc87a14144aa0d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4fa070f1b6aafa4b9cc87a14144aa0d, type: 3}

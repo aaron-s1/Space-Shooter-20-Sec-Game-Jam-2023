@@ -41,9 +41,9 @@ public class MissileHitEnemy : MonoBehaviour
     }
     
 
-    // void OnDisable() {
-        // Debug.Log("missile disabled itself");
-    // }
+    void OnDisable() {
+        Debug.Log("missile disabled itself");
+    }
 
 
     void OnTriggerEnter2D(Collider2D enemy) {
@@ -87,7 +87,7 @@ public class MissileHitEnemy : MonoBehaviour
     public void IncrementChainExplosionsWhenEnabledAgain(int newChainAmount)
     {
         canExplodeEnemiesWhenEnabledAgain = true;
-        totalExplosionChains = newChainAmount;
+        // totalExplosionChains = newChainAmount;
         // IncrementChainExplosions();
     }
 }

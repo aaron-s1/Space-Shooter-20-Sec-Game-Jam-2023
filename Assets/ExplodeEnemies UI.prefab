@@ -10,13 +10,15 @@ GameObject:
   m_Component:
   - component: {fileID: 347357751618506895}
   - component: {fileID: 347357751618506894}
+  - component: {fileID: 7505903342642658316}
+  - component: {fileID: 7505903342642658317}
   m_Layer: 5
   m_Name: ExplodeEnemies UI
   m_TagString: PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &347357751618506895
 RectTransform:
   m_ObjectHideFlags: 0
@@ -90,6 +92,31 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7505903342642658316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347357751618506880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa8d803351334b540a489bdadfe95abe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7505903342642658317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347357751618506880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 528865b7462008048b9448e4fb2f4ee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDuration: 1
 --- !u!1 &7852100007729296543
 GameObject:
   m_ObjectHideFlags: 0

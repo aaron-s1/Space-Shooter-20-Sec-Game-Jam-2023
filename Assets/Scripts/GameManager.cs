@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         // later on, add conditionals before starting
         StartCoroutine("CountdownToEndGame", 1f);
         player = GameObject.FindGameObjectWithTag("Player");
-        StartCoroutine("ActivateBlackHole");
+        // StartCoroutine("ActivateBlackHole");
         // Invoke("ActivateBlackHole", 6f);
     }
     
