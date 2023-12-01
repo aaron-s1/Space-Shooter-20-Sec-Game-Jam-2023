@@ -1,10 +1,11 @@
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemyMove : MonoBehaviour
 {
-    public float moveSpeed = 2f;
+    public float moveSpeed = 10f;
     public Direction moveDirection;
     // public float rotationSpeed = 1f;
+
 
     Vector3 nextSlerpPosition;
 
@@ -35,10 +36,7 @@ public class EnemySpawner : MonoBehaviour
 
     void MoveOnSlerpPath()
     {
-        //
         Quaternion targetRotation = Quaternion.LookRotation(nextSlerpPosition - transform.position, Vector3.forward);
-
-        // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
         transform.position = Vector3.MoveTowards(transform.position, nextSlerpPosition, moveSpeed * Time.deltaTime);
 
@@ -50,14 +48,10 @@ public class EnemySpawner : MonoBehaviour
             else
                 nextSlerpPosition.x += 2f;
 
-            // nextSlerpPosition.x -= 2f;
-
             if (nextSlerpPosition.y == 1)
                 nextSlerpPosition.y = 0;
             else
                 nextSlerpPosition.y = 1;
-
-            // nextSlerpPosition = transform.position + new Vector3(xDirection, , 0);
         }
     }
 }

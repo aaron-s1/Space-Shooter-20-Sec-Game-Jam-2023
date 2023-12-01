@@ -13,6 +13,10 @@
 
 - UI and such (and for power-ups)
 
+- UI pierce bullets graphic
+
+- fix positions of UI power-ups
+
 - ability graphics, interactions
 
 - leaderboard
@@ -22,6 +26,8 @@
 - determine values:
     - max missile pool size
     - max enemy pool size
+    - how long to wait before auto-disabling enemies
+        - .. and for missiles
 
 - limit number of drone/ability spawns
 

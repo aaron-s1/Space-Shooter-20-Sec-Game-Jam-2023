@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreUI;
     [SerializeField] TextMeshProUGUI secondsRemainingUI;
 
+    IEnumerator spawnEnemies;
+
     // [SerializeField] GameObject blackHolePowerUpParticle;
 
     PlayerController player;
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour
         // later on, add conditionals before starting
         // take off the 1.
         StartCoroutine("CountdownToEndGame", 1f);
+        spawnEnemies = gameObject.GetComponent<EnemySpawner>().Spawn();
 
         player = PlayerController.Instance;
         // player = GameObject.FindGameObjectWithTag("Player");
@@ -59,6 +62,9 @@ public class GameManager : MonoBehaviour
     #region Handle game states.
     IEnumerator CountdownToEndGame()
     {
+        // spawnEnemies = StartCoroutine(gameObject.GetComponent<EnemySpawner>().Spawn());
+        // StartCoroutine(spawnEnemies);
+
         yield return new WaitForSeconds(1f);
         secondsPassedSinceGameStart++;
         secondsRemainingUI.text = (20 - secondsPassedSinceGameStart).ToString();
@@ -76,10 +82,11 @@ public class GameManager : MonoBehaviour
     IEnumerator EndGame()
     {
         gameHasEnded = true;
-
-        yield return StartCoroutine(player.Die());
+        StopCoroutine(spawnEnemies);
 
         GameObject.FindObjectOfType<PowerUpSelector>().GetComponent<PowerUpSelector>().StopAllCoroutines();
+
+        yield return StartCoroutine(player.Die());
 
         FullyEndGame();
 

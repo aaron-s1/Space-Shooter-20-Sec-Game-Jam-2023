@@ -110,7 +110,6 @@ public class FireMissile : MonoBehaviour
 
     void OnMissileFireRateMultiplierChanged(int newMultiplier)
     {
-        Debug.Log("fire rate = " + newMultiplier);
         if (newMultiplier != 0)
         {
             ScaleUpTurrets(newMultiplier);
@@ -129,43 +128,27 @@ public class FireMissile : MonoBehaviour
     
     public void ScaleUpTurrets(int multiplier)
     {
-        // clean up later.
-        Debug.Log("scaled up turrets");
+        if (multiplier > 3)
+            return;
+            
         Animator leftTurretAnim = PlayerController.Instance.gameObject.transform.GetChild(0).gameObject.GetComponent<Animator>();
         Animator rightTurretAnim = PlayerController.Instance.gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>();
-
 
         if (multiplier == 2)
         {
             leftTurretAnim.SetTrigger("level2");
             rightTurretAnim.SetTrigger("level2");
         }
-        if (multiplier >= 3)
+        if (multiplier == 3)
         {
             leftTurretAnim.SetTrigger("level3");
             rightTurretAnim.SetTrigger("level3");
         }
-
-
-
-        // Prevent model from getting too large. 
-        // 2 = scaleMultiplier of 1.5f. 3 or greater is 1.75f.
-        // float scaleMultiplier = 1.25f;
-        // scaleMultiplier += (0.25f * (multiplier - 1));
-        // scaleMultiplier = Mathf.Min(scaleMultiplier, 1.75f);
-
-
-        // var leftTurret = leftMissileOriginPoint.transform.parent.gameObject.transform;
-        // var rightTurret = rightMissileOriginPoint.transform.parent.gameObject.transform;
-
-        // leftTurret.localScale *= scaleMultiplier;
-        // rightTurret.localScale *= scaleMultiplier;
     }
 
 
     public void NewMissilesNowPierce()
     {
-        Debug.Log("missiles now pierce");
         foreach (GameObject bullet in missilePool)
             bullet.GetComponent<MissileHitEnemy>().StartPiercingWhenEnabledAgain();
     }

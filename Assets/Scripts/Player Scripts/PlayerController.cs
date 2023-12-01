@@ -6,8 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
     
-    [SerializeField] GameObject shockwaveParticleToInstantiate;
-    [SerializeField] GameObject blackHoleParticleToInstantiate;
+    [SerializeField] GameObject shockwavePrefab;
+    [SerializeField] GameObject blackHolePrefab;
     
 
     public bool canBecomeBlackHole;
@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
         Instance = this;
     }
 
-    void Start() => StartCoroutine(Die());
+    // void Start() => StartCoroutine(Die());
 
 
     public IEnumerator Die()
@@ -35,8 +35,8 @@ public class PlayerController : MonoBehaviour
         // handle particles.
         Quaternion flippedRotation = Quaternion.Euler(0f, 0f, 90f);
 
-        ParticleSystem shockWave1 = Instantiate(shockwaveParticleToInstantiate, transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
-        ParticleSystem shockWave2 = Instantiate(shockwaveParticleToInstantiate, transform.position, flippedRotation).GetComponent<ParticleSystem>();
+        ParticleSystem shockWave1 = Instantiate(shockwavePrefab, transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
+        ParticleSystem shockWave2 = Instantiate(shockwavePrefab, transform.position, flippedRotation).GetComponent<ParticleSystem>();
         shockWave1.Play();
         shockWave2.Play();
 
@@ -45,10 +45,15 @@ public class PlayerController : MonoBehaviour
 
         if (canBecomeBlackHole)
         {
-            ParticleSystem blackHole = blackHoleParticleToInstantiate.GetComponent<ParticleSystem>();
-            Instantiate(blackHoleParticleToInstantiate, transform.position, Quaternion.identity);
-            blackHole.Play();
-            yield return new WaitForSeconds(blackHole.main.duration);
+            GameObject blackHole = Instantiate(blackHolePrefab, transform.position, Quaternion.identity);
+
+            ParticleSystem blackHoleParticle = blackHolePrefab.GetComponent<ParticleSystem>();
+            blackHoleParticle.Play();
+            
+            yield return new WaitForSeconds(blackHoleParticle.main.duration);
+
+            // engage pull trigger 
+            blackHole.transform.GetChild(3).gameObject.SetActive(true);
         }
 
         Debug.Log("player fully died.");

@@ -7,24 +7,20 @@ public class MissileHitEnemy : MonoBehaviour
 {
     GameManager gameManager;
 
+    // check what abilities the missile has.
     bool bulletCanPierce;
-    bool startPiercingWhenEnabledAgain;
-        
-    // bool canExplodeEnemies;
+    bool startPiercingWhenEnabledAgain;        
     bool canExplodeEnemiesWhenEnabledAgain;
-
-    // increment 
     int totalExplosionChains = 0;
 
 
-    bool canAddScore = true;
+    // bool canAddScore = true;
 
 
 
-    void Start()
-    {
+    void Start() =>
         gameManager = GameManager.Instance;
-    }
+
 
     void OnEnable()
     {
@@ -41,11 +37,6 @@ public class MissileHitEnemy : MonoBehaviour
     }
     
 
-    void OnDisable() {
-        Debug.Log("missile disabled itself");
-    }
-
-
     void OnTriggerEnter2D(Collider2D enemy) {
         if (enemy.gameObject.tag == "Enemy")
         {
@@ -55,7 +46,7 @@ public class MissileHitEnemy : MonoBehaviour
 
             if (!enemyIsHit.alreadyHit && gameObject.activeInHierarchy)
             {
-                Debug.Log("missile blew up enemy. should only happen once.");
+                // Debug.Log("missile blew up enemy. should only happen once.");
                 IEnumerator startDying = enemyIsHit.StartDying(totalExplosionChains);
                 StartCoroutine(startDying);
             }
@@ -68,26 +59,13 @@ public class MissileHitEnemy : MonoBehaviour
     }
 
 
-    void DisableAfterSeconds() 
-    {
+    void DisableAfterSeconds() =>
         gameObject.SetActive(false);
-        Debug.Log("DisableAfterSeconds() disabled missile");
-    }
 
 
     public void StartPiercingWhenEnabledAgain() =>
         startPiercingWhenEnabledAgain = true;
 
-
-
-    // void IncrementChainExplosions() =>
-    //     totalExplosionChains++;
-
-
-    public void IncrementChainExplosionsWhenEnabledAgain(int newChainAmount)
-    {
+    public void IncrementChainExplosionsWhenEnabledAgain(int newChainAmount) =>
         canExplodeEnemiesWhenEnabledAgain = true;
-        // totalExplosionChains = newChainAmount;
-        // IncrementChainExplosions();
-    }
 }
