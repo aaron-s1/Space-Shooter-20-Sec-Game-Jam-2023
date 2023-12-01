@@ -3,9 +3,9 @@
 
 - (create a third player weapon ability?)
 
-    - find self-destruct explosion for player/ship
-
 - enemy models 
+
+- countdown stuff before game start
 
 - find better 'poof' particle?
 
@@ -20,8 +20,8 @@
 - restarting game
 
 - determine values:
-    - what max missile pool should be
-    - 
+    - max missile pool size
+    - max enemy pool size
 
 - limit number of drone/ability spawns
 
@@ -31,6 +31,7 @@
 
 
 
+- tons of bug fixes
 - clean up project
 - clean up hierarchy
 - fix up scripts

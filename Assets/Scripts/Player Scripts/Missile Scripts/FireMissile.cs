@@ -32,9 +32,9 @@ public class FireMissile : MonoBehaviour
         missilePool = new List<GameObject>();
         InitializeMissilePool();
 
-        InvokeRepeating("PlayerStartsFiring", 2f, timeBetweenMissileFirings / fireRateMultiplier);
+        InvokeRepeating("PlayerStartsFiring", 2f, timeBetweenMissileFirings / _missileFireMultiplier);
         // Invoke("NewMissilesNowPierce", 4f);
-        fireRateMultiplier = 5;
+        _missileFireMultiplier = 5;
     }
 
 
@@ -110,6 +110,7 @@ public class FireMissile : MonoBehaviour
 
     void OnMissileFireRateMultiplierChanged(int newMultiplier)
     {
+        Debug.Log("fire rate = " + newMultiplier);
         if (newMultiplier != 0)
         {
             ScaleUpTurrets(newMultiplier);
@@ -173,5 +174,12 @@ public class FireMissile : MonoBehaviour
     {
         foreach (GameObject bullet in missilePool)
             bullet.GetComponent<MissileHitEnemy>().IncrementChainExplosionsWhenEnabledAgain(_explosionChains);
-    }    
+    }
+
+    public void StopFiring()
+    {
+        _missileFireMultiplier = 0;
+        CancelInvoke("PlayerStartsFiring");
+        StopAllCoroutines();
+    }
 }

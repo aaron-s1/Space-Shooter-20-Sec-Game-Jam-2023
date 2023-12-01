@@ -24,26 +24,31 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator Die()
     {
+        GetComponent<FireMissile>().StopFiring();
+
+        foreach (Transform child in transform)
+            child.gameObject.SetActive(false);
+        
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
 
-        ParticleSystem shockWave = shockwaveParticleToInstantiate.GetComponent<ParticleSystem>();
-        Instantiate(shockwaveParticleToInstantiate, transform.position, Quaternion.identity);
-        shockWave.Play();
 
-        float startTime = Time.time;
+        // handle particles.
+        Quaternion flippedRotation = Quaternion.Euler(0f, 0f, 90f);
 
-        yield return new WaitWhile(() => shockWave.isPlaying);
-        float endTime = Time.time;
+        ParticleSystem shockWave1 = Instantiate(shockwaveParticleToInstantiate, transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
+        ParticleSystem shockWave2 = Instantiate(shockwaveParticleToInstantiate, transform.position, flippedRotation).GetComponent<ParticleSystem>();
+        shockWave1.Play();
+        shockWave2.Play();
 
-float timePassed = endTime - startTime;
-Debug.Log(timePassed);
+        yield return new WaitForSeconds(shockWave1.main.duration);
+
+
         if (canBecomeBlackHole)
         {
             ParticleSystem blackHole = blackHoleParticleToInstantiate.GetComponent<ParticleSystem>();
             Instantiate(blackHoleParticleToInstantiate, transform.position, Quaternion.identity);
             blackHole.Play();
-            yield return new WaitWhile(() => blackHole.isPlaying);
-            Debug.Log("hole???");
+            yield return new WaitForSeconds(blackHole.main.duration);
         }
 
         Debug.Log("player fully died.");

@@ -11,7 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreUI;
     [SerializeField] TextMeshProUGUI secondsRemainingUI;
 
-    [SerializeField] GameObject blackHolePowerUpParticle;
+    // [SerializeField] GameObject blackHolePowerUpParticle;
+
+    PlayerController player;
 
     
     int secondsPassedSinceGameStart;
@@ -25,7 +27,6 @@ public class GameManager : MonoBehaviour
     bool gameHasStarted = false;
     bool gameHasEnded = false;
 
-    GameObject player;
 
     // bool enemiesNowExplode;
     
@@ -40,8 +41,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         // later on, add conditionals before starting
+        // take off the 1.
         StartCoroutine("CountdownToEndGame", 1f);
-        player = GameObject.FindGameObjectWithTag("Player");
+
+        player = PlayerController.Instance;
+        // player = GameObject.FindGameObjectWithTag("Player");
         // StartCoroutine("ActivateBlackHole");
         // Invoke("ActivateBlackHole", 6f);
     }
@@ -71,9 +75,20 @@ public class GameManager : MonoBehaviour
 
     IEnumerator EndGame()
     {
-        // gameHasEnded = true;
-        // do nothing for now
-        yield return null;
+        gameHasEnded = true;
+
+        yield return StartCoroutine(player.Die());
+
+        GameObject.FindObjectOfType<PowerUpSelector>().GetComponent<PowerUpSelector>().StopAllCoroutines();
+
+        FullyEndGame();
+
+        yield break;
+    }
+
+    void FullyEndGame()
+    {
+
     }
 
     #endregion
@@ -83,24 +98,6 @@ public class GameManager : MonoBehaviour
 
 
     
-
-    public IEnumerator ActivateBlackHole()
-    {
-        player.GetComponent<FireMissile>().fireRateMultiplier = 0;
-        foreach (Transform child in player.transform)
-            child.gameObject.SetActive(false);
-        
-        GameObject blackHoleInstance = Instantiate(blackHolePowerUpParticle, player.transform);
-        // Instantiate(blackHolePowerUpParticle, player.transform);
-        // Debug.Log(blackHoleInstance);
-
-        // wait for particles to prepare before pulling
-        yield return new WaitForSeconds(1f);
-        Debug.Break();
-        blackHoleInstance.transform.GetChild(3).gameObject.SetActive(true);
-    }
-
-
     
 
     #endregion
