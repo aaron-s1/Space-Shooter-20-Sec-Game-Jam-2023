@@ -6,6 +6,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
+// COMPLETE mess. Refactor/fix later.
 public class PowerUpSelector : MonoBehaviour
 {
     GameManager gameManager;

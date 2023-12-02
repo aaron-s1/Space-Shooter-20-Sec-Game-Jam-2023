@@ -9,22 +9,35 @@ public class EnemySpawner : MonoBehaviour
 
     List<GameObject> enemyPool;
     [SerializeField] int poolSize = 100;
+    [SerializeField] float enemySpawnRate;
+
+    bool spawnEnemies;
 
     void Start()
     {
         enemyPool = new List<GameObject>();
         InitializePool();
+        SpawnEnemies(true);    
     }
     
-    public IEnumerator Spawn()
+    public IEnumerator Spawn(float spawnRate = 0)
     {
-        yield return new WaitForSeconds(0.1f);
-        GameObject enemy = GetRandomPooledEnemy();
-
-        if (enemy != null)
+        if (spawnRate == 0)
         {
-            // set positions, rotations.
-            enemy.SetActive(true);
+            Debug.Log("Enemy Spawner stopped spawning.");
+            yield break;
+        }
+
+        while (spawnEnemies)
+        {
+            yield return new WaitForSeconds(spawnRate);
+            GameObject enemy = GetRandomPooledEnemy();
+
+            if (enemy != null)
+            {
+                // set positions, rotations.
+                enemy.SetActive(true);
+            }
         }
     }
 
@@ -57,6 +70,16 @@ public class EnemySpawner : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void SpawnEnemies(bool newValue) 
+    {
+        spawnEnemies = newValue;
+
+        if (newValue == true)
+            StartCoroutine(Spawn(enemySpawnRate));
+        else
+            StopCoroutine(Spawn());
     }
 
 

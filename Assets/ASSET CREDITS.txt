@@ -1,0 +1,36 @@
+#  Player / Enemies / Drone  #
+
+"2D Space Kit"
+by Brett Gregory
+https://assetstore.unity.com/packages/2d/environments/2d-space-kit-27662
+
+
+"Low poly combat drone"
+by VoodooPlay
+https://assetstore.unity.com/packages/3d/low-poly-combat-drone-82234
+
+
+
+#  Particle Effects  #
+
+"Inferno VFX"
+by Mirza Beig
+https://assetstore.unity.com/packages/vfx/particles/fire-explosions/inferno-vfx-50735
+
+
+"Dark Singularity"
+by Pathiral
+https://assetstore.unity.com/packages/tools/particles-effects/dark-singularity-156548
+
+
+"Free Fire VFX"
+"Vefects"
+https://assetstore.unity.com/packages/vfx/particles/fire-explosions/free-fire-vfx-266227
+
+
+
+#  Background Effects  #
+
+"Dynamic Space Background Lite"
+DinV Studio
+https://assetstore.unity.com/packages/2d/textures-materials/dynamic-space-background-lite-104606

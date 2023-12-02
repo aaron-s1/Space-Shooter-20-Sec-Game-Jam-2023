@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3745695926651241591}
   - component: {fileID: 3745695926651241590}
+  - component: {fileID: 1221895212}
+  - component: {fileID: 1221895214}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -24,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3745695926651241585}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -45,5 +47,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreUI: {fileID: 0}
   secondsRemainingUI: {fileID: 0}
-  blackHolePowerUpParticle: {fileID: 3645996309431559540, guid: 53d72fe2df702094295665cb22c1dc98,
+--- !u!114 &1221895212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3745695926651241585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10ad92fe422953a458517b0c53a8b94e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyVariant1: {fileID: 6315044270252719119, guid: dd6c7aa42f017de409cd6396446506ca,
     type: 3}
+  enemyVariant2: {fileID: 6315044270252719119, guid: 3c4cb8f0e2910b14ea0955836186d6ae,
+    type: 3}
+  poolSize: 100
+  enemySpawnRate: 0.1
+--- !u!114 &1221895214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3745695926651241585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56cf93809384a644188c6f23dc0e1b68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pause: 1

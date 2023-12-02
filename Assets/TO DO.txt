@@ -1,27 +1,30 @@
 
 
 
-- (create a third player weapon ability?)
+- add tether to UI
+- fix UI's offset to drone position
 
-- enemy models 
+- (create a third player weapon ability?)
 
 - countdown stuff before game start
 
 - find better 'poof' particle?
 
-- integrate lots of different enemies with varying movements
+- give enemies lots of different movements
 
 - UI and such (and for power-ups)
 
-- UI pierce bullets graphic
+- UI transitions and such
+
+- {UI pierce bullets graphic}
 
 - fix positions of UI power-ups
 
-- ability graphics, interactions
 
 - leaderboard
 
 - restarting game
+
 
 - determine values:
     - max missile pool size
@@ -29,30 +32,13 @@
     - how long to wait before auto-disabling enemies
         - .. and for missiles
 
-- limit number of drone/ability spawns
-
-- UI transitions and such
 
 
 
-
-
-- tons of bug fixes
+- bug fixes
 - clean up project
-- clean up hierarchy
-- fix up scripts
-- asset credits
-- setup itch page
+    - setup itch page
 - clean push
-- file backup
+- local file backup
 
 
-
-
-added:
-- ability for missiles to pierce
-- ability for missiles to fire faster
-- when firing faster, turrets automatically get bigger
-
-- score
-- 

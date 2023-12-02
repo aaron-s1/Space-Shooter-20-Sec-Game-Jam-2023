@@ -8,9 +8,6 @@ public class EnemyIsHit : MonoBehaviour
 {
     GameManager gameManager;
 
-    bool bulletCanPierce = false;
-    bool startPiercingWhenEnabledAgain = false;
-        
     [SerializeField] public ParticleSystem poofParticle;
     [SerializeField] public ParticleSystem explosionParticle;
 
@@ -30,25 +27,19 @@ public class EnemyIsHit : MonoBehaviour
     {
         explosionParticle = GetComponentInChildren<ParticleSystem>();     
         renderer = GetComponent<SpriteRenderer>();
-        Debug.Log("I'm an enemy.");
+        // Debug.Log("I'm an enemy!");
     }
 
     void Start()
     {
         gameManager = GameManager.Instance;
-        // Invoke("DisableAfterSeconds", 3f);
+        Invoke("DisableAfterSeconds", 3f);
     }
 
 
-    // void OnEnable()
-    // {
-    //     ResetVariables();
-    // }
-
-    void OnDisable()
-    {
+    void OnDisable() =>
         ResetVariablesToDefaults();
-    }
+
 
     void ResetVariablesToDefaults()
     {
@@ -116,6 +107,7 @@ public class EnemyIsHit : MonoBehaviour
     }
 
 
+    // Don't let an enemy persist while off-screen too long.
     void DisableAfterSeconds() =>
         gameObject.SetActive(false);
 }
