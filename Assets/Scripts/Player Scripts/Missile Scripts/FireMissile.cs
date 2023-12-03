@@ -34,7 +34,7 @@ public class FireMissile : MonoBehaviour
 
         InvokeRepeating("PlayerStartsFiring", 2f, timeBetweenMissileFirings / _missileFireMultiplier);
         // Invoke("NewMissilesNowPierce", 4f);
-        _missileFireMultiplier = 5;
+        // _missileFireMultiplier = 5;
     }
 
 
@@ -130,7 +130,7 @@ public class FireMissile : MonoBehaviour
     {
         if (multiplier > 3)
             return;
-            
+
         Animator leftTurretAnim = PlayerController.Instance.gameObject.transform.GetChild(0).gameObject.GetComponent<Animator>();
         Animator rightTurretAnim = PlayerController.Instance.gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>();
 

@@ -12,7 +12,7 @@ public class PowerUpSelector : MonoBehaviour
     GameManager gameManager;
     FireMissile playerMissiles;
 
-    public GameObject leftDrone;
+    public GameObject   leftDrone;
     public GameObject rightDrone;
 
     public float droneRespawnTime = 3f;
@@ -87,6 +87,7 @@ IEnumerator SpawnDrones()
 
     PowerUp currentPowerUpLeft, currentPowerUpRight;
     GetRandomPowerUp(out currentPowerUpLeft, out currentPowerUpRight);
+    Debug.Log($"SpawnDrones. left powerUp = {currentPowerUpLeft.Name}. right powerUp = {currentPowerUpRight.Name}");
 
     leftDronePowerUp = currentPowerUpLeft;
     rightDronePowerUp = currentPowerUpRight;
@@ -103,13 +104,13 @@ IEnumerator SpawnDrones()
 
     SetupUI(leftDronePowerUpUI, leftDrone);
     SetupUI(rightDronePowerUpUI, rightDrone);
-
     leftDroneAnim.SetTrigger("engage");
     rightDroneAnim.SetTrigger("engage");
 
 
-    float dronePlayerEngageLength = leftDroneAnim.GetCurrentAnimatorStateInfo(0).length;
-    yield return WaitForSomething(dronePlayerEngageLength);
+
+    float dronePlayerEngageLengths = leftDroneAnim.GetCurrentAnimatorStateInfo(0).length;
+    yield return WaitForSomething(dronePlayerEngageLengths);
 
     // Player can finally now choose a power-up.
     allowPowerUpChoice = true;
@@ -136,8 +137,11 @@ void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUp
             {
                 case "FireRateBoost":
                     var currentFireRate = playerMissiles.fireRateMultiplier;
-                    Debug.Log("fire rate called");
-                    
+
+                    Debug.Log("fire rate called");  
+                    Debug.Log("current fire rate = " + currentFireRate);
+                    Debug.Log(powerUpUI.name); 
+
                     if (currentFireRate == 1 && powerUpUI.name == "FireRateBoost UI (2x)")
                         return powerUpUI;
                     else if (currentFireRate == 2 && powerUpUI.name == "FireRateBoost UI (3x)")
@@ -154,7 +158,7 @@ void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUp
                         return powerUpUI;
                     break;
 
-                case "MissilesPierce":
+                case "MissilesPierce":                                           
                     if (powerUpUI.name == "MissilesPierce UI")
                         return powerUpUI;
                     break;
@@ -180,17 +184,21 @@ void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUp
 
 
 
-void SetupUI(GameObject powerUpUI, GameObject drone)
-{
-    Debug.Log(powerUpUI);
-    Debug.Log(powerUpUI.name);
+    void SetupUI(GameObject powerUpUI, GameObject drone)
+    {
+        Debug.Log(powerUpUI);
+        Debug.Log(powerUpUI.name);
 
-    Debug.Log($"power up UI = {powerUpUI.name}");
-    powerUpUI.SetActive(true);
-    powerUpUI.transform.SetParent(drone.transform);
-    // powerUpUI.transform.parent = drone.transform;  // Parent to the specified drone
-    powerUpUI.transform.localPosition = new Vector3(0, 3f, -1.5f);
-}
+        Debug.Log($"power up UI = {powerUpUI.name}");
+        powerUpUI.SetActive(true);
+        powerUpUI.transform.SetParent(drone.transform);
+        // powerUpUI.transform.parent = drone.transform;  // Parent to the specified drone
+
+        // if (drone = leftDrone)
+            powerUpUI.transform.localPosition = new Vector3(0, -0.1f, -3.1f);
+        // else if (drone = rightDrone)
+            // powerUpUI.transform.localPosition = new Vector3(0, -3f, -1.5f);
+    }
 
 
 
@@ -207,7 +215,6 @@ void SetupUI(GameObject powerUpUI, GameObject drone)
 
         // powerUpUI.GetComponent<DroppedPowerUpMovesToPlayer>().StartCoroutine("Move", drone.transform.localPosition, this.gameObject);
         // powerUpUI.SetActive(false);
-
         
         leftDroneAnim.SetTrigger("disengage");
         rightDroneAnim.SetTrigger("disengage");

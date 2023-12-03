@@ -1,92 +1,109 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] GameObject enemyVariant1;
-    [SerializeField] GameObject enemyVariant2;
+    [System.Serializable]
+    public class WaveParameters
+    {
+        public float waveSpeed;
+        public float verticalOffset;
+    }
 
-    List<GameObject> enemyPool;
-    [SerializeField] int poolSize = 100;
-    [SerializeField] float enemySpawnRate;
-
-    bool spawnEnemies;
+    [SerializeField] GameObject enemyPrefabVariant1;
+    [SerializeField] GameObject enemyPrefabVariant2;
+    [SerializeField] float timeBetweenWaves = 5f;
+    [SerializeField] WaveParameters[] waveParameters;
 
     void Start()
     {
-        enemyPool = new List<GameObject>();
-        InitializePool();
-        SpawnEnemies(true);    
+        StartCoroutine(SpawnWaves());
     }
-    
-    public IEnumerator Spawn(float spawnRate = 0)
+
+    IEnumerator SpawnWaves()
     {
-        if (spawnRate == 0)
+        while (true)
         {
-            Debug.Log("Enemy Spawner stopped spawning.");
-            yield break;
-        }
+            yield return new WaitForSeconds(timeBetweenWaves);
 
-        while (spawnEnemies)
-        {
-            yield return new WaitForSeconds(spawnRate);
-            GameObject enemy = GetRandomPooledEnemy();
+            WaveParameters randomWave = waveParameters[Random.Range(0, waveParameters.Length)];
 
-            if (enemy != null)
-            {
-                // set positions, rotations.
-                enemy.SetActive(true);
-            }
+            GameObject chosenEnemyPrefab;
+            
+            if (Random.Range(0f, 1f) < 0.5f)
+                chosenEnemyPrefab = enemyPrefabVariant1;
+            else
+                chosenEnemyPrefab = enemyPrefabVariant2;
+
+            SpawnEnemyWave(randomWave, chosenEnemyPrefab);
         }
     }
 
-
-    void InitializePool()
+    void SpawnEnemyWave(WaveParameters wave, GameObject enemyPrefab)
     {
-        for (int i = 0; i < poolSize / 2; i++)
+        GameObject enemy = Instantiate(enemyPrefab, transform.position + new Vector3(0, wave.verticalOffset, 0), Quaternion.identity);
+        EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
+
+        if (enemyMove != null)
         {
-            GameObject enemy = Instantiate(enemyVariant1, Vector3.zero, Quaternion.identity);
-            enemy.SetActive(false);
-            enemyPool.Add(enemy);
+            // Set movement parameters for the enemy
+            enemyMove.moveSpeed = wave.waveSpeed;
         }
-
-        for (int i = 0; i < poolSize / 2; i++)
-        {
-            GameObject enemy = Instantiate(enemyVariant2, Vector3.zero, Quaternion.identity);
-            enemy.SetActive(false);
-            enemyPool.Add(enemy);
-        }        
     }
-
-    GameObject GetRandomPooledEnemy()
-    {
-        List<GameObject> inactiveEnemies = enemyPool.FindAll(enemy => !enemy.activeInHierarchy);
-
-        if (inactiveEnemies.Count > 0)
-        {
-            int randomIndex = Random.Range(0, inactiveEnemies.Count);
-            return inactiveEnemies[randomIndex];
-        }
-
-        return null;
-    }
-
-    public void SpawnEnemies(bool newValue) 
-    {
-        spawnEnemies = newValue;
-
-        if (newValue == true)
-            StartCoroutine(Spawn(enemySpawnRate));
-        else
-            StopCoroutine(Spawn());
-    }
-
-
-    // GameObject GetRandomPooledEnemy()
-    // {
-    //     int randomIndex = Random.Range(0, poolSize);
-    //     return enemyPool[randomIndex];
-    //     // return enemyPool.Find(missile => !missile.activeInHierarchy);
-    // }
 }
+
+
+
+// using System.Collections;
+// using UnityEngine;
+
+// public class EnemySpawner : MonoBehaviour
+// {
+//     [System.Serializable]
+//     public class SpawnPoint
+//     {
+//         public Vector3 position;
+//     }
+
+//     [System.Serializable]
+//     public class Path
+//     {
+//         public Vector3[] waypoints;
+//     }
+
+//     [SerializeField] GameObject enemyPrefab;
+//     [SerializeField] float timeBetweenWaves = 5f;
+//     [SerializeField] SpawnPoint[] spawnPoints;
+//     [SerializeField] Path[] paths;
+
+//     void Start()
+//     {
+//         StartCoroutine(SpawnWaves());
+//     }
+
+//     IEnumerator SpawnWaves()
+//     {
+//         while (true)
+//         {
+//             yield return new WaitForSeconds(timeBetweenWaves);
+
+//             foreach (SpawnPoint spawnPoint in spawnPoints)
+//             {
+//                 SpawnEnemy(spawnPoint);
+//             }
+//         }
+//     }
+
+//     void SpawnEnemy(SpawnPoint spawnPoint)
+//     {
+//         GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+//         EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
+
+//         if (enemyMove != null)
+//         {
+//             // Choose a random path
+//             Path randomPath = paths[Random.Range(0, paths.Length)];
+//             enemyMove.SetPath(randomPath.waypoints);
+//         }
+//     }
+// }

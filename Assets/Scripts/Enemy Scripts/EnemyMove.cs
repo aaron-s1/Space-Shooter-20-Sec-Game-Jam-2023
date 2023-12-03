@@ -2,56 +2,74 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    public float moveSpeed = 10f;
-    public Direction moveDirection;
-    // public float rotationSpeed = 1f;
+    public float moveSpeed = 5f;
 
-
-    Vector3 nextSlerpPosition;
-
-
-    public enum Direction
+    void FixedUpdate()
     {
-        MoveLeft, MoveRight
+        Move();
     }
 
-
-
-    void Start() 
+    void Move()
     {
-        float xDirection;
-
-        if (moveDirection == Direction.MoveLeft)
-            xDirection = -2f;
-        else
-            xDirection = 2f;
-
-        nextSlerpPosition = transform.position + new Vector3(xDirection, 1, 0);
-    }
-
-
-    void Update() =>
-        MoveOnSlerpPath();
-
-
-    void MoveOnSlerpPath()
-    {
-        Quaternion targetRotation = Quaternion.LookRotation(nextSlerpPosition - transform.position, Vector3.forward);
-
-        transform.position = Vector3.MoveTowards(transform.position, nextSlerpPosition, moveSpeed * Time.deltaTime);
-
-
-        if (Vector3.Distance(transform.position, nextSlerpPosition) < 0.05f)
-        {
-            if (moveDirection == Direction.MoveLeft)
-                nextSlerpPosition.x -= 2f;
-            else
-                nextSlerpPosition.x += 2f;
-
-            if (nextSlerpPosition.y == 1)
-                nextSlerpPosition.y = 0;
-            else
-                nextSlerpPosition.y = 1;
-        }
+        transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
     }
 }
+
+
+// using UnityEngine;
+
+// public class EnemyMove : MonoBehaviour
+// {
+//     public float moveSpeed = 10f;
+//     public Direction moveDirection;
+//     // public float rotationSpeed = 1f;
+
+
+//     Vector3 nextSlerpPosition;
+
+
+//     public enum Direction
+//     {
+//         MoveLeft, MoveRight
+//     }
+
+
+
+//     void Start() 
+//     {
+//         float xDirection;
+
+//         if (moveDirection == Direction.MoveLeft)
+//             xDirection = -2f;
+//         else
+//             xDirection = 2f;
+
+//         nextSlerpPosition = transform.position + new Vector3(xDirection, 1, 0);
+//     }
+
+
+//     void Update() =>
+//         MoveOnSlerpPath();
+
+
+//     void MoveOnSlerpPath()
+//     {
+//         Quaternion targetRotation = Quaternion.LookRotation(nextSlerpPosition - transform.position, Vector3.forward);
+
+//         transform.position = Vector3.MoveTowards(transform.position, nextSlerpPosition, moveSpeed * Time.deltaTime);
+
+
+//         if (Vector3.Distance(transform.position, nextSlerpPosition) < 0.05f)
+//         {
+//             if (moveDirection == Direction.MoveLeft)
+//                 nextSlerpPosition.x -= 2f;
+//             else
+//                 nextSlerpPosition.x += 2f;
+
+//             if (nextSlerpPosition.y == 1)
+//                 nextSlerpPosition.y = 0;
+//             else
+//                 nextSlerpPosition.y = 1;
+//         }
+//     }
+// }

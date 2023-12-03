@@ -1,34 +1,33 @@
 
 
-
-- add tether to UI
-- fix UI's offset to drone position
-
-- (create a third player weapon ability?)
-
-- countdown stuff before game start
-
-- find better 'poof' particle?
-
-- give enemies lots of different movements
-
-- UI and such (and for power-ups)
-
-- UI transitions and such
-
-- {UI pierce bullets graphic}
-
-- fix positions of UI power-ups
+Gameplay
+    - give enemies lots of different movements
 
 
-- leaderboard
+Powerups UI
+    - determine initial spawn time
+        - and frequency between respawns
+    - pulling in position??
+    - layering or whatever with power-ups
+    - fix sometimes not displaying
+    - Piercing 
 
-- restarting game
+
+Game State UI
+    - countdown stuff before game start
+    - UI transitions and such
 
 
-- determine values:
-    - max missile pool size
-    - max enemy pool size
+Ending Game
+    - tallying kills
+        - wait times before displaying scores, kills
+    - leaderboard
+    - restarting game
+
+
+Value fixing:
+    - missile pool size
+    - enemy pool size
     - how long to wait before auto-disabling enemies
         - .. and for missiles
 

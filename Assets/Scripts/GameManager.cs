@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreUI;
     [SerializeField] TextMeshProUGUI secondsRemainingUI;
 
+    [SerializeField] GameObject endGameUIScreen;
+
     IEnumerator spawnEnemies;
 
     // [SerializeField] GameObject blackHolePowerUpParticle;
@@ -42,10 +44,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        gameHasStarted = true;
         // later on, add conditionals before starting
         // take off the 1.
         StartCoroutine("CountdownToEndGame", 1f);
-        spawnEnemies = gameObject.GetComponent<EnemySpawner>().Spawn();
+
+        // spawnEnemies = gameObject.GetComponent<EnemySpawner>().Spawn();
 
         player = PlayerController.Instance;
         // player = GameObject.FindGameObjectWithTag("Player");
@@ -53,10 +57,10 @@ public class GameManager : MonoBehaviour
         // Invoke("ActivateBlackHole", 6f);
     }
     
-    void StartGame()
-    {
-        gameHasStarted = true;        
-    }
+    // void StartGame()
+    // {
+    //     gameHasStarted = true;        
+    // }
 
 
     #region Handle game states.
@@ -87,6 +91,8 @@ public class GameManager : MonoBehaviour
         GameObject.FindObjectOfType<PowerUpSelector>().GetComponent<PowerUpSelector>().StopAllCoroutines();
 
         yield return StartCoroutine(player.Die());
+
+        endGameUIScreen.SetActive(true);
 
         FullyEndGame();
 
