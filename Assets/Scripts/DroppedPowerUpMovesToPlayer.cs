@@ -11,11 +11,15 @@ public class DroppedPowerUpMovesToPlayer : MonoBehaviour
 
     void Start()
     {
+        // var taco = 
         playerPos = PlayerController.Instance.gameObject.transform.position;
     }
 
-    public IEnumerator Move(Vector3 dronePos, GameObject powerUpList)
+    public IEnumerator Move(Vector3 detachPoint, GameObject powerUpList)
     {
+        // var detachPointAsWorld = transform.TransformPoint(detachPoint);
+        // playerPos = transform.TransformPoint(playerPos);
+
         gameObject.transform.SetParent(null);
         float timeElapsed = 0f;
         Debug.Break();
@@ -24,13 +28,12 @@ public class DroppedPowerUpMovesToPlayer : MonoBehaviour
 
         while (timeElapsed < moveDuration)
         {
-            transform.position = Vector3.Lerp(transform.position, playerPos, timeElapsed / moveDuration);
+            // transform.position = Vector3.Lerp(transform.position, playerPos, timeElapsed / moveDuration);
+            transform.position = Vector3.Lerp(detachPoint, playerPos, timeElapsed / moveDuration);
             yield return null;
 
             timeElapsed += Time.deltaTime;
         }
-
-        Debug.Log("?????");
 
         transform.position = playerPos;
         gameObject.transform.SetParent(powerUpList.transform);

@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     // void Start() => StartCoroutine(Die());
 
 
-    public IEnumerator  Die()
+    public IEnumerator Die()
     {
         GetComponent<FireMissile>().StopFiring();
 

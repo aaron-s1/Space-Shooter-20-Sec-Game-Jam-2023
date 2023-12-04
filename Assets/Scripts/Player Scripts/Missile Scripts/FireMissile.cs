@@ -8,7 +8,7 @@ public class FireMissile : MonoBehaviour
     public static FireMissile Instance { get; private set; }
     
     [SerializeField] GameObject missilePrefab;
-    [SerializeField] float timeBetweenMissileFirings = 1f;
+    // [SerializeField] float timeBetweenMissileFirings = 1f;
     [SerializeField] int poolSize = 300;
     [Space(10)]
     [SerializeField] Transform leftMissileOriginPoint;
@@ -18,23 +18,20 @@ public class FireMissile : MonoBehaviour
 
 
 
-    private int _missileFireMultiplier = 1;
-    private int _explosionChains = 0;
+    int _missileFireMultiplier = 1;
+    int _explosionChains = 0;
 
 
-    void Awake()
-    {
+    void Awake() =>
         Instance = this;
-    }
+
 
     void Start()
     {
         missilePool = new List<GameObject>();
         InitializeMissilePool();
 
-        InvokeRepeating("PlayerStartsFiring", 2f, timeBetweenMissileFirings / _missileFireMultiplier);
-        // Invoke("NewMissilesNowPierce", 4f);
-        // _missileFireMultiplier = 5;
+        // InvokeRepeating("PlayerStartsFiring", 2f, 1 / _missileFireMultiplier);
     }
 
 
@@ -79,7 +76,11 @@ public class FireMissile : MonoBehaviour
     }
 
 
-    // Get missiles from the pool for both turrets.
+    
+    public void PrepFiringThenFire() =>
+        InvokeRepeating("PlayerStartsFiring", 0, (1 / _missileFireMultiplier));
+
+
     public void PlayerStartsFiring()
     {
         GameObject missileLeft = GetPooledMissile();
@@ -101,11 +102,8 @@ public class FireMissile : MonoBehaviour
         }
     }
 
-    GameObject GetPooledMissile()
-    {
-        // Find the first inactive missile in the pool
-        return missilePool.Find(missile => !missile.activeInHierarchy);
-    }
+    GameObject GetPooledMissile() =>
+        missilePool.Find(missile => !missile.activeInHierarchy);
 
 
     void OnMissileFireRateMultiplierChanged(int newMultiplier)
@@ -114,7 +112,7 @@ public class FireMissile : MonoBehaviour
         {
             ScaleUpTurrets(newMultiplier);
             CancelInvoke("PlayerStartsFiring");
-            InvokeRepeating("PlayerStartsFiring", 0, timeBetweenMissileFirings / fireRateMultiplier);
+            InvokeRepeating("PlayerStartsFiring", 0, 1 / fireRateMultiplier);
         }
     }
 

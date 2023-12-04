@@ -9,29 +9,32 @@ using Random = UnityEngine.Random;
 // COMPLETE mess. Refactor/fix later.
 public class PowerUpSelector : MonoBehaviour
 {
+    
     GameManager gameManager;
     FireMissile playerMissiles;
 
-    public GameObject   leftDrone;
-    public GameObject rightDrone;
+    [SerializeField] GameObject leftDrone;
+    [SerializeField] GameObject rightDrone;
+    [SerializeField] Vector3 powerUpAttachPoint;
 
     public float droneRespawnTime = 3f;
+
+    public List<GameObject> powerUpsUIList;
+    GameObject leftDronePowerUpUI;
+    GameObject rightDronePowerUpUI;
 
     Animator leftDroneAnim;
     Animator rightDroneAnim;
 
-    GameObject leftDronePowerUpUI;
-    GameObject rightDronePowerUpUI;
-    public List<GameObject> powerUpsUIList;
-
     List<PowerUp> availablePowerUps;
-
     PowerUp leftDronePowerUp;
     PowerUp rightDronePowerUp;    
 
     public string Name { get; set; }
 
     bool allowPowerUpChoice;
+
+    int totalPowerUpsAcquired;
 
 
     void Start()
@@ -79,7 +82,7 @@ public class PowerUpSelector : MonoBehaviour
     }
 
 
-IEnumerator SpawnDrones()
+public IEnumerator SpawnDrones()
 {
     yield return new WaitForSeconds(droneRespawnTime);
     Debug.Log("spawned");
@@ -99,8 +102,6 @@ IEnumerator SpawnDrones()
 
         leftDronePowerUpUI = GetUIOfPowerUp(leftDronePowerUp);
         rightDronePowerUpUI = GetUIOfPowerUp(rightDronePowerUp);
-    // leftDronePowerUpUI = GetUIOfPowerUp(currentPowerUpLeft);
-    // rightDronePowerUpUI = GetUIOfPowerUp(currentPowerUpRight);        
 
     SetupUI(leftDronePowerUpUI, leftDrone);
     SetupUI(rightDronePowerUpUI, rightDrone);
@@ -192,12 +193,8 @@ void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUp
         Debug.Log($"power up UI = {powerUpUI.name}");
         powerUpUI.SetActive(true);
         powerUpUI.transform.SetParent(drone.transform);
-        // powerUpUI.transform.parent = drone.transform;  // Parent to the specified drone
 
-        // if (drone = leftDrone)
-            powerUpUI.transform.localPosition = new Vector3(0, -0.1f, -3.1f);
-        // else if (drone = rightDrone)
-            // powerUpUI.transform.localPosition = new Vector3(0, -3f, -1.5f);
+        powerUpUI.transform.localPosition = new Vector3(powerUpAttachPoint.x, powerUpAttachPoint.y, powerUpAttachPoint.z);            
     }
 
 
@@ -205,13 +202,17 @@ void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUp
     void ExecuteChosenPowerUp(GameObject drone, PowerUp powerUp, GameObject powerUpUI)
     {
         allowPowerUpChoice = false;
+        totalPowerUpsAcquired++;
+
 
         MissilePiercingWasSelected(powerUp);
         MissileFireRateWasSelected(powerUp);
         EnemyExplosionWasSelected(powerUp);
         BlackHoleWasSelected(powerUp);
 
-        StartCoroutine(powerUpUI.GetComponent<DroppedPowerUpMovesToPlayer>().Move(drone.transform.position, this.gameObject));
+        // var test = transform.TransformPoint(powerUpAttachPoint);
+        Vector3 detachPointWithOffset = new Vector3(drone.transform.position.x, drone.transform.position.y - 0.6f, drone.transform.position.z);        
+        StartCoroutine(powerUpUI.GetComponent<DroppedPowerUpMovesToPlayer>().Move(detachPointWithOffset, this.gameObject));
 
         // powerUpUI.GetComponent<DroppedPowerUpMovesToPlayer>().StartCoroutine("Move", drone.transform.localPosition, this.gameObject);
         // powerUpUI.SetActive(false);
@@ -219,10 +220,15 @@ void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUp
         leftDroneAnim.SetTrigger("disengage");
         rightDroneAnim.SetTrigger("disengage");
         float droneDisengageLength = leftDroneAnim.GetCurrentAnimatorStateInfo(0).length;
-        StartCoroutine(ReturnPowerUpUIsToPowerUpUIList(droneDisengageLength));        
 
-        StartCoroutine(SpawnDrones());
-        
+        StartCoroutine(ReturnPowerUpUIsToPowerUpUIList(droneDisengageLength));
+
+
+        if (totalPowerUpsAcquired < 5)
+            StartCoroutine(SpawnDrones());
+        else
+            StopAllCoroutines();
+            
     }
 
     IEnumerator WaitForSomething(float length)

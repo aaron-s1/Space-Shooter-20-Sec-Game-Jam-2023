@@ -1,21 +1,27 @@
 
+Audio Sounds
+    - sound effects on restart/start button click
+    - fire effect
+    - explosion
 
-Gameplay
-    - give enemies lots of different movements
+
+Enemies
+    - make enemies come in waves
+    - give varying movements
+    - waves spawn faster after each kill
+    - use bullet pool
 
 
 Powerups UI
-    - determine initial spawn time
-        - and frequency between respawns
-    - pulling in position??
-    - layering or whatever with power-ups
     - fix sometimes not displaying
-    - Piercing 
+    - piercing UI needs a graphic
 
 
 Game State UI
     - countdown stuff before game start
     - UI transitions and such
+    - start screen
+
 
 
 Ending Game
@@ -26,7 +32,6 @@ Ending Game
 
 
 Value fixing:
-    - missile pool size
     - enemy pool size
     - how long to wait before auto-disabling enemies
         - .. and for missiles

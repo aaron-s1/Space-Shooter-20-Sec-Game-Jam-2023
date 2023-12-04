@@ -10,8 +10,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI scoreUI;
     [SerializeField] TextMeshProUGUI secondsRemainingUI;
+    [SerializeField] FadeBeforeEnd fadeBeforeEnd;
 
-    [SerializeField] GameObject endGameUIScreen;
+    [Space(10)]
+    [SerializeField] PowerUpSelector powerUpSelector;
 
     IEnumerator spawnEnemies;
 
@@ -47,7 +49,7 @@ public class GameManager : MonoBehaviour
         gameHasStarted = true;
         // later on, add conditionals before starting
         // take off the 1.
-        StartCoroutine("CountdownToEndGame", 1f);
+        StartCoroutine("PrepStartOfGame");
 
         // spawnEnemies = gameObject.GetComponent<EnemySpawner>().Spawn();
 
@@ -62,16 +64,28 @@ public class GameManager : MonoBehaviour
     //     gameHasStarted = true;        
     // }
 
-
     #region Handle game states.
-    IEnumerator CountdownToEndGame()
+    
+    IEnumerator PrepStartOfGame()
     {
-        // spawnEnemies = StartCoroutine(gameObject.GetComponent<EnemySpawner>().Spawn());
-        // StartCoroutine(spawnEnemies);
+        // do stuff.
+        // do UI stuff.
+        // yield times.
+
+        yield return StartCoroutine(StartGame());
+    }
+
+
+    IEnumerator StartGame()
+    {
+        FireMissile.Instance.PrepFiringThenFire();
 
         yield return new WaitForSeconds(1f);
         secondsPassedSinceGameStart++;
         secondsRemainingUI.text = (20 - secondsPassedSinceGameStart).ToString();
+
+        if (secondsPassedSinceGameStart == 4)
+            StartCoroutine(powerUpSelector.SpawnDrones());
 
 
         if (secondsPassedSinceGameStart == 20)
@@ -92,7 +106,7 @@ public class GameManager : MonoBehaviour
 
         yield return StartCoroutine(player.Die());
 
-        endGameUIScreen.SetActive(true);
+        fadeBeforeEnd.TallyUpKillsAndScore(regularKills, blackHoleKills);
 
         FullyEndGame();
 
@@ -134,7 +148,7 @@ public class GameManager : MonoBehaviour
     void AdjustScore(bool killCameFromBlackHole = false)
     {
         if (killCameFromBlackHole)
-            score += 5;
+            score += 10;
         else
             score += 10;
 
