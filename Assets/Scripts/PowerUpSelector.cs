@@ -95,10 +95,10 @@ public IEnumerator SpawnDrones()
     leftDronePowerUp = currentPowerUpLeft;
     rightDronePowerUp = currentPowerUpRight;
 
-            Debug.Log("spawning... " +leftDronePowerUp );
-            Debug.Log("spawning... " +rightDronePowerUp );
-            Debug.Log("spawning... " +leftDronePowerUp.Name );
-            Debug.Log("spawning... " +rightDronePowerUp.Name );
+            // Debug.Log("spawning... " +leftDronePowerUp );
+            // Debug.Log("spawning... " +rightDronePowerUp );
+            // Debug.Log("spawning... " +leftDronePowerUp.Name );
+            // Debug.Log("spawning... " +rightDronePowerUp.Name );
 
         leftDronePowerUpUI = GetUIOfPowerUp(leftDronePowerUp);
         rightDronePowerUpUI = GetUIOfPowerUp(rightDronePowerUp);
@@ -187,10 +187,10 @@ void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUp
 
     void SetupUI(GameObject powerUpUI, GameObject drone)
     {
-        Debug.Log(powerUpUI);
-        Debug.Log(powerUpUI.name);
+        // Debug.Log(powerUpUI);
+        // Debug.Log(powerUpUI.name);
 
-        Debug.Log($"power up UI = {powerUpUI.name}");
+        // Debug.Log($"power up UI = {powerUpUI.name}");
         powerUpUI.SetActive(true);
         powerUpUI.transform.SetParent(drone.transform);
 

@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
         shockWave2.Play();
 
         yield return new WaitForSeconds(shockWave1.main.duration);
+        // Debug.Log($"Die() waited for shockwave for {shockWave1.main.duration}");
 
 
         if (canBecomeBlackHole)
@@ -51,10 +52,14 @@ public class PlayerController : MonoBehaviour
             blackHoleParticle.Play();
             
             yield return new WaitForSeconds(blackHoleParticle.main.duration);
+            // Debug.Log($"Die() waited for black hole for {blackHoleParticle.main.duration}");
 
             // engage pull trigger 
             blackHole.transform.GetChild(3).gameObject.SetActive(true);
+            Debug.Log("black hole ended");
         }
+
+        yield return new WaitForSeconds(5f);
 
         Debug.Log("player fully died.");
         yield break;

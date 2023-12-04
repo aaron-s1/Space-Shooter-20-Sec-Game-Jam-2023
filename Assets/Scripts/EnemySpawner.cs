@@ -12,15 +12,15 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] GameObject enemyPrefabVariant1;
     [SerializeField] GameObject enemyPrefabVariant2;
-    [SerializeField] float timeBetweenWaves = 5f;
+    [SerializeField] float timeBetweenWaves = 0.1f;
     [SerializeField] WaveParameters[] waveParameters;
 
-    void Start()
-    {
-        StartCoroutine(SpawnWaves());
-    }
+    // void Start()
+    // {
+    //     StartCoroutine(SpawnWaves());
+    // }
 
-    IEnumerator SpawnWaves()
+    public IEnumerator SpawnWaves()
     {
         while (true)
         {

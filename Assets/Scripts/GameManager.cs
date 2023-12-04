@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         // take off the 1.
         StartCoroutine("PrepStartOfGame");
 
-        // spawnEnemies = gameObject.GetComponent<EnemySpawner>().Spawn();
+        spawnEnemies = gameObject.GetComponent<EnemySpawner>().SpawnWaves();
 
         player = PlayerController.Instance;
         // player = GameObject.FindGameObjectWithTag("Player");
@@ -72,13 +72,16 @@ public class GameManager : MonoBehaviour
         // do UI stuff.
         // yield times.
 
-        yield return StartCoroutine(StartGame());
+        yield return StartCoroutine(CountdownToEndGame());
     }
 
 
-    IEnumerator StartGame()
+    IEnumerator CountdownToEndGame()
     {
         FireMissile.Instance.PrepFiringThenFire();
+
+        if (spawnEnemies != null)
+            StartCoroutine(spawnEnemies);
 
         yield return new WaitForSeconds(1f);
         secondsPassedSinceGameStart++;
@@ -100,13 +103,19 @@ public class GameManager : MonoBehaviour
     IEnumerator EndGame()
     {
         gameHasEnded = true;
-        StopCoroutine(spawnEnemies);
+        
+        if (spawnEnemies != null)
+            StopCoroutine(spawnEnemies);
 
+        Debug.Break();
         GameObject.FindObjectOfType<PowerUpSelector>().GetComponent<PowerUpSelector>().StopAllCoroutines();
-
+// Debug.Break();
         yield return StartCoroutine(player.Die());
-
+// Debug.Break();
+        fadeBeforeEnd.gameObject.SetActive(true);
+        // Debug.Break();
         fadeBeforeEnd.TallyUpKillsAndScore(regularKills, blackHoleKills);
+        // Debug.Break();
 
         FullyEndGame();
 
@@ -133,11 +142,14 @@ public class GameManager : MonoBehaviour
 
     #region Score system.
     public void AddToKills(bool killCameFromBlackHole = false)
-    {
+    {        
         if (!killCameFromBlackHole)
             regularKills++;
-        else
+        else{
+            Debug.Log("add to kills added black hole kills");
             blackHoleKills++;
+        }
+            
 
         totalKills++;
 
@@ -146,7 +158,7 @@ public class GameManager : MonoBehaviour
 
 
     void AdjustScore(bool killCameFromBlackHole = false)
-    {
+    {        
         if (killCameFromBlackHole)
             score += 10;
         else

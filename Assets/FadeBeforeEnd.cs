@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+// using UnityEngine.UI;
 using TMPro;
 
 public class FadeBeforeEnd : MonoBehaviour
@@ -9,25 +9,29 @@ public class FadeBeforeEnd : MonoBehaviour
     public int totalScoreValue;
 
     [SerializeField] GameObject fadeScreen;
+
+    [Space(10)]
     [SerializeField] GameObject missileKillsTitleObject;
-    [SerializeField] GameObject blackHoleKillsTitleObject;
-    [SerializeField] GameObject totalScoreTitleObject;
-
     [SerializeField] GameObject missileKillsTextObject;
-    [SerializeField] GameObject blackHoleKillsTextObject;
-    [SerializeField] GameObject totalScoreKillsTextObject;
-
     string missileKillsText;
+
+    [SerializeField] GameObject blackHoleKillsTitleObject;
+    [SerializeField] GameObject blackHoleKillsTextObject;
     string blackHoleKillsText;
-    string totalScoreKillsText;
+
+
+    [SerializeField] GameObject totalScoreTitleObject;
+    [SerializeField] GameObject totalScoreTextObject;
+    string totalScoreText;
+    // [SerializeField] GameObject totalScoreKillsTextObject;
 
     //hide later.
     int missileKills;    
     int blackHoleKills;
 
-    int missileKillsScore;
-    int blackHoleKillsScore;
-    int totalScore;
+    // int missileKillsScore;
+    // int blackHoleKillsScore;
+    // int totalScore;
 
     
     float fadeScreenFillAmount;
@@ -45,10 +49,10 @@ public class FadeBeforeEnd : MonoBehaviour
         this.missileKills = regularKills;
         this.blackHoleKills = blackHoleKills;
 
-        missileKillsScore = missileKills * 10;
-        blackHoleKillsScore = blackHoleKills * 10;
+        // missileKillsScore = missileKills * 10;
+        // blackHoleKillsScore = blackHoleKills * 50;
 
-        totalScoreValue = (missileKillsScore + blackHoleKillsScore) * 10;
+        totalScoreValue = (missileKills * 10) + (blackHoleKills * 40);
 
         StartCoroutine(ShowScoresOverTime());
     }
@@ -57,7 +61,9 @@ public class FadeBeforeEnd : MonoBehaviour
 
     IEnumerator ShowScoresOverTime()
     {
-        fadeScreen.SetActive(true);
+        Debug.Log("ShowScores called");
+        Debug.Break();
+        // fadeScreen.SetActive(true);
 
         // currently too lazy to make cleaner 
 
@@ -66,33 +72,40 @@ public class FadeBeforeEnd : MonoBehaviour
         missileKillsTitleObject.SetActive(true);        
         yield return new WaitForSeconds(1f);
         missileKillsTextObject.SetActive(true);
-        missileKillsText = "0";
-        currentAccrualValue = 0;
+
+        // missileKillsTextObject.GetComponent<Text>() = "0";
+        // missileKillsText = "0";
+        killsAccrualValue = 0;
         accruingMissileScore = true;
 
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => accruingMissileScore = false);
+        yield return new WaitUntil(() => accruingMissileScore == false);
 
+        Debug.Log("accruing missile score is now false");
 
         // step 2
         yield return new WaitForSeconds(1f);
         blackHoleKillsTitleObject.SetActive(true);
         yield return new WaitForSeconds(1f);
         blackHoleKillsTextObject.SetActive(true);
-        missileKillsText = "0";
-        currentAccrualValue = 0;
+
+        // missileKillsText = "0";
+        killsAccrualValue = 0;
         accruingBlackHoleScore = true;
 
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => accruingBlackHoleScore = false);
+        yield return new WaitUntil(() => accruingBlackHoleScore == false);        
 
+        Debug.Log("begin black hole scores");
         // step 3
         yield return new WaitForSeconds(1f);
         totalScoreTitleObject.SetActive(true);
-        totalScoreKillsTextObject.SetActive(true);
-        totalScoreKillsText = totalScoreValue.ToString();
+        totalScoreTextObject.SetActive(true);
+        totalScoreTextObject.GetComponent<TextMeshProUGUI>().text = totalScoreValue.ToString();
+        // totalScoreKillsTextObject.SetActive(true);
+        // totalScoreText = totalScoreValue.ToString();
 
     
         Debug.Log("ShowScoresOverTime() ended.");
@@ -100,45 +113,50 @@ public class FadeBeforeEnd : MonoBehaviour
         yield break;
     }
 
-    int scoreAccrualPerFrame = 100;
-    int currentAccrualValue;
+    int killsAccrualPerFrame = 5;
+    int killsAccrualValue;
 
     bool accruingMissileScore;
     bool accruingBlackHoleScore;
 
 
-    // too lazy to clean up right now
     void FixedUpdate()
     {
         if (accruingMissileScore)
         {
-            if (currentAccrualValue != missileKillsScore)
+            if (killsAccrualValue != missileKills)
             {
-                currentAccrualValue += scoreAccrualPerFrame;
-                missileKillsText = currentAccrualValue.ToString();
+                killsAccrualValue += killsAccrualPerFrame;
+                missileKillsTextObject.GetComponent<TextMeshProUGUI>().text = killsAccrualValue.ToString();
+                // blackHoleKillsText = currentAccrualValue.ToString();
 
-                if (currentAccrualValue >= missileKillsScore)
+                if (killsAccrualValue >= missileKills)
                 {
-                    currentAccrualValue = missileKillsScore;
-                    currentAccrualValue = 0;
+                    missileKillsTextObject.GetComponent<TextMeshProUGUI>().text = killsAccrualValue.ToString();
+                    killsAccrualValue = 0;
                     accruingMissileScore = false;
+                    // currentAccrualValue = blackHoleKillsScore;
                 }
             }
         }
 
+
         else if (accruingBlackHoleScore && !accruingMissileScore)
         {
-            if (currentAccrualValue != blackHoleKillsScore)
+            if (killsAccrualValue != blackHoleKills)
             {
-                currentAccrualValue += scoreAccrualPerFrame;
+                killsAccrualValue += killsAccrualPerFrame;
+                blackHoleKillsTextObject.GetComponent<TextMeshProUGUI>().text = killsAccrualValue.ToString();
+                // blackHoleKillsText = currentAccrualValue.ToString();
 
-                if (currentAccrualValue >= blackHoleKillsScore)
+                if (killsAccrualValue >= blackHoleKills)
                 {
-                    currentAccrualValue = blackHoleKillsScore;
+                    blackHoleKillsTextObject.GetComponent<TextMeshProUGUI>().text = killsAccrualValue.ToString();
+                    killsAccrualValue = 0;
                     accruingBlackHoleScore = false;
-                    currentAccrualValue = 0;
+                    // currentAccrualValue = blackHoleKillsScore;
                 }
-            }            
+            }
         }
     }
 }
