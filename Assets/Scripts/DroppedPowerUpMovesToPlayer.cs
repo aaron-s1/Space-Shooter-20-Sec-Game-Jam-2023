@@ -38,6 +38,7 @@ public class DroppedPowerUpMovesToPlayer : MonoBehaviour
         transform.position = playerPos;
         gameObject.transform.SetParent(powerUpList.transform);
 
+        Debug.Log("power up reached player");
         gameObject.SetActive(false);
     }
 }

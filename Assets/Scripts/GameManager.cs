@@ -112,8 +112,8 @@ public class GameManager : MonoBehaviour
 // Debug.Break();
         yield return StartCoroutine(player.Die());
 // Debug.Break();
-        fadeBeforeEnd.gameObject.SetActive(true);
-        // Debug.Break();
+        // fadeBeforeEnd.gameObject.SetActive(true);
+        Debug.Break();
         fadeBeforeEnd.TallyUpKillsAndScore(regularKills, blackHoleKills);
         // Debug.Break();
 

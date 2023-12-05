@@ -6,10 +6,11 @@ Audio Sounds
 
 
 Enemies
+    - fix animations
     - make enemies come in waves
     - give varying movements
     - waves spawn faster after each kill
-    - use bullet pool
+    - use pool
 
 
 Powerups UI
@@ -25,16 +26,14 @@ Game State UI
 
 
 Ending Game
-    - tallying kills
-        - wait times before displaying scores, kills
     - leaderboard
     - restarting game
 
 
 Value fixing:
     - enemy pool size
-    - how long to wait before auto-disabling enemies
-        - .. and for missiles
+    ()- how long to wait before auto-disabling enemies)
+        (- .. and for missiles)
 
 
 
