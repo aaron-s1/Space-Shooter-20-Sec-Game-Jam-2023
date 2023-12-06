@@ -5,8 +5,14 @@ Audio Sounds
     - explosion
 
 
+Player
+    - prevent targeting near self
+    - restrict targeting angle?
+
+
+
 Enemies
-    - fix animations
+    (- fix animations)
     - make enemies come in waves
     - give varying movements
     - waves spawn faster after each kill
