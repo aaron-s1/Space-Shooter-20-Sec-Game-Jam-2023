@@ -36,10 +36,15 @@ public class Menu_Controller : MonoBehaviour {
 	}
 	
 	public void PlayGame () {
-		_audioSource.PlayOneShot(_audioClip);
-		PlayerPrefs.SetString("_LastScene", scene.name);
-		UnityEngine.SceneManagement.SceneManager.LoadScene(_sceneToLoadOnPlay);
+		Invoke("StartGameProper", 0);
+		// _audioSource.PlayOneShot(_audioClip);
+		// PlayerPrefs.SetString("_LastScene", scene.name);
+		// UnityEngine.SceneManagement.SceneManager.LoadScene(_sceneToLoadOnPlay);
 	}
+
+	void StartGameProper() =>
+		GameManager.Instance.PrepStartOfGame(gameObject);
+		
 	
 	public void Mute () {
 		_audioSource.PlayOneShot(_audioClip);

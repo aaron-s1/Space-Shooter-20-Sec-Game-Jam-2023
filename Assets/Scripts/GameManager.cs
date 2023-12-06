@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI scoreUI;
     [SerializeField] TextMeshProUGUI secondsRemainingUI;
-    [SerializeField] FadeBeforeEnd fadeBeforeEnd;
+    [SerializeField] FadeBeforeEnd blackScreenOverlay;
 
     [Space(10)]
     [SerializeField] PowerUpSelector powerUpSelector;
@@ -66,22 +66,37 @@ public class GameManager : MonoBehaviour
 
     #region Handle game states.
     
-    IEnumerator PrepStartOfGame()
+    public IEnumerator PrepStartOfGame(GameObject howToPlayScreen)
     {
-        // do stuff.
-        // do UI stuff.
-        // yield times.
+        blackScreenOverlay.gameObject.SetActive(false);
+        howToPlayScreen.SetActive(false);
+        player.gameObject.SetActive(true);
 
-        yield return StartCoroutine(CountdownToEndGame());
+
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(1f);
+
+            int secondsBeforeGameStart = 3 - i - 1;
+            secondsRemainingUI.text = secondsBeforeGameStart.ToString();
+
+            if (secondsBeforeGameStart == 1)
+            {
+                if (spawnEnemies != null)
+                    StartCoroutine(spawnEnemies);
+            }
+
+            if (secondsBeforeGameStart == 0)
+                StartCoroutine(CountdownToEndGame());
+        }
+
+        yield break;
     }
 
 
     IEnumerator CountdownToEndGame()
     {
         FireMissile.Instance.PrepFiringThenFire();
-
-        if (spawnEnemies != null)
-            StartCoroutine(spawnEnemies);
 
         yield return new WaitForSeconds(1f);
         secondsPassedSinceGameStart++;
@@ -114,7 +129,7 @@ public class GameManager : MonoBehaviour
 // Debug.Break();
         // fadeBeforeEnd.gameObject.SetActive(true);
         Debug.Break();
-        fadeBeforeEnd.TallyUpKillsAndScore(regularKills, blackHoleKills);
+        blackScreenOverlay.TallyUpKillsAndScore(regularKills, blackHoleKills);
         // Debug.Break();
 
         FullyEndGame();
