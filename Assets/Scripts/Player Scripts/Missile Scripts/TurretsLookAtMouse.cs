@@ -4,22 +4,45 @@ using UnityEngine;
 
 public class TurretsLookAtMouse : MonoBehaviour
 {
-    public Transform originPoint; // Assign the origin point in the Inspector
-    public float rotationOffset = 45f; // Adjust this offset as needed
+    [SerializeField] Transform originPoint;
+    [SerializeField] float rotationOffset = 45f;
+    [SerializeField] float minDistanceToStopRotation = 1f;
 
-    void Update()
+
+    void FixedUpdate()
     {
-        // Get the mouse position in the world space
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        // Calculate the direction from the origin point to the mouse position
         Vector3 directionToMouse = mousePosition - originPoint.position;
-        directionToMouse.z = 0; // Ensure the direction is in the 2D plane
+        directionToMouse.z = 0;
 
-        // Calculate the angle in degrees
-        float angle = Mathf.Atan2(directionToMouse.y, directionToMouse.x) * Mathf.Rad2Deg;
+        float distanceToMouse = directionToMouse.magnitude;
 
-        // Rotate the turret to face the mouse with the specified offset
-        transform.rotation = Quaternion.Euler(0f, 0f, angle + rotationOffset);
+        //
+        // Debug.DrawLine(originPoint.position, originPoint.position + directionToMouse.normalized * minDistanceToStopRotation, Color.green);
+        // VisualizeAllowedAngle(directionToMouse);
+
+        float angleToMouse = Vector3.Angle(transform.up, directionToMouse);
+
+        if (distanceToMouse > minDistanceToStopRotation && IsWithinAllowedAngle(angleToMouse))
+        {
+            float angle = Mathf.Atan2(directionToMouse.y, directionToMouse.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0f, 0f, angle + rotationOffset);
+        }
+    }
+
+    bool IsWithinAllowedAngle(float angle)
+    {
+        float allowedAngleRange = 90f;
+        return Mathf.Abs(angle) <= allowedAngleRange / 2f;
+    }
+
+    void VisualizeAllowedAngle(Vector3 directionToMouse)
+    {
+        Vector3 leftDirection = Quaternion.AngleAxis(-45f, Vector3.forward) * directionToMouse.normalized;
+        Vector3 rightDirection = Quaternion.AngleAxis(45f, Vector3.forward) * directionToMouse.normalized;
+
+        Debug.DrawRay(originPoint.position, leftDirection * 2f, Color.red);
+        Debug.DrawRay(originPoint.position, rightDirection * 2f, Color.red);
     }
 }

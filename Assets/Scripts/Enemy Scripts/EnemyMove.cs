@@ -2,7 +2,24 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+
+    // Not currently moving upwards properly.
+
+    public float moveSpeed;
+    public float amplitudeMultiplier;
+    public float upwardMultiplier; // New variable for upward movement
+
+    float initialY;
+    float randomY;
+
+    bool randomNewYMultiplierFound;
+    float randomNewYMultiplier = 1f;
+    
+
+    void Start()
+    {
+        initialY = transform.position.y;
+    }
 
     void FixedUpdate()
     {
@@ -11,65 +28,30 @@ public class EnemyMove : MonoBehaviour
 
     void Move()
     {
-        transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+        float amplitude = amplitudeMultiplier * moveSpeed;
+        float newY = initialY + (amplitude * Mathf.Sin(Time.time * moveSpeed));
+
+        if (!randomNewYMultiplierFound)
+        {
+            randomNewYMultiplierFound = true;
+            randomNewYMultiplier = Random.Range(50f, 100f) * 0.01f;
+        }
+
+        newY *= randomNewYMultiplier;
+
+        
+        float upwardMovement = upwardMultiplier * moveSpeed;
+
+        
+        // Debug.Log(upwardMovement);
+        // Debug.Log(Vector3.up * upwardMovement * Time.deltaTime);
+
+        Vector3 newPosition = transform.position +
+            Vector3.right * moveSpeed * Time.deltaTime +
+            Vector3.up * upwardMovement * Time.deltaTime;
+
+        // Set the new position
+        transform.position = newPosition;
+        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
     }
 }
-
-
-// using UnityEngine;
-
-// public class EnemyMove : MonoBehaviour
-// {
-//     public float moveSpeed = 10f;
-//     public Direction moveDirection;
-//     // public float rotationSpeed = 1f;
-
-
-//     Vector3 nextSlerpPosition;
-
-
-//     public enum Direction
-//     {
-//         MoveLeft, MoveRight
-//     }
-
-
-
-//     void Start() 
-//     {
-//         float xDirection;
-
-//         if (moveDirection == Direction.MoveLeft)
-//             xDirection = -2f;
-//         else
-//             xDirection = 2f;
-
-//         nextSlerpPosition = transform.position + new Vector3(xDirection, 1, 0);
-//     }
-
-
-//     void Update() =>
-//         MoveOnSlerpPath();
-
-
-//     void MoveOnSlerpPath()
-//     {
-//         Quaternion targetRotation = Quaternion.LookRotation(nextSlerpPosition - transform.position, Vector3.forward);
-
-//         transform.position = Vector3.MoveTowards(transform.position, nextSlerpPosition, moveSpeed * Time.deltaTime);
-
-
-//         if (Vector3.Distance(transform.position, nextSlerpPosition) < 0.05f)
-//         {
-//             if (moveDirection == Direction.MoveLeft)
-//                 nextSlerpPosition.x -= 2f;
-//             else
-//                 nextSlerpPosition.x += 2f;
-
-//             if (nextSlerpPosition.y == 1)
-//                 nextSlerpPosition.y = 0;
-//             else
-//                 nextSlerpPosition.y = 1;
-//         }
-//     }
-// }

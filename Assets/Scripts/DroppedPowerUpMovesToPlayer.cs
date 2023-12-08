@@ -11,12 +11,12 @@ public class DroppedPowerUpMovesToPlayer : MonoBehaviour
 
     void Start()
     {
-        // var taco = 
-        playerPos = PlayerController.Instance.gameObject.transform.position;
+        // playerPos = PlayerController.Instance.gameObject.transform.position;
     }
 
     public IEnumerator Move(Vector3 detachPoint, GameObject powerUpList)
     {
+        playerPos = PlayerController.Instance.gameObject.transform.position;
         // var detachPointAsWorld = transform.TransformPoint(detachPoint);
         // playerPos = transform.TransformPoint(playerPos);
 

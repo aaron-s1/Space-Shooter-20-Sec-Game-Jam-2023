@@ -10,8 +10,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI scoreUI;
     [SerializeField] TextMeshProUGUI secondsRemainingUI;
-    [SerializeField] FadeBeforeEnd blackScreenOverlay;
 
+    [SerializeField] GameObject endGameScreen;
+    [SerializeField] GameObject blackBackgroundScreen;
     [Space(10)]
     [SerializeField] PowerUpSelector powerUpSelector;
 
@@ -49,7 +50,7 @@ public class GameManager : MonoBehaviour
         gameHasStarted = true;
         // later on, add conditionals before starting
         // take off the 1.
-        StartCoroutine("PrepStartOfGame");
+        // StartCoroutine("PrepStartOfGame");
 
         spawnEnemies = gameObject.GetComponent<EnemySpawner>().SpawnWaves();
 
@@ -68,36 +69,42 @@ public class GameManager : MonoBehaviour
     
     public IEnumerator PrepStartOfGame(GameObject howToPlayScreen)
     {
-        blackScreenOverlay.gameObject.SetActive(false);
+        blackBackgroundScreen.SetActive(false);
         howToPlayScreen.SetActive(false);
         player.gameObject.SetActive(true);
 
+        yield return StartCoroutine(CountdownBeforeGameStarts());
+    }
 
+    // Give player a few seconds to get ready.
+    IEnumerator CountdownBeforeGameStarts()
+    {
         for (int i = 0; i < 3; i++)
         {
             yield return new WaitForSeconds(1f);
 
             int secondsBeforeGameStart = 3 - i - 1;
-            secondsRemainingUI.text = secondsBeforeGameStart.ToString();
+            secondsRemainingUI.text = (20 + secondsBeforeGameStart).ToString();
 
-            if (secondsBeforeGameStart == 1)
+            if (secondsBeforeGameStart == 2)
             {
                 if (spawnEnemies != null)
                     StartCoroutine(spawnEnemies);
             }
 
             if (secondsBeforeGameStart == 0)
+            {
                 StartCoroutine(CountdownToEndGame());
+                FireMissile.Instance.PrepFiringThenFire();
+            }
         }
 
-        yield break;
+        yield break;        
     }
 
 
     IEnumerator CountdownToEndGame()
     {
-        FireMissile.Instance.PrepFiringThenFire();
-
         yield return new WaitForSeconds(1f);
         secondsPassedSinceGameStart++;
         secondsRemainingUI.text = (20 - secondsPassedSinceGameStart).ToString();
@@ -110,7 +117,7 @@ public class GameManager : MonoBehaviour
         {
             secondsRemainingUI.text = " ";
             yield return StartCoroutine("EndGame");
-        }
+        }        
         else
             yield return StartCoroutine("CountdownToEndGame");
     }
@@ -129,7 +136,7 @@ public class GameManager : MonoBehaviour
 // Debug.Break();
         // fadeBeforeEnd.gameObject.SetActive(true);
         Debug.Break();
-        blackScreenOverlay.TallyUpKillsAndScore(regularKills, blackHoleKills);
+        endGameScreen.GetComponent<EndGameScreen>().TallyUpKillsAndScore(regularKills, blackHoleKills);
         // Debug.Break();
 
         FullyEndGame();

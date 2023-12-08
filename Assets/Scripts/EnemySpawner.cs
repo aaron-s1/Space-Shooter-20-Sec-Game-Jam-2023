@@ -3,107 +3,58 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    public static EnemySpawner Instance { get; private set;}
+
+    // Every time an enemy dies, it tells the spawner to start spawning faster.
+    public float spawnRateScale = 1f;
+     
     [System.Serializable]
     public class WaveParameters
     {
-        public float waveSpeed;
+        public float movementSpeed;
         public float verticalOffset;
+        public Transform spawnTransform;
     }
 
     [SerializeField] GameObject enemyPrefabVariant1;
     [SerializeField] GameObject enemyPrefabVariant2;
-    [SerializeField] float timeBetweenWaves = 0.1f;
+    [SerializeField] float timeBetweenWaves;
     [SerializeField] WaveParameters[] waveParameters;
 
-    // void Start()
-    // {
-    //     StartCoroutine(SpawnWaves());
-    // }
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
 
     public IEnumerator SpawnWaves()
     {
         while (true)
         {
-            yield return new WaitForSeconds(timeBetweenWaves);
+            yield return new WaitForSeconds(timeBetweenWaves * spawnRateScale);
 
-            WaveParameters randomWave = waveParameters[Random.Range(0, waveParameters.Length)];
+            WaveParameters wave1 = waveParameters[Random.Range(0, waveParameters.Length)];
+            WaveParameters wave2 = waveParameters[Random.Range(0, waveParameters.Length)];
 
-            GameObject chosenEnemyPrefab;
-            
-            if (Random.Range(0f, 1f) < 0.5f)
-                chosenEnemyPrefab = enemyPrefabVariant1;
-            else
-                chosenEnemyPrefab = enemyPrefabVariant2;
+            wave2.verticalOffset *= -1;
 
-            SpawnEnemyWave(randomWave, chosenEnemyPrefab);
+            SpawnEnemyWave(wave1, enemyPrefabVariant1);
+            SpawnEnemyWave(wave2, enemyPrefabVariant2);
         }
     }
 
     void SpawnEnemyWave(WaveParameters wave, GameObject enemyPrefab)
     {
-        GameObject enemy = Instantiate(enemyPrefab, transform.position + new Vector3(0, wave.verticalOffset, 0), Quaternion.identity);
+        int directionMultiplier = (wave == waveParameters[0]) ? 1 : -1;
+
+        float xOffset = directionMultiplier;
+        float xPos = wave.spawnTransform.position.x + xOffset;
+
+        GameObject enemy = Instantiate(enemyPrefab, new Vector3(xPos, wave.spawnTransform.position.y + wave.verticalOffset, wave.spawnTransform.position.z), Quaternion.identity);
         EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
 
         if (enemyMove != null)
-        {
-            // Set movement parameters for the enemy
-            enemyMove.moveSpeed = wave.waveSpeed;
-        }
+            enemyMove.moveSpeed = wave.movementSpeed * directionMultiplier;
     }
 }
-
-
-
-// using System.Collections;
-// using UnityEngine;
-
-// public class EnemySpawner : MonoBehaviour
-// {
-//     [System.Serializable]
-//     public class SpawnPoint
-//     {
-//         public Vector3 position;
-//     }
-
-//     [System.Serializable]
-//     public class Path
-//     {
-//         public Vector3[] waypoints;
-//     }
-
-//     [SerializeField] GameObject enemyPrefab;
-//     [SerializeField] float timeBetweenWaves = 5f;
-//     [SerializeField] SpawnPoint[] spawnPoints;
-//     [SerializeField] Path[] paths;
-
-//     void Start()
-//     {
-//         StartCoroutine(SpawnWaves());
-//     }
-
-//     IEnumerator SpawnWaves()
-//     {
-//         while (true)
-//         {
-//             yield return new WaitForSeconds(timeBetweenWaves);
-
-//             foreach (SpawnPoint spawnPoint in spawnPoints)
-//             {
-//                 SpawnEnemy(spawnPoint);
-//             }
-//         }
-//     }
-
-//     void SpawnEnemy(SpawnPoint spawnPoint)
-//     {
-//         GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
-//         EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
-
-//         if (enemyMove != null)
-//         {
-//             // Choose a random path
-//             Path randomPath = paths[Random.Range(0, paths.Length)];
-//             enemyMove.SetPath(randomPath.waypoints);
-//         }
-//     }
-// }

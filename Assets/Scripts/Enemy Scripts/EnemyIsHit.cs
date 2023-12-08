@@ -8,6 +8,7 @@ public class EnemyIsHit : MonoBehaviour
 {
     GameManager gameManager;
 
+    
     [SerializeField] public ParticleSystem poofParticle;
     [SerializeField] public ParticleSystem explosionParticle;
 
@@ -46,7 +47,7 @@ public class EnemyIsHit : MonoBehaviour
         alreadyHit = canExplodeOtherEnemies = false;
         renderer.enabled = true;
         canAddScoreFurther = true;
-        
+                
         totalExplosionChains = 0;
     }
 
@@ -54,7 +55,8 @@ public class EnemyIsHit : MonoBehaviour
 
     public IEnumerator StartDying(int totalExplosionChains = 0, bool dontExplode = false)
     {
-        alreadyHit = true;
+        EnemySpawner.Instance.spawnRateScale *= 0.99f;
+        
         this.totalExplosionChains = totalExplosionChains;
 
         ParticleSystem activeParticle;

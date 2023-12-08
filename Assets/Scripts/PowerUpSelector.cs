@@ -53,7 +53,7 @@ public class PowerUpSelector : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(allowPowerUpChoice);
+        // Debug.Log(allowPowerUpChoice);
         if (!allowPowerUpChoice)
             return;
 

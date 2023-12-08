@@ -17,6 +17,17 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         Instance = this;
+
+        GetComponent<SpriteRenderer>().enabled = true;
+        
+        foreach (Transform child in transform)
+        {
+            SpriteRenderer sprite = child.gameObject.GetComponent<SpriteRenderer>();
+            if (sprite != null)
+                sprite.enabled = true;
+        }
+
+        gameObject.SetActive(false);
     }
 
     // void Start() => StartCoroutine(Die());

@@ -46,7 +46,6 @@ public class MissileHitEnemy : MonoBehaviour
 
             if (!enemyIsHit.alreadyHit && gameObject.activeInHierarchy)
             {
-                // Debug.Log("missile blew up enemy. should only happen once.");
                 IEnumerator startDying = enemyIsHit.StartDying(totalExplosionChains);
                 StartCoroutine(startDying);
             }

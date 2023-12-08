@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Menu_Controller : MonoBehaviour {
 
 	[Tooltip("_sceneToLoadOnPlay is the name of the scene that will be loaded when users click play")]
-	public string _sceneToLoadOnPlay = "Level";
+	public string _sceneToLoadOnPlay;
 	[Tooltip("_webpageURL defines the URL that will be opened when users click on your branding icon")]
 	public string _webpageURL = "http://www.alpaca.studio";
 	[Tooltip("_soundButtons define the SoundOn[0] and SoundOff[1] Button objects.")]
@@ -35,16 +36,18 @@ public class Menu_Controller : MonoBehaviour {
 		Application.OpenURL(_webpageURL);
 	}
 	
-	public void PlayGame () {
-		Invoke("StartGameProper", 0);
+	public void StartGame ()
+	{		
+		StartCoroutine(GameManager.Instance.PrepStartOfGame(gameObject.transform.parent.gameObject));
 		// _audioSource.PlayOneShot(_audioClip);
 		// PlayerPrefs.SetString("_LastScene", scene.name);
 		// UnityEngine.SceneManagement.SceneManager.LoadScene(_sceneToLoadOnPlay);
 	}
 
-	void StartGameProper() =>
-		GameManager.Instance.PrepStartOfGame(gameObject);
-		
+	public void RestartGame() =>
+		SceneManager.LoadScene(scene.ToString());
+
+
 	
 	public void Mute () {
 		_audioSource.PlayOneShot(_audioClip);
