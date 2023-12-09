@@ -106,7 +106,7 @@ public IEnumerator SpawnDrones()
     yield return SetupUI(rightDronePowerUpUI, rightDrone);
 
     Debug.Log("drone engaged");
-    Debug.Break();
+    // Debug.Break();
     leftDroneAnim.SetTrigger("engage");
     rightDroneAnim.SetTrigger("engage");
 

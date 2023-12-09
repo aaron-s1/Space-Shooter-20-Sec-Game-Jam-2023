@@ -13,9 +13,7 @@ public class MissileHitEnemy : MonoBehaviour
     bool canExplodeEnemiesWhenEnabledAgain;
     int totalExplosionChains = 0;
 
-
     // bool canAddScore = true;
-
 
 
     void Start() =>
@@ -46,12 +44,13 @@ public class MissileHitEnemy : MonoBehaviour
 
             if (!enemyIsHit.alreadyHit && gameObject.activeInHierarchy)
             {
+                enemyIsHit.alreadyHit = true;
                 IEnumerator startDying = enemyIsHit.StartDying(totalExplosionChains);
                 StartCoroutine(startDying);
             }
 
-            if (bulletCanPierce || enemyIsHit.alreadyHit)
-                Invoke("DisableAfterSeconds", 3f);
+            if (bulletCanPierce)
+                Invoke("DisableAfterSeconds", 1.5f);
             else
                 gameObject.SetActive(false);
         }

@@ -55,8 +55,9 @@ public class EnemyIsHit : MonoBehaviour
 
     public IEnumerator StartDying(int totalExplosionChains = 0, bool dontExplode = false)
     {
+        CancelInvoke("DisableAfterSeconds");
         EnemySpawner.Instance.spawnRateScale *= 0.99f;
-        
+
         this.totalExplosionChains = totalExplosionChains;
 
         ParticleSystem activeParticle;
@@ -96,16 +97,51 @@ public class EnemyIsHit : MonoBehaviour
         gameManager.AddToKills();
         renderer.enabled = false;
 
-        yield return DisableAfterParticleEnds(particle);
+        yield return StartCoroutine(DisableAfterParticleEnds(particle));
     }
+
+    ParticleSystem particleBlah;
+    // bool beganDisabling;
+
+    // void FixedUpdate()
+    // {
+    //     // if (beganDisabling)
+    //         // Debug.Log(particleBlah.isPlaying);
+    // }
     
 
 
     IEnumerator DisableAfterParticleEnds(ParticleSystem particle)
     {
+        var timeToWait = GetParticleTime(particle);
+        Debug.Log("called particle end");
+        // particleBlah = particle;
+        // beganDisabling = true;
         particle.Play();
-        yield return new WaitUntil(() => !explosionParticle.isPlaying);        
+        Debug.Log($"began playing {particle}");
+
+        yield return new WaitForSeconds(0.45f);
+        // Debug.Log($"should end playing {particle}");        
+        // particle.Stop();
+        Debug.Log("hard wait of 0.45f");
+        var time1 = Time.timeSinceLevelLoad;
+
+        // yield return new WaitUntil(() => !explosionParticle.isPlaying);
+        var time2 = Time.timeSinceLevelLoad;
+        Debug.Log(time2-time1); 
+        Debug.Log($"actually ended playing {particle}");
         gameObject.SetActive(false);
+    }
+
+    float GetParticleTime(ParticleSystem particle)
+    {
+        if (particle == explosionParticle)
+            return 1f;
+        if (particle == poofParticle)
+            return 0.45f;
+
+        Debug.Log("returned 0???");
+        return 0;
     }
 
 
