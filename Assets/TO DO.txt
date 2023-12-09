@@ -1,26 +1,30 @@
 
+
+
 Audio Sounds
-    - sound effects on restart/start button click
-    - fire effect
+    - ambience
+    - restart/start button click
+    - firing
+    - poof 
     - explosion
 
 
 Player
-    - restrict targeting angle?
+    (- restrict targeting angle to frontwards of player?)
 
+
+Powerups
+    - 
 
 
 Enemies
-    - issue with particles not playing?    
     - make enemies come in waves
-    - give varying movements
-    - waves spawn faster after each kill
+    - give varying movements    
     - use pool
 
 
 Powerups UI
-    - fix sometimes not displaying?
-    - piercing UI needs a graphic
+    (- piercing UI needs a better graphic?)
 
 
 
@@ -28,7 +32,7 @@ Ending Game
     - leaderboard    
 
 
-Value fixing:
+Value tweaking:
     - enemy pool size
     ()- how long to wait before auto-disabling enemies)
         (- .. and for missiles)
@@ -43,3 +47,6 @@ Value fixing:
 - local file backup
 
 
+- override/update prefabs
+- clean project folder
+- clean hierarchy

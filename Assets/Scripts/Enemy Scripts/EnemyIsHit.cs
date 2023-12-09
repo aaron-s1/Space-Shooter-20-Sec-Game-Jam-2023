@@ -114,22 +114,22 @@ public class EnemyIsHit : MonoBehaviour
     IEnumerator DisableAfterParticleEnds(ParticleSystem particle)
     {
         var timeToWait = GetParticleTime(particle);
-        Debug.Log("called particle end");
+        // Debug.Log("called particle end");
         // particleBlah = particle;
         // beganDisabling = true;
         particle.Play();
-        Debug.Log($"began playing {particle}");
+        // Debug.Log($"began playing {particle}");
 
         yield return new WaitForSeconds(0.45f);
         // Debug.Log($"should end playing {particle}");        
         // particle.Stop();
-        Debug.Log("hard wait of 0.45f");
+        // Debug.Log("hard wait of 0.45f");
         var time1 = Time.timeSinceLevelLoad;
 
         // yield return new WaitUntil(() => !explosionParticle.isPlaying);
         var time2 = Time.timeSinceLevelLoad;
-        Debug.Log(time2-time1); 
-        Debug.Log($"actually ended playing {particle}");
+        // Debug.Log(time2-time1); 
+        // Debug.Log($"actually ended playing {particle}");
         gameObject.SetActive(false);
     }
 

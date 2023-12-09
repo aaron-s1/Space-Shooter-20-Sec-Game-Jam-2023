@@ -22,7 +22,7 @@ public class DroppedPowerUpMovesToPlayer : MonoBehaviour
 
         gameObject.transform.SetParent(null);
         float timeElapsed = 0f;
-        Debug.Break();
+        // Debug.Break();
         // Vector3 startPos = dronePos;
         //transform.position;
 

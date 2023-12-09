@@ -17,7 +17,7 @@ public class PowerUpSelector : MonoBehaviour
     [SerializeField] GameObject rightDrone;
     [SerializeField] Vector3 powerUpAttachPoint;
 
-    public float droneRespawnTime = 3f;
+    public float baseDroneRespawnTime = 3f;
 
     public List<GameObject> powerUpsUIList;
     GameObject leftDronePowerUpUI;
@@ -105,35 +105,29 @@ public IEnumerator SpawnDrones()
     yield return SetupUI(leftDronePowerUpUI, leftDrone);
     yield return SetupUI(rightDronePowerUpUI, rightDrone);
 
-    Debug.Log("drone engaged");
+    // Debug.Log("drone engaged");
     // Debug.Break();
     leftDroneAnim.SetTrigger("engage");
     rightDroneAnim.SetTrigger("engage");
 
-
-
     float droneToPlayerEngageLengths = leftDroneAnim.GetCurrentAnimatorStateInfo(0).length;
-    // Debug.Log(leftDroneAnim.GetCurrentAnimatorStateInfo(0));
-    // Debug.Log("drone engage length = " + droneToPlayerEngageLengths);    
 
-    yield return new WaitForSeconds(1f);
-    // yield return new WaitForSeconds(droneToPlayerEngageLengths);
-    // yield return WaitForSomething(droneToPlayerEngageLengths);
+    yield return new WaitForSeconds(droneToPlayerEngageLengths);
 
     // Player can finally now choose a power-up.    
     allowPowerUpChoice = true;
 }
 
-void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUpRight)
-{
-    int randomIndex = Random.Range(0, availablePowerUps.Count);
-    currentPowerUpLeft = availablePowerUps[randomIndex];
-    availablePowerUps.Remove(currentPowerUpLeft);
+    void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUpRight)
+    {
+        int randomIndex = Random.Range(0, availablePowerUps.Count);
+        currentPowerUpLeft = availablePowerUps[randomIndex];
+        availablePowerUps.Remove(currentPowerUpLeft);
 
-    randomIndex = Random.Range(0, availablePowerUps.Count);
-    currentPowerUpRight = availablePowerUps[randomIndex];
-    availablePowerUps.Add(currentPowerUpLeft);  // Note: Add back the removed power-up
-}        
+        randomIndex = Random.Range(0, availablePowerUps.Count);
+        currentPowerUpRight = availablePowerUps[randomIndex];
+        availablePowerUps.Add(currentPowerUpLeft);  // Note: Add back the removed power-up
+    }        
 
     // Not how I wanted to do it but I need this done and fast.
     GameObject GetUIOfPowerUp(PowerUp powerUp)
@@ -238,7 +232,7 @@ void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUp
         if (totalPowerUpsAcquired < 5)
         {
             // ResetDroneAnimationTriggers();
-            yield return new WaitForSeconds(droneRespawnTime);
+            yield return new WaitForSeconds(baseDroneRespawnTime);
             StartCoroutine(SpawnDrones());
         }
         else

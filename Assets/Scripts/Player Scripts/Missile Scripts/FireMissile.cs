@@ -29,7 +29,7 @@ public class FireMissile : MonoBehaviour
 
     void Update()
     {
-       Debug.Log(_explosionChains); 
+    //    Debug.Log(_explosionChains); 
     }
     void Start()
     {
