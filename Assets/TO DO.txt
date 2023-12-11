@@ -17,6 +17,8 @@ Powerups
     - 
 
 
+
+
 Enemies
     - make enemies come in waves
     - give varying movements    
@@ -39,7 +41,7 @@ Value tweaking:
 
 
 
-
+- add credits for leaderboard?
 - bug fixes
 - clean up project
     - setup itch page

@@ -274,6 +274,7 @@ public IEnumerator SpawnDrones()
             if (playerMissiles.fireRateMultiplier == 1)
                 playerMissiles.fireRateMultiplier = 2;
 
+            // make else?
             if (playerMissiles.fireRateMultiplier == 2)
             {
                 availablePowerUps.Remove(selectedPowerUp);
