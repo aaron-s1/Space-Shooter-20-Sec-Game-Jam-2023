@@ -14,22 +14,30 @@ public class EnemyMove : MonoBehaviour
 
     bool randomNewYMultiplierFound;
     float randomNewYMultiplier = 1f;
-    
 
-    void Start()
-    {
+
+    void Start() =>
         initialY = transform.position.y;
-    }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate() =>
         Move();
-    }
+
+
+    void OnEnable() =>
+        Debug.Log("I became an active enemy!");
+
+
+    public void SetMovementParameters(float speedMultiplier) =>
+        moveSpeed = speedMultiplier;
+
+        
 
     void Move()
     {
         float amplitude = amplitudeMultiplier * moveSpeed;
-        float newY = initialY + (amplitude * Mathf.Sin(Time.time * moveSpeed));
+        float newY = initialY + Mathf.Sin(Time.time * amplitude);
+
+        
 
         if (!randomNewYMultiplierFound)
         {

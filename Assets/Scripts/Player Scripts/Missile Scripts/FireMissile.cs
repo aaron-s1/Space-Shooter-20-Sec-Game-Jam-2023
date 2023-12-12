@@ -9,12 +9,16 @@ public class FireMissile : MonoBehaviour
     
     [SerializeField] GameObject missilePrefab;
     // [SerializeField] float timeBetweenMissileFirings = 1f;
-    [SerializeField] int poolSize = 300;
+    [SerializeField] int poolSize = 150;
     [Space(10)]
     [SerializeField] Transform leftMissileOriginPoint;
     [SerializeField] Transform rightMissileOriginPoint;
 
+    [SerializeField] AudioSource firingSound;
+
     List<GameObject> missilePool;
+
+
 
 
 
@@ -33,6 +37,7 @@ public class FireMissile : MonoBehaviour
     }
     void Start()
     {
+        firingSound = GetComponent<AudioSource>();
         missilePool = new List<GameObject>();
         InitializeMissilePool();
 
@@ -105,6 +110,9 @@ public class FireMissile : MonoBehaviour
             missileRight.transform.rotation = rightMissileOriginPoint.rotation;
             missileRight.SetActive(true);
         }
+
+        // if (!firingSound.isPlaying)
+            firingSound.Play();
     }
 
     GameObject GetPooledMissile() =>

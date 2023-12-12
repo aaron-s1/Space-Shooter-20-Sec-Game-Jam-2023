@@ -70,8 +70,12 @@ public class PowerUpSelector : MonoBehaviour
         availablePowerUps = new List<PowerUp>();
 
         availablePowerUps.Add(new PowerUp("FireRateBoost"));
+        // availablePowerUps.Add(new PowerUp("FireRateSuperBoost"));
         availablePowerUps.Add(new PowerUp("MissilesPierce"));
+
         availablePowerUps.Add(new PowerUp("ExplodeEnemies"));
+        // availablePowerUps.Add(new PowerUp("ChainExplodeEnemies"));
+
         availablePowerUps.Add(new PowerUp("BlackHoleOnDeath"));
 
         foreach (Transform child in gameObject.transform)
@@ -120,13 +124,18 @@ public IEnumerator SpawnDrones()
 
     void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUpRight)
     {
-        int randomIndex = Random.Range(0, availablePowerUps.Count);
+                // Debug.Log("available powerups = " + Random.Range(0, availablePowerUps.Count));
+        Debug.Break();
+        int randomIndex = Random.Range(0, availablePowerUps.Count);        
         currentPowerUpLeft = availablePowerUps[randomIndex];
+
+        // Remove, then add it back, so that right powerUp can't select what left selected
         availablePowerUps.Remove(currentPowerUpLeft);
 
         randomIndex = Random.Range(0, availablePowerUps.Count);
         currentPowerUpRight = availablePowerUps[randomIndex];
-        availablePowerUps.Add(currentPowerUpLeft);  // Note: Add back the removed power-up
+
+        availablePowerUps.Add(currentPowerUpLeft);
     }        
 
     // Not how I wanted to do it but I need this done and fast.
@@ -140,25 +149,32 @@ public IEnumerator SpawnDrones()
                 case "FireRateBoost":
                     var currentFireRate = playerMissiles.fireRateMultiplier;
 
-                    // Debug.Log("fire rate called");  
-                    // Debug.Log("current fire rate = " + currentFireRate);
-                    // Debug.Log(powerUpUI.name); 
-
                     if (currentFireRate == 1 && powerUpUI.name == "FireRateBoost UI (2x)")
-                        return powerUpUI;
-                    else if (currentFireRate == 2 && powerUpUI.name == "FireRateBoost UI (3x)")
                         return powerUpUI;
                     break;
 
+                case "FireRateSuperBoost":
+                    var currentFireRate_super = playerMissiles.fireRateMultiplier;
+
+                    if (currentFireRate_super == 2 && powerUpUI.name == "FireRateBoost UI (3x)")
+                        return powerUpUI;
+                    break;            
+
+
                 case "ExplodeEnemies":
-                    Debug.Log("explode enemies  called");
                     var explodeChains = playerMissiles.explosionChains;
 
                     if (explodeChains == 0 && powerUpUI.name == "ExplodeEnemies UI")
                         return powerUpUI;
-                    if (explodeChains == 1 && powerUpUI.name == "ExplodeEnemies (More) UI")                    
+                    break;
+                    
+                case "ChainExplodeEnemies":
+                    var explodeChains_super = playerMissiles.explosionChains;
+
+                    if (explodeChains_super == 1 && powerUpUI.name == "ExplodeEnemies (More) UI")
                         return powerUpUI;
                     break;
+
 
                 case "MissilesPierce":                                           
                     if (powerUpUI.name == "MissilesPierce UI")
@@ -269,33 +285,37 @@ public IEnumerator SpawnDrones()
 
     void MissileFireRateWasSelected(PowerUp selectedPowerUp)
     {
-        if (selectedPowerUp.Name == "FireRateBoost")
+        if (selectedPowerUp.Name == "FireRateBoost" || selectedPowerUp.Name == "FireRateSuperBoost")
         {
-            if (playerMissiles.fireRateMultiplier == 1)
-                playerMissiles.fireRateMultiplier = 2;
+            playerMissiles.fireRateMultiplier++;
+            availablePowerUps.Remove(selectedPowerUp);
 
-            // make else?
-            if (playerMissiles.fireRateMultiplier == 2)
+            if (selectedPowerUp.Name == "FireRateBoost")
             {
-                availablePowerUps.Remove(selectedPowerUp);
-                playerMissiles.fireRateMultiplier = 3;
+                GameObject fireEvenFaster = GameObject.Find("FireRateBoost UI (3x)");
+                fireEvenFaster.transform.SetParent(gameObject.transform);
+
+                powerUpsUIList.Add(fireEvenFaster);
+                availablePowerUps.Add(new PowerUp("FireRateSuperBoost"));
             }
-        }
+        }               
     }
 
 
     void EnemyExplosionWasSelected(PowerUp selectedPowerUp)
     {
-        if (selectedPowerUp.Name == "ExplodeEnemies")
+        if (selectedPowerUp.Name == "ExplodeEnemies" || selectedPowerUp.Name == "ChainExplodeEnemies")
         {
             playerMissiles.explosionChains++;
-            if (playerMissiles.explosionChains == 0)
-                playerMissiles.explosionChains++;
+            availablePowerUps.Remove(selectedPowerUp);
 
-            if (playerMissiles.explosionChains == 1)
+            if (selectedPowerUp.Name == "ExplodeEnemies")
             {
-                availablePowerUps.Remove(selectedPowerUp);
-                playerMissiles.explosionChains++;
+                GameObject explodeMore = GameObject.Find("ExplodeEnemies (More) UI");
+                explodeMore.transform.SetParent(gameObject.transform);
+
+                powerUpsUIList.Add(explodeMore);
+                availablePowerUps.Add(new PowerUp("ChainExplodeEnemies"));
             }
         }
     }

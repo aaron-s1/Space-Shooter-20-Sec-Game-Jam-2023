@@ -3,44 +3,46 @@
 
 Audio Sounds
     - ambience
-    - restart/start button click
-    - firing
+    - restart/start button click    
     - poof 
     - explosion
 
 
-Player
-    (- restrict targeting angle to frontwards of player?)
+Enemies    
+    - make come in waves
+    - give varying movements
+    - give varying positions
+    - make progressively move towards upwards of screen
 
 
 Powerups
-    - 
+    - explosion/firing levelups are not being pulled
 
 
-
-
-Enemies
-    - make enemies come in waves
-    - give varying movements    
-    - use pool
-
-
-Powerups UI
-    (- piercing UI needs a better graphic?)
-
-
-
-Ending Game
-    - leaderboard    
 
 
 Value tweaking:
     - enemy pool size
-    ()- how long to wait before auto-disabling enemies)
-        (- .. and for missiles)
 
 
+Game Ending
+    - is black hole
+    - is not black hole
 
+
+--------------------------------------------------
+
+May or may not add this stuff.
+
+- Leaderboard?
+- Piercing UI needs a better graphic?
+- Restrict targeting angle to frontwards of player?
+- Better player firing sound?
+
+--------------------------------------------------
+
+
+- add credits for sound effects
 - add credits for leaderboard?
 - bug fixes
 - clean up project
@@ -48,7 +50,7 @@ Value tweaking:
 - clean push
 - local file backup
 
-
 - override/update prefabs
 - clean project folder
 - clean hierarchy
+

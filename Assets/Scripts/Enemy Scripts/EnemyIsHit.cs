@@ -96,6 +96,7 @@ public class EnemyIsHit : MonoBehaviour
         canAddScoreFurther = false;
         gameManager.AddToKills();
         renderer.enabled = false;
+        GetComponent<Collider2D>().enabled = false;
 
         yield return StartCoroutine(DisableAfterParticleEnds(particle));
     }

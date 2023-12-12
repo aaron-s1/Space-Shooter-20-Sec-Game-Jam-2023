@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         // take off the 1.
         // StartCoroutine("PrepStartOfGame");
 
-        spawnEnemies = gameObject.GetComponent<EnemySpawner>().SpawnWaves();
+        // spawnEnemies = gameObject.GetComponent<EnemySpawner>().SpawnWaves();
 
         player = PlayerController.Instance;
         // player = GameObject.FindGameObjectWithTag("Player");
@@ -72,6 +72,8 @@ public class GameManager : MonoBehaviour
         blackBackgroundScreen.SetActive(false);
         howToPlayScreen.SetActive(false);
         player.gameObject.SetActive(true);
+        StartCoroutine(EnemySpawner.Instance.SpawnWaves());
+        // StartCoroutine(SpawnWaves());
 
         yield return StartCoroutine(CountdownBeforeGameStarts());
     }
