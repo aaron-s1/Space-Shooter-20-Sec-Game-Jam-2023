@@ -135,7 +135,7 @@ public class EndGameScreen : MonoBehaviour
         missileKillsTitleObject.SetActive(true);        
         yield return new WaitForSeconds(1f);
         missileKillsTextObject.SetActive(true);
-        
+
         killsAccrualValue = 0;
         accruingMissileScore = true;
 
@@ -180,8 +180,12 @@ public class EndGameScreen : MonoBehaviour
 
         yield return StartCoroutine(CountUpMissileKills());
         yield return new WaitUntil(() => accruingMissileScore == false);
-        yield return StartCoroutine(CountUpBlackHoleKills());
-        yield return new WaitUntil(() => accruingBlackHoleScore == false);        
+
+        if (PlayerController.Instance.canBecomeBlackHole)
+        {
+            yield return StartCoroutine(CountUpBlackHoleKills());
+            yield return new WaitUntil(() => accruingBlackHoleScore == false);
+        }
 
         yield return StartCoroutine(CountUpTotalScore());
 

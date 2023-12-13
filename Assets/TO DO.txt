@@ -13,19 +13,17 @@ Enemies
     - give varying movements
     - give varying positions
     - make progressively move towards upwards of screen
-    - spawn rates somehow are always reducing to obscenely low numbers
+    
 
 
-Powerups
-    - explosion/firing levelups are not being pulled
+Powerups    
     - fix black hole pulling in strangely
-    - piercing powerup being able to pierce everything is too strong
-
 
 
 
 Value tweaking:
     - enemy pool size
+    - spawn rate increase on kill
 
 
 Game Ending
