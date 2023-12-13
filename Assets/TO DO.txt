@@ -13,11 +13,14 @@ Enemies
     - give varying movements
     - give varying positions
     - make progressively move towards upwards of screen
+    - score is inconsistent with kills
     
 
 
 Powerups    
     - fix black hole pulling in strangely
+    - black hole kills aren't adding score
+    - 
 
 
 

@@ -45,7 +45,7 @@ public class MissileHitEnemy : MonoBehaviour
             if (!enemyIsHit.alreadyHit && gameObject.activeInHierarchy)
             {
                 // if missile can pierce, it can't do so again.
-                bulletCanPierce = false;
+                bulletCanPierce = startPiercingWhenEnabledAgain = false;
                 Invoke("DisableAfterSeconds", 1.5f);
 
                 enemyIsHit.alreadyHit = true;
