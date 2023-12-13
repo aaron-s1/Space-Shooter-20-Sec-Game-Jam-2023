@@ -44,15 +44,23 @@ public class MissileHitEnemy : MonoBehaviour
 
             if (!enemyIsHit.alreadyHit && gameObject.activeInHierarchy)
             {
+                // if missile can pierce, it can't do so again.
+                bulletCanPierce = false;
+                Invoke("DisableAfterSeconds", 1.5f);
+
                 enemyIsHit.alreadyHit = true;
                 IEnumerator startDying = enemyIsHit.StartDying(totalExplosionChains);
                 StartCoroutine(startDying);
             }
 
-            if (bulletCanPierce)
-                Invoke("DisableAfterSeconds", 1.5f);
-            else
-                gameObject.SetActive(false);
+            // if (bulletCanPierce)
+            // {
+            //     bulletCanPierce = false;
+            //     Invoke("DisableAfterSeconds", 1.5f);
+            // }
+
+            // else
+            //     gameObject.SetActive(false);
         }
     }
 

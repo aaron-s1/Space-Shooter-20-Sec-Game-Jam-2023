@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
         Instance = this;
 
         GetComponent<SpriteRenderer>().enabled = true;
-        
+
         foreach (Transform child in transform)
         {
             SpriteRenderer sprite = child.gameObject.GetComponent<SpriteRenderer>();
@@ -62,15 +62,16 @@ public class PlayerController : MonoBehaviour
             ParticleSystem blackHoleParticle = blackHolePrefab.GetComponent<ParticleSystem>();
             blackHoleParticle.Play();
             
+            // wait a bit while particle plays... 
             yield return new WaitForSeconds(blackHoleParticle.main.duration);
-            // Debug.Log($"Die() waited for black hole for {blackHoleParticle.main.duration}");
 
-            // engage pull trigger 
+            // .. before pulling things in
             blackHole.transform.GetChild(3).gameObject.SetActive(true);
             Debug.Log("black hole ended");
         }
 
-        yield return new WaitForSeconds(5f);
+        // wait for everything to be eaten
+        yield return new WaitForSeconds(3f);
 
         Debug.Log("player fully died.");
         yield break;

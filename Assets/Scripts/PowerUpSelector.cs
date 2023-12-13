@@ -125,7 +125,7 @@ public IEnumerator SpawnDrones()
     void GetRandomPowerUp(out PowerUp currentPowerUpLeft, out PowerUp currentPowerUpRight)
     {
                 // Debug.Log("available powerups = " + Random.Range(0, availablePowerUps.Count));
-        Debug.Break();
+        // Debug.Break();
         int randomIndex = Random.Range(0, availablePowerUps.Count);        
         currentPowerUpLeft = availablePowerUps[randomIndex];
 

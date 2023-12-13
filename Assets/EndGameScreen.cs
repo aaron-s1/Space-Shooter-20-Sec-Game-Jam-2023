@@ -47,8 +47,16 @@ public class EndGameScreen : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (killsAccrualValue != missileKills)
+        if (accruingMissileScore)
         {
+            // if (killsAccrualValue == missileKills)
+            // {
+                // accruingMissileScore = false;
+                // return;
+            // }
+
+            accruingBlackHoleScore = false;
+
             killsAccrualValue += killsAccrualPerFrame;
             missileKillsTextObject.GetComponent<TextMeshProUGUI>().text = killsAccrualValue.ToString();
 
@@ -62,13 +70,15 @@ public class EndGameScreen : MonoBehaviour
 
         else if (accruingBlackHoleScore)
         {
+            accruingMissileScore = false;
+
             if (blackHoleKills == 0)
             {
                 blackHoleKillsTextObject.GetComponent<TextMeshProUGUI>().text = "0";
                 killsAccrualValue = 0;
                 accruingBlackHoleScore = false;
                 return;
-            }
+            }   
 
             if (killsAccrualValue != blackHoleKills)
             {
@@ -98,7 +108,7 @@ public class EndGameScreen : MonoBehaviour
     }
 
 
-    IEnumerator CountUpKills(GameObject killsTitleObject, GameObject killsTextObject, bool isAccruing)
+    IEnumerator CountUpKills(GameObject killsTitleObject, GameObject killsTextObject, bool typeIsAccruing)
     {
         yield return new WaitForSeconds(1f);
         killsTitleObject.SetActive(true);
@@ -106,38 +116,46 @@ public class EndGameScreen : MonoBehaviour
         killsTextObject.SetActive(true);
 
         killsAccrualValue = 0;
-        isAccruing = true;
 
-        yield return new WaitUntil(() => !isAccruing);
-        
+        if (typeIsAccruing == accruingMissileScore)
+        {
+            Debug.Log("accruingmisslescore");
+            accruingMissileScore = true;
+        }
+        else if (typeIsAccruing == accruingBlackHoleScore)
+            accruingBlackHoleScore = true;
+
+        yield return new WaitUntil(() => !typeIsAccruing);
+        // yield return new WaitUntil(() => !accruingBlackHoleScore);      
     }
 
-    // IEnumerator CountUpMissileKills()
-    // {
-    //     yield return new WaitForSeconds(1f);
-    //     missileKillsTitleObject.SetActive(true);        
-    //     yield return new WaitForSeconds(1f);
-    //     missileKillsTextObject.SetActive(true);
-    //     killsAccrualValue = 0;
-    //     accruingMissileScore = true;
+    IEnumerator CountUpMissileKills()
+    {
+        yield return new WaitForSeconds(1f);
+        missileKillsTitleObject.SetActive(true);        
+        yield return new WaitForSeconds(1f);
+        missileKillsTextObject.SetActive(true);
+        
+        killsAccrualValue = 0;
+        accruingMissileScore = true;
 
-    //     yield return new WaitForEndOfFrame();
-    //     yield return new WaitForEndOfFrame();
-    // }
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+    }
 
-    // IEnumerator CountUpBlackHoleKills()
-    // {
-    //     yield return new WaitForSeconds(1f);
-    //     blackHoleKillsTitleObject.SetActive(true);
-    //     yield return new WaitForSeconds(1f);
-    //     blackHoleKillsTextObject.SetActive(true);
+    IEnumerator CountUpBlackHoleKills()
+    {
+        yield return new WaitForSeconds(1f);
+        blackHoleKillsTitleObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        blackHoleKillsTextObject.SetActive(true);
 
-    //     killsAccrualValue = 0;
-    //     accruingBlackHoleScore = true;
+        killsAccrualValue = 0;
+        accruingBlackHoleScore = true;
 
-    //     yield return new WaitForEndOfFrame();
-    //     yield return new WaitForEndOfFrame();
-    // }
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+    }
 
     IEnumerator CountUpTotalScore()
     {
@@ -150,14 +168,20 @@ public class EndGameScreen : MonoBehaviour
 
     IEnumerator ShowKillsOverTime()
     {
-        Debug.Break();
         // fadeScreen.SetActive(true);
 
-        yield return StartCoroutine(CountUpKills(missileKillsTitleObject, missileKillsTextObject, accruingMissileScore));
-        yield return StartCoroutine(CountUpKills(blackHoleKillsTitleObject, blackHoleKillsTextObject, accruingBlackHoleScore));
-        // yield return new WaitUntil(() => accruingMissileScore == false);
+        // accruingMissileScore = true;
+        // yield return StartCoroutine(CountUpKills(missileKillsTitleObject, missileKillsTextObject, accruingMissileScore));
+        // accruingMissileScore = false;
 
-        // yield return new WaitUntil(() => accruingBlackHoleScore == false);        
+        // accruingBlackHoleScore = true;
+        // yield return StartCoroutine(CountUpKills(blackHoleKillsTitleObject, blackHoleKillsTextObject, accruingBlackHoleScore));
+        // accruingBlackHoleScore = false;
+
+        yield return StartCoroutine(CountUpMissileKills());
+        yield return new WaitUntil(() => accruingMissileScore == false);
+        yield return StartCoroutine(CountUpBlackHoleKills());
+        yield return new WaitUntil(() => accruingBlackHoleScore == false);        
 
         yield return StartCoroutine(CountUpTotalScore());
 

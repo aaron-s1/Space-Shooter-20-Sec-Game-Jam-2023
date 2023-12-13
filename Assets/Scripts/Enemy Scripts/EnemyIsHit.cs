@@ -11,6 +11,7 @@ public class EnemyIsHit : MonoBehaviour
     
     [SerializeField] public ParticleSystem poofParticle;
     [SerializeField] public ParticleSystem explosionParticle;
+    [SerializeField] [Range(0.994f, 0.999f)] float multiplicativeSpawnRateAdjustment;
 
     SpriteRenderer renderer;
 
@@ -38,6 +39,16 @@ public class EnemyIsHit : MonoBehaviour
     }
 
 
+    void FixedUpdate()
+    {
+        if (alreadyHit)
+        {
+            if (GetComponent<EnemyMove>().moveSpeed != 0)
+                GetComponent<EnemyMove>().moveSpeed = 0;
+        }
+    }
+
+
     void OnDisable() =>
         ResetVariablesToDefaults();
 
@@ -56,7 +67,7 @@ public class EnemyIsHit : MonoBehaviour
     public IEnumerator StartDying(int totalExplosionChains = 0, bool dontExplode = false)
     {
         CancelInvoke("DisableAfterSeconds");
-        EnemySpawner.Instance.spawnRateScale *= 0.99f;
+        EnemySpawner.Instance.spawnRateScale *= multiplicativeSpawnRateAdjustment;
 
         this.totalExplosionChains = totalExplosionChains;
 

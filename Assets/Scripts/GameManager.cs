@@ -48,12 +48,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         gameHasStarted = true;
-        // later on, add conditionals before starting
-        // take off the 1.
-        // StartCoroutine("PrepStartOfGame");
-
-        // spawnEnemies = gameObject.GetComponent<EnemySpawner>().SpawnWaves();
-
+        spawnEnemies = EnemySpawner.Instance.SpawnWaves();
         player = PlayerController.Instance;
         // player = GameObject.FindGameObjectWithTag("Player");
         // StartCoroutine("ActivateBlackHole");
@@ -72,7 +67,7 @@ public class GameManager : MonoBehaviour
         blackBackgroundScreen.SetActive(false);
         howToPlayScreen.SetActive(false);
         player.gameObject.SetActive(true);
-        StartCoroutine(EnemySpawner.Instance.SpawnWaves());
+        StartCoroutine(spawnEnemies);
         // StartCoroutine(SpawnWaves());
 
         yield return StartCoroutine(CountdownBeforeGameStarts());
@@ -135,13 +130,13 @@ public class GameManager : MonoBehaviour
         GameObject.FindObjectOfType<PowerUpSelector>().GetComponent<PowerUpSelector>().StopAllCoroutines();
 // Debug.Break();
         yield return StartCoroutine(player.Die());
-// Debug.Break();
-        // fadeBeforeEnd.gameObject.SetActive(true);
         Debug.Break();
-        endGameScreen.GetComponent<EndGameScreen>().TallyUpKillsAndScore(regularKills, blackHoleKills);
-        // Debug.Break();
 
-        FullyEndGame();
+        blackBackgroundScreen.SetActive(true);
+        endGameScreen.SetActive(true);
+        endGameScreen.GetComponent<EndGameScreen>().TallyUpKillsAndScore(regularKills, blackHoleKills);
+
+        // FullyEndGame();
 
         yield break;
     }
@@ -169,11 +164,11 @@ public class GameManager : MonoBehaviour
     {        
         if (!killCameFromBlackHole)
             regularKills++;
-        else{
+        else
+        {
             Debug.Log("add to kills added black hole kills");
             blackHoleKills++;
         }
-            
 
         totalKills++;
 
@@ -183,7 +178,7 @@ public class GameManager : MonoBehaviour
 
     void AdjustScore(bool killCameFromBlackHole = false)
     {        
-        if (killCameFromBlackHole)
+        if (!killCameFromBlackHole)
             score += 10;
         else
             score += 10;

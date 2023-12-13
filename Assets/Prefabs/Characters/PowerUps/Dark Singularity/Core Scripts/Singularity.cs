@@ -17,7 +17,10 @@ public class Singularity : MonoBehaviour
         if (other.attachedRigidbody && other.GetComponent<SingularityPullable>())
         {
             if (other.gameObject.GetComponent<EnemyIsHit>())
-                other.gameObject.GetComponent<EnemyIsHit>().alreadyHit = true;
+            {
+                var enemy = other.gameObject.GetComponent<EnemyIsHit>();
+                enemy.alreadyHit = true;
+            }
 
             // Debug.Log("singularity hit object: " + other.gameObject);
             float gravityIntensity = Vector3.Distance(transform.position, other.transform.position) / m_GravityRadius;

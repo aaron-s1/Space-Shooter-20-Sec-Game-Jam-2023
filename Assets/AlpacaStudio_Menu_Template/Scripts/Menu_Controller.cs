@@ -62,15 +62,20 @@ public class Menu_Controller : MonoBehaviour {
 		_soundButtons[1].interactable = true;
 		PlayerPrefs.SetInt("_Mute", 0);
 	}
-	
-	public void QuitGame () {
-		_audioSource.PlayOneShot(_audioClip);
-		#if !UNITY_EDITOR
-			Application.Quit();
-		#endif
-		
-		#if UNITY_EDITOR
-			UnityEditor.EditorApplication.isPlaying = false;
-		#endif
+
+	public void ShowLeaderboard()
+	{
+		// do nothing (for now?)
 	}
+	
+	// public void QuitGame () {
+	// 	_audioSource.PlayOneShot(_audioClip);
+	// 	#if !UNITY_EDITOR
+	// 		Application.Quit();
+	// 	#endif
+		
+	// 	#if UNITY_EDITOR
+	// 		UnityEditor.EditorApplication.isPlaying = false;
+	// 	#endif
+	// }
 }

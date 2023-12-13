@@ -13,7 +13,10 @@ public class SingularityCore : MonoBehaviour
         if (other.GetComponent<SingularityPullable>())
         {
             if (other.gameObject.tag == "Enemy")
+            {
+                Debug.Log("core saw enemy");
                 GameManager.Instance.AddToKills(true);
+            }
                 
             other.gameObject.SetActive(false);
         }
