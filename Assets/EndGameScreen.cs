@@ -29,7 +29,7 @@ public class EndGameScreen : MonoBehaviour
     int blackHoleKills;
 
     int killsAccrualPerFrame = 20;
-    int killsAccrualValue;
+    int killsAmountAccrualValue;
 
     bool accruingMissileScore;
     bool accruingBlackHoleScore;
@@ -49,49 +49,28 @@ public class EndGameScreen : MonoBehaviour
     {
         if (accruingMissileScore)
         {
-            // if (killsAccrualValue == missileKills)
-            // {
-                // accruingMissileScore = false;
-                // return;
-            // }
-
             accruingBlackHoleScore = false;
 
-            killsAccrualValue += killsAccrualPerFrame;
-            missileKillsTextObject.GetComponent<TextMeshProUGUI>().text = killsAccrualValue.ToString();
+            killsAmountAccrualValue += killsAccrualPerFrame;
+            missileKillsTextObject.GetComponent<TextMeshProUGUI>().text = killsAmountAccrualValue.ToString();
 
-            if (killsAccrualValue >= missileKills)
+            if (killsAmountAccrualValue >= missileKills)
             {
-                missileKillsTextObject.GetComponent<TextMeshProUGUI>().text = killsAccrualValue.ToString();
-                killsAccrualValue = 0;
+                missileKillsTextObject.GetComponent<TextMeshProUGUI>().text = missileKills.ToString();
+                killsAmountAccrualValue = 0;
                 accruingMissileScore = false;
             }
         }
 
         else if (accruingBlackHoleScore)
         {
+            // blackHoleKills = GameManager.Instance.blackHoleKills;
+
             accruingMissileScore = false;
+            killsAmountAccrualValue = 0;
 
-            if (blackHoleKills == 0)
-            {
-                blackHoleKillsTextObject.GetComponent<TextMeshProUGUI>().text = "0";
-                killsAccrualValue = 0;
-                accruingBlackHoleScore = false;
-                return;
-            }   
-
-            if (killsAccrualValue != blackHoleKills)
-            {
-                killsAccrualValue += killsAccrualPerFrame;
-                blackHoleKillsTextObject.GetComponent<TextMeshProUGUI>().text = killsAccrualValue.ToString();
-
-                if (killsAccrualValue >= blackHoleKills)
-                {
-                    blackHoleKillsTextObject.GetComponent<TextMeshProUGUI>().text = killsAccrualValue.ToString();
-                    killsAccrualValue = 0;
-                    accruingBlackHoleScore = false;
-                }
-            }
+            blackHoleKillsTextObject.GetComponent<TextMeshProUGUI>().text = blackHoleKills.ToString();
+            accruingBlackHoleScore = false;
         }
     }
 
@@ -102,7 +81,7 @@ public class EndGameScreen : MonoBehaviour
         this.missileKills = regularKills;
         this.blackHoleKills = blackHoleKills;
 
-        totalScoreValue = (missileKills * 10) + (blackHoleKills * 10);
+        // totalScoreValue = (missileKills * 10) + (blackHoleKills * 10);
 
         StartCoroutine(ShowKillsOverTime());
     }
@@ -114,8 +93,9 @@ public class EndGameScreen : MonoBehaviour
         killsTitleObject.SetActive(true);
         yield return new WaitForSeconds(1f);
         killsTextObject.SetActive(true);
+        missileKills = GameManager.Instance.regularKills;
 
-        killsAccrualValue = 0;
+        killsAmountAccrualValue = 0;
 
         if (typeIsAccruing == accruingMissileScore)
         {
@@ -136,7 +116,9 @@ public class EndGameScreen : MonoBehaviour
         yield return new WaitForSeconds(1f);
         missileKillsTextObject.SetActive(true);
 
-        killsAccrualValue = 0;
+
+        missileKills = GameManager.Instance.regularKills;
+        killsAmountAccrualValue = 0;
         accruingMissileScore = true;
 
         yield return new WaitForEndOfFrame();
@@ -150,7 +132,9 @@ public class EndGameScreen : MonoBehaviour
         yield return new WaitForSeconds(1f);
         blackHoleKillsTextObject.SetActive(true);
 
-        killsAccrualValue = 0;
+        blackHoleKills = GameManager.Instance.blackHoleKills;
+
+        killsAmountAccrualValue = 0;
         accruingBlackHoleScore = true;
 
         yield return new WaitForEndOfFrame();
@@ -159,10 +143,14 @@ public class EndGameScreen : MonoBehaviour
 
     IEnumerator CountUpTotalScore()
     {
-        yield return new WaitForSeconds(1f);
+        var missileScore = missileKills * 10;
+        var blackHoleScore = GameManager.Instance.blackHoleKills * 10;
+        var totalScore = blackHoleScore + missileScore;
+
+        yield return new WaitForSeconds(1f);        
         totalScoreTitleObject.SetActive(true);
         totalScoreTextObject.SetActive(true);
-        totalScoreTextObject.GetComponent<TextMeshProUGUI>().text = totalScoreValue.ToString();        
+        totalScoreTextObject.GetComponent<TextMeshProUGUI>().text = totalScore.ToString();        
     }
     
 
@@ -180,9 +168,11 @@ public class EndGameScreen : MonoBehaviour
 
         yield return StartCoroutine(CountUpMissileKills());
         yield return new WaitUntil(() => accruingMissileScore == false);
+        
 
         if (PlayerController.Instance.canBecomeBlackHole)
         {
+            killsAmountAccrualValue = 2;
             yield return StartCoroutine(CountUpBlackHoleKills());
             yield return new WaitUntil(() => accruingBlackHoleScore == false);
         }

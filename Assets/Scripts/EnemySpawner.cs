@@ -46,7 +46,7 @@ public class EnemySpawner : MonoBehaviour
 
     public IEnumerator SpawnWaves()
     {
-        Debug.Log("spawn waves called");
+        // Debug.Log("spawn waves called");
         while (true)
         {
             yield return new WaitForSeconds(timeBetweenWaves * spawnRateScale);

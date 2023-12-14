@@ -9,15 +9,24 @@ public class SingularityCore : MonoBehaviour
     GameManager gameManager;
 
 
-    void OnTriggerStay2D (Collider2D other) {
-        if (other.GetComponent<SingularityPullable>())
+    void OnTriggerEnter2D (Collider2D other)
+    {
+        // Debug.Log("black hole saw something");
+
+            // Debug.Log("black hole ate enemy");
+        
+        if (other.gameObject.GetComponent<SingularityPullable>().pullable)
         {
+            // gameManager.AddToKills(true);
+
+            Debug.Log("touched something pullable");
+
             if (other.gameObject.tag == "Enemy")
-            {
-                Debug.Log("core saw enemy");
                 GameManager.Instance.AddToKills(true);
-            }
-                
+            // if (other.gameObject.tag == "Enemy")
+            // {
+            // }
+
             other.gameObject.SetActive(false);
         }
     }

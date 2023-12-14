@@ -19,8 +19,8 @@ Enemies
 
 Powerups    
     - fix black hole pulling in strangely
-    - black hole kills aren't adding score
-    - 
+    - black hole - singularity core isn't touching enemies
+possible black hole fix: prevent currently active missiles from killing enemy while black hole is active
 
 
 

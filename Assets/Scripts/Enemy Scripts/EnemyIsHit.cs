@@ -67,6 +67,13 @@ public class EnemyIsHit : MonoBehaviour
     public IEnumerator StartDying(int totalExplosionChains = 0, bool dontExplode = false)
     {
         CancelInvoke("DisableAfterSeconds");
+
+        if (gameManager.gameHasEnded)
+        {
+            StopAllCoroutines();
+            yield break;
+        }
+
         EnemySpawner.Instance.spawnRateScale *= multiplicativeSpawnRateAdjustment;
 
         this.totalExplosionChains = totalExplosionChains;
@@ -84,7 +91,6 @@ public class EnemyIsHit : MonoBehaviour
             activeParticle = poofParticle;
 
         yield return HandleDeathFlagsThenDie(activeParticle);
-
     }
 
 
@@ -107,8 +113,8 @@ public class EnemyIsHit : MonoBehaviour
         canAddScoreFurther = false;
         gameManager.AddToKills();
         renderer.enabled = false;
-        GetComponent<Collider2D>().enabled = false;
-
+        // GetComponent<Collider2D>().enabled = false;
+        
         yield return StartCoroutine(DisableAfterParticleEnds(particle));
     }
 
@@ -142,6 +148,9 @@ public class EnemyIsHit : MonoBehaviour
         var time2 = Time.timeSinceLevelLoad;
         // Debug.Log(time2-time1); 
         // Debug.Log($"actually ended playing {particle}");
+
+        
+        // Invoke("DisableAfterSeconds", 5f);
         gameObject.SetActive(false);
     }
 

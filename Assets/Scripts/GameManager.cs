@@ -25,14 +25,14 @@ public class GameManager : MonoBehaviour
     
     int secondsPassedSinceGameStart;
 
-    int regularKills;
-    int blackHoleKills;
+    public int regularKills;
+    public int blackHoleKills;
     int totalKills;
 
     int score;
 
-    bool gameHasStarted = false;
-    bool gameHasEnded = false;
+    bool gameHasStarted;
+    public bool gameHasEnded;
 
 
     // bool enemiesNowExplode;
@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
             regularKills++;
         else
         {
-            Debug.Log("add to kills added black hole kills");
+            Debug.Log("Game Manager added to black hole kills");
             blackHoleKills++;
         }
 

@@ -23,8 +23,8 @@ public class EnemyMove : MonoBehaviour
         Move();
 
 
-    void OnEnable() =>
-        Debug.Log("I became an active enemy!");
+    // void OnEnable() =>
+        // Debug.Log("I became an active enemy!");
 
 
     public void SetMovementParameters(float speedMultiplier) =>

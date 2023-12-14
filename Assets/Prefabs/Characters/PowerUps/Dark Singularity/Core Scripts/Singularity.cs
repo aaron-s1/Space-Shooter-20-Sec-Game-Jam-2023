@@ -18,7 +18,7 @@ public class Singularity : MonoBehaviour
         {
             if (other.gameObject.GetComponent<EnemyIsHit>())
             {
-                var enemy = other.gameObject.GetComponent<EnemyIsHit>();
+                var enemy = other.gameObject.GetComponent<EnemyIsHit>();                
                 enemy.alreadyHit = true;
             }
 
