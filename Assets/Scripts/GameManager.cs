@@ -124,13 +124,15 @@ public class GameManager : MonoBehaviour
 
         Debug.Break();
         GameObject.FindObjectOfType<PowerUpSelector>().GetComponent<PowerUpSelector>().StopAllCoroutines();
-// Debug.Break();
+        
         yield return StartCoroutine(player.Die());
         Debug.Break();
 
-        blackBackgroundScreen.SetActive(true);
+        // blackBackgroundScreen.SetActive(true);
         endGameScreen.SetActive(true);
         endGameScreen.GetComponent<EndGameScreen>().TallyUpKillsAndScore(regularKills, blackHoleKills);
+
+        // GetComponent<EnemySpawner>().GetComponent<EnemyPool>().ListEnemies();
 
         // FullyEndGame();
 

@@ -29,7 +29,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] SpeedRange enemySpeedRange;
 
 
-    EnemyPool bulletPool;
+    EnemyPool enemyPool;
     int spawnsSinceLast_Y_Pos_LastRandomized;
     float ySpawnRangeOffset;
 
@@ -40,14 +40,14 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        InitializeBulletPool();
+        InitializeEnemyPool();
         ySpawnRangeOffset = Random.Range(-0.25f, 2.25f);
-        Debug.Log(ySpawnRangeOffset);
+            // Debug.Log(ySpawnRangeOffset);
         // StartCoroutine(SpawnWaves());
     }
 
-    void InitializeBulletPool() =>
-        bulletPool = new EnemyPool(enemyPrefabVariant1, totalPoolSize);
+    void InitializeEnemyPool() =>
+        enemyPool = new EnemyPool(enemyPrefabVariant1, totalPoolSize);
 
 
     public IEnumerator SpawnWaves()
@@ -87,7 +87,7 @@ public class EnemySpawner : MonoBehaviour
         float xPos = wave.spawnTransform.position.x + xOffset;
 
 
-        GameObject enemy = bulletPool.GetEnemy();
+        GameObject enemy = enemyPool.GetEnemy();
         enemy.transform.position = new Vector3(xPos, wave.spawnTransform.position.y + ySpawnRangeOffset, wave.spawnTransform.position.z);
 
         EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
@@ -97,7 +97,7 @@ public class EnemySpawner : MonoBehaviour
             // enemyMove.SetMovementParameters(wave.movementSpeed * directionMultiplier);
     }
 
-
+    
 }
 
 
@@ -108,6 +108,17 @@ public class EnemySpawner : MonoBehaviour
         int poolSize;
         List<GameObject> activeEnemyList;
         List<GameObject> inactiveEnemyList;
+
+        // public void ListEnemies()
+        // {
+        //     Debug.Log("ListEnemies() called");
+
+        //     foreach (var obj in activeEnemyList)
+        //         Debug.Log("active enemies = " + obj.name);
+
+        //     foreach (var obj in inactiveEnemyList)
+        //         Debug.Log("inactive enemies = " + obj.name);
+        // }
 
         public EnemyPool(GameObject prefab, int poolSize)
         {
@@ -124,6 +135,7 @@ public class EnemySpawner : MonoBehaviour
             for (int i = 0; i < poolSize; i++)
             {
                 GameObject enemy = Object.Instantiate(prefab);
+                Debug.Log("spawner disabled enemy");
                 enemy.SetActive(false);
                 inactiveEnemyList.Add(enemy);
             }
@@ -152,6 +164,7 @@ public class EnemySpawner : MonoBehaviour
             if (activeEnemyList.Contains(enemy))
             {
                 activeEnemyList.Remove(enemy);
+                Debug.Log("spawner disabled enemy");
                 enemy.SetActive(false);
                 inactiveEnemyList.Add(enemy);
             }

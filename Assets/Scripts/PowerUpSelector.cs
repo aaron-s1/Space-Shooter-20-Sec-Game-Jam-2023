@@ -90,7 +90,7 @@ public class PowerUpSelector : MonoBehaviour
 public IEnumerator SpawnDrones()
 {
     ResetDroneAnimationTriggers();
-    Debug.Log("drone spawned");
+    // Debug.Log("drone spawned");
     PowerUp currentPowerUpLeft, currentPowerUpRight;
     GetRandomPowerUp(out currentPowerUpLeft, out currentPowerUpRight);
     // Debug.Log($"SpawnDrones. left powerUp = {currentPowerUpLeft.Name}. right powerUp = {currentPowerUpRight.Name}");
@@ -195,7 +195,7 @@ public IEnumerator SpawnDrones()
     void ResetDroneAnimationTriggers()
     {
         // return;
-        Debug.Log("drone triggers all reset");
+        // Debug.Log("drone triggers all reset");
         // return;
         leftDroneAnim.ResetTrigger("engage");
         leftDroneAnim.ResetTrigger("disengage");
@@ -222,7 +222,7 @@ public IEnumerator SpawnDrones()
 
     IEnumerator ExecuteChosenPowerUp(GameObject drone, PowerUp powerUp, GameObject powerUpUI)
     {
-        Debug.Log("executed power up");
+        // Debug.Log("executed power up");
         allowPowerUpChoice = false;
         totalPowerUpsAcquired++;
 

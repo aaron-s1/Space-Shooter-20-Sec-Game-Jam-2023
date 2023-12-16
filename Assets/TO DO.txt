@@ -10,6 +10,10 @@ Audio Sounds
 
 Enemies    
     - fix duplicate waves / inconsistency between spawning on each side
+
+
+- Missiles seem to disappear shortly after firing
+- Missile sometimes giving error
     
 
 

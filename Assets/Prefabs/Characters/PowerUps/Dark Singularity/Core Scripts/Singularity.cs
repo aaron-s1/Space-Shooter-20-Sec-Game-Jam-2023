@@ -13,18 +13,29 @@ public class Singularity : MonoBehaviour
             GetComponent<CircleCollider2D>().isTrigger = true;
     }
     
-    void OnTriggerEnter2D(Collider2D other) {
+    void OnTriggerStay2D(Collider2D other)
+    {
     // void OnTriggerStay2D (Collider2D other) {
         if (other.attachedRigidbody && other.GetComponent<SingularityPullable>())
         {
-            if (other.gameObject.GetComponent<EnemyIsHit>())
-            {
-                var enemy = other.gameObject.GetComponent<EnemyIsHit>();                
-                enemy.alreadyHit = true;
-            }
+            var enemy = other.gameObject.GetComponent<EnemyIsHit>();
+            if (enemy == null)
+                return;
 
-            // Debug.Log("singularity hit object: " + other.gameObject);
-            float gravityIntensity = Vector3.Distance(transform.position, other.transform.position) / m_GravityRadius;
+            
+
+            Debug.Log("singularity saw enemy");
+            enemy.StopAllCoroutines();
+            enemy.alreadyHit = true;
+            enemy.CancelInvoke("DisableAfterSeconds");
+            enemy.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+            // enemy.gameObject.GetComponent<EnemyMove>().SetMovementParameters(0);
+
+            // enemy.gameObject.SetActive(false);
+            // GameManager.Instance.AddToKills(true);
+            // return;
+
+            float gravityIntensity = Vector2.Distance(transform.position, other.transform.position) / m_GravityRadius;
             other.attachedRigidbody.AddForce((transform.position - other.transform.position) * gravityIntensity * other.attachedRigidbody.mass * GRAVITY_PULL * Time.smoothDeltaTime);
         }
     }

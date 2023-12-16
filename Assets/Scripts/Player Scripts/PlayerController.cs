@@ -36,12 +36,15 @@ public class PlayerController : MonoBehaviour
     public IEnumerator Die()
     {
         GetComponent<FireMissile>().StopFiring();
+        Debug.Break();
 
         foreach (Transform child in transform)
             child.gameObject.SetActive(false);
+
         
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
 
+        // yield return new WaitForSeconds(3f);
 
         // handle particles.
         Quaternion flippedRotation = Quaternion.Euler(0f, 0f, 90f);
@@ -52,6 +55,8 @@ public class PlayerController : MonoBehaviour
         shockWave2.Play();
 
         yield return new WaitForSeconds(shockWave1.main.duration);
+
+        // yield return new WaitForSeconds(3f);
         // Debug.Log($"Die() waited for shockwave for {shockWave1.main.duration}");
 
 

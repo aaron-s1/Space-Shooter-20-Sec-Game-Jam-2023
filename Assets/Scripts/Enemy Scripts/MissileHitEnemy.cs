@@ -35,14 +35,16 @@ public class MissileHitEnemy : MonoBehaviour
     }
     
 
-    void OnTriggerEnter2D(Collider2D enemy) {
-        if (enemy.gameObject.tag == "Enemy")
+    void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.tag == "Enemy")
         {
-            EnemyIsHit enemyIsHit = enemy.gameObject.GetComponent<EnemyIsHit>();
+            GameObject enemy = other.gameObject;
+            EnemyIsHit enemyIsHit = enemy.GetComponent<EnemyIsHit>();
 
 
-            if (!enemyIsHit.alreadyHit && gameObject.activeInHierarchy)
-            {                
+            if (enemy.activeInHierarchy && !enemyIsHit.alreadyHit && gameObject.activeInHierarchy)
+            {
+                Debug.Log("missile hit enemy");
                 enemyIsHit.alreadyHit = true;
                 CancelInvoke("DisableAfterSeconds");
 
@@ -52,6 +54,7 @@ public class MissileHitEnemy : MonoBehaviour
                 if (bulletCanPierce)
                     Invoke("DisableAfterSeconds", 1.5f);
                 else
+                    // Invoke("DisableAfterSeconds", 10f);
                     gameObject.SetActive(false);
             }
         }

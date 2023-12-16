@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Security.Authentication;
 using System.Reflection;
 using System.Collections;
@@ -66,6 +67,7 @@ public class EnemyIsHit : MonoBehaviour
 
     public IEnumerator StartDying(int totalExplosionChains = 0, bool dontExplode = false)
     {
+        alreadyHit = true;
         CancelInvoke("DisableAfterSeconds");
 
         if (gameManager.gameHasEnded)
@@ -102,14 +104,24 @@ public class EnemyIsHit : MonoBehaviour
             
             if (!otherEnemy.alreadyHit)
                 StartCoroutine(otherEnemy.StartDying(totalExplosionChains - 1));
-        }
+        }        
     }
+
+    // void OnTriggerEnter2D(Collider2D other)
+    // {
+    //     if (other.gameObject.tag == "BlackHole")
+    //     {
+    //         Debug.Log("enemy saw black hole");
+    //         CancelInvoke("DisableAfterSeconds");
+    //     }
+    // }
+
 
 
     // Can only trigger via another enemy instance.    
     IEnumerator HandleDeathFlagsThenDie(ParticleSystem particle)
     {
-        alreadyHit = true;
+        // alreadyHit = true;
         canAddScoreFurther = false;
         gameManager.AddToKills();
         renderer.enabled = false;
@@ -150,8 +162,9 @@ public class EnemyIsHit : MonoBehaviour
         // Debug.Log($"actually ended playing {particle}");
 
         
-        // Invoke("DisableAfterSeconds", 5f);
+        Debug.Log("disable after particle ends disabled object");
         gameObject.SetActive(false);
+        // Invoke("DisableAfterSeconds", 5f);
     }
 
     float GetParticleTime(ParticleSystem particle)
@@ -165,8 +178,19 @@ public class EnemyIsHit : MonoBehaviour
         return 0;
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "BlackHole")
+        {
+            Debug.Log("enemy saw black hole");
+            CancelInvoke("DisableAfterSeconds");
+        }
+    }
 
-    // Don't let an enemy persist while off-screen too long.
-    void DisableAfterSeconds() =>
+    // Don't let an enemy persist for too long (if not interacted with).
+    void DisableAfterSeconds()
+    {
+        Debug.Log("enemy disabled itself.");
         gameObject.SetActive(false);
+    }
 }
