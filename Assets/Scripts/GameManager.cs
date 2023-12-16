@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    [HideInInspector] public bool gameHasEnded;
+    [HideInInspector] public int regularKills;
+    [HideInInspector] public int blackHoleKills;
+
     [SerializeField] TextMeshProUGUI scoreUI;
     [SerializeField] TextMeshProUGUI secondsRemainingUI;
 
@@ -16,23 +20,15 @@ public class GameManager : MonoBehaviour
     [Space(10)]
     [SerializeField] PowerUpSelector powerUpSelector;
 
-    IEnumerator spawnEnemies;
-
-    // [SerializeField] GameObject blackHolePowerUpParticle;
-
     PlayerController player;
-
+    IEnumerator spawnEnemies;
     
     int secondsPassedSinceGameStart;
 
-    public int regularKills;
-    public int blackHoleKills;
     int totalKills;
-
     int score;
 
     bool gameHasStarted;
-    public bool gameHasEnded;
 
 
     // bool enemiesNowExplode;

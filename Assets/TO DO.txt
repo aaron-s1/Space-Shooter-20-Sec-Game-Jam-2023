@@ -9,29 +9,30 @@ Audio Sounds
 
 
 Enemies    
-    - fix duplicate waves
-    - give varying movements
-    - give varying positions
-    - make progressively move towards upwards of screen
-    - score is inconsistent with kills
+    - fix duplicate waves / inconsistency between spawning on each side
+    - make slowly move towards upwards of screen
     
 
 
-Powerups    
-    - fix black hole pulling in strangely
-    - black hole - singularity core isn't touching enemies
-possible black hole fix: prevent currently active missiles from killing enemy while black hole is active
-
+Powerups
+    - Black Hole.
+        .. pulling in strangely?
+        
+        .. doesn't give enough points
+            ...  possible fix: prevent currently active missiles from killing enemy while black hole is active
+            ...  possible fix: increase multiplier value based upon powerups
 
 
 Value tweaking:
     - enemy pool size
-    - spawn rate increase on kill
+    - enemy spawn rate increase on kill
+    - enemy kills needed for next y offset randomization between waves
+    - tweak angle of when turrets should see mouse position
+    
 
 
 Game Ending
-    - is black hole
-    - is not black hole
+    - clean up end of game tallying positions    
 
 
 --------------------------------------------------
@@ -39,20 +40,23 @@ Game Ending
 May or may not add this stuff.
 
 - Leaderboard?
+    (add credits if so)
 - Piercing UI needs a better graphic?
 - Restrict targeting angle to frontwards of player?
 - Better player firing sound?
+- on game end, have black screen have a circular transition?
 
 --------------------------------------------------
 
-
 - add credits for sound effects
-- add credits for leaderboard?
 - bug fixes
-- clean up project
-    - setup itch page
+- clean up hierarchy
+- clean up explorer
+- setup itch page
 - clean push
 - local file backup
+- delete/add comments
+- clean up scripts
 
 - override/update prefabs
 - clean project folder

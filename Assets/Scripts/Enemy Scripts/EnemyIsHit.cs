@@ -35,7 +35,7 @@ public class EnemyIsHit : MonoBehaviour
     void Start()
     {
         gameManager = GameManager.Instance;
-        Invoke("DisableAfterSeconds", 3f);
+        Invoke("DisableAfterSeconds", 5f);
     }
 
 
@@ -74,7 +74,7 @@ public class EnemyIsHit : MonoBehaviour
             yield break;
         }
 
-        EnemySpawner.Instance.spawnRateScale *= multiplicativeSpawnRateAdjustment;
+        EnemySpawner.Instance.spawnRateScalar *= multiplicativeSpawnRateAdjustment;
 
         this.totalExplosionChains = totalExplosionChains;
 

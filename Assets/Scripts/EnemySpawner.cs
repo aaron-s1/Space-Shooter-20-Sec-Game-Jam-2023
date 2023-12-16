@@ -6,7 +6,7 @@ public class EnemySpawner : MonoBehaviour
 {
     public static EnemySpawner Instance { get; private set; }
 
-    public float spawnRateScale = 1f;
+    public float spawnRateScalar = 1f;
 
     [System.Serializable]
     public class WaveParameters
@@ -14,20 +14,24 @@ public class EnemySpawner : MonoBehaviour
         public Transform spawnTransform;
         public SpeedRange speedRange;
         // public float movementSpeed;
-        public float verticalOffset;
+        // public float verticalOffset;
     }
 
     [SerializeField] int totalPoolSize;
     [SerializeField] GameObject enemyPrefabVariant1;
     [SerializeField] GameObject enemyPrefabVariant2;
     [SerializeField] float timeBetweenWaves;
+    [SerializeField] int spawnsUntilNextRandom_Y_Pos;
 
     [Space(10)]
     [SerializeField] WaveParameters[] waveParameters;
 
     [SerializeField] SpeedRange enemySpeedRange;
 
-    BulletPool bulletPool;
+
+    EnemyPool bulletPool;
+    int spawnsSinceLast_Y_Pos_LastRandomized;
+    float ySpawnRangeOffset;
 
 
     void Awake() =>
@@ -37,27 +41,30 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         InitializeBulletPool();
+        ySpawnRangeOffset = Random.Range(-0.25f, 2.25f);
+        Debug.Log(ySpawnRangeOffset);
         // StartCoroutine(SpawnWaves());
     }
 
     void InitializeBulletPool() =>
-        bulletPool = new BulletPool(enemyPrefabVariant1, totalPoolSize);
+        bulletPool = new EnemyPool(enemyPrefabVariant1, totalPoolSize);
 
 
     public IEnumerator SpawnWaves()
     {
+        Debug.Break();
         // Debug.Log("spawn waves called");
         while (true)
         {
-            yield return new WaitForSeconds(timeBetweenWaves * spawnRateScale);
+            yield return new WaitForSeconds(timeBetweenWaves * spawnRateScalar);
 
             WaveParameters wave1 = waveParameters[Random.Range(0, waveParameters.Length)];
-            WaveParameters wave2 = waveParameters[Random.Range(0, waveParameters.Length)];
+            // WaveParameters wave2 = waveParameters[Random.Range(0, waveParameters.Length)];
 
-            wave2.verticalOffset *= -1;
+            // wave2.verticalOffset *= -1;
 
             SpawnEnemyWave(wave1, enemyPrefabVariant1);
-            SpawnEnemyWave(wave2, enemyPrefabVariant2);
+            // SpawnEnemyWave(wave2, enemyPrefabVariant2);
 
             yield return null;
         }
@@ -66,13 +73,25 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnEnemyWave(WaveParameters wave, GameObject enemyPrefab)
     {
+        spawnsSinceLast_Y_Pos_LastRandomized++;
+
+        if (spawnsSinceLast_Y_Pos_LastRandomized >= spawnsUntilNextRandom_Y_Pos)
+        {        
+            ySpawnRangeOffset = Random.Range(-0.25f, 2.25f);
+            // Debug.Log(ySpawnRangeOffset);
+            spawnsSinceLast_Y_Pos_LastRandomized = 0;
+        }
+        
+
         int directionMultiplier = (wave == waveParameters[0]) ? 1 : -1;
 
         float xOffset = directionMultiplier;
         float xPos = wave.spawnTransform.position.x + xOffset;
 
+
         GameObject enemy = bulletPool.GetEnemy();
-        enemy.transform.position = new Vector3(xPos, wave.spawnTransform.position.y + wave.verticalOffset, wave.spawnTransform.position.z);
+        enemy.transform.position = new Vector3(xPos, wave.spawnTransform.position.y + ySpawnRangeOffset, wave.spawnTransform.position.z);
+        Debug.Log("enemy pos assigned. y offset = " + ySpawnRangeOffset);
 
         EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
 
@@ -80,18 +99,20 @@ public class EnemySpawner : MonoBehaviour
             enemyMove.SetMovementParameters(wave.speedRange.GetRandomSpeed() * directionMultiplier);
             // enemyMove.SetMovementParameters(wave.movementSpeed * directionMultiplier);
     }
+
+
 }
 
 
 
-    public class BulletPool
+    public class EnemyPool
     {
         GameObject prefab;
         int poolSize;
         List<GameObject> activeEnemyList;
         List<GameObject> inactiveEnemyList;
 
-        public BulletPool(GameObject prefab, int poolSize)
+        public EnemyPool(GameObject prefab, int poolSize)
         {
             this.prefab = prefab;
             this.poolSize = poolSize;
