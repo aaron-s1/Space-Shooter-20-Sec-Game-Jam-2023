@@ -77,11 +77,9 @@ public class EnemySpawner : MonoBehaviour
 
         if (spawnsSinceLast_Y_Pos_LastRandomized >= spawnsUntilNextRandom_Y_Pos)
         {        
-            ySpawnRangeOffset = Random.Range(-0.25f, 2.25f);
-            // Debug.Log(ySpawnRangeOffset);
+            ySpawnRangeOffset = Random.Range(0f, 2f);
             spawnsSinceLast_Y_Pos_LastRandomized = 0;
         }
-        
 
         int directionMultiplier = (wave == waveParameters[0]) ? 1 : -1;
 
@@ -91,7 +89,6 @@ public class EnemySpawner : MonoBehaviour
 
         GameObject enemy = bulletPool.GetEnemy();
         enemy.transform.position = new Vector3(xPos, wave.spawnTransform.position.y + ySpawnRangeOffset, wave.spawnTransform.position.z);
-        Debug.Log("enemy pos assigned. y offset = " + ySpawnRangeOffset);
 
         EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
 

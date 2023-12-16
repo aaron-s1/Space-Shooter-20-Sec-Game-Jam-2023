@@ -38,29 +38,22 @@ public class MissileHitEnemy : MonoBehaviour
     void OnTriggerEnter2D(Collider2D enemy) {
         if (enemy.gameObject.tag == "Enemy")
         {
-            CancelInvoke("DisableAfterSeconds");
-
             EnemyIsHit enemyIsHit = enemy.gameObject.GetComponent<EnemyIsHit>();
 
-            if (!enemyIsHit.alreadyHit && gameObject.activeInHierarchy)
-            {
-                // if missile can pierce, it can't do so again.
-                bulletCanPierce = startPiercingWhenEnabledAgain = false;
-                Invoke("DisableAfterSeconds", 1.5f);
 
+            if (!enemyIsHit.alreadyHit && gameObject.activeInHierarchy)
+            {                
                 enemyIsHit.alreadyHit = true;
+                CancelInvoke("DisableAfterSeconds");
+
                 IEnumerator startDying = enemyIsHit.StartDying(totalExplosionChains);
                 StartCoroutine(startDying);
+
+                if (bulletCanPierce)
+                    Invoke("DisableAfterSeconds", 1.5f);
+                else
+                    gameObject.SetActive(false);
             }
-
-            // if (bulletCanPierce)
-            // {
-            //     bulletCanPierce = false;
-            //     Invoke("DisableAfterSeconds", 1.5f);
-            // }
-
-            // else
-            //     gameObject.SetActive(false);
         }
     }
 

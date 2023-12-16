@@ -10,12 +10,12 @@ Audio Sounds
 
 Enemies    
     - fix duplicate waves / inconsistency between spawning on each side
-    - make slowly move towards upwards of screen
     
 
 
 Powerups
     - Black Hole.
+        .. pulling in lots of enemies at once creates huge overhead/lag
         .. pulling in strangely?
         
         .. doesn't give enough points
@@ -27,7 +27,9 @@ Value tweaking:
     - enemy pool size
     - enemy spawn rate increase on kill
     - enemy kills needed for next y offset randomization between waves
+    - enemy gravity scale
     - tweak angle of when turrets should see mouse position
+    
     
 
 

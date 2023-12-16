@@ -2,11 +2,8 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-
-    // Not currently moving upwards properly.
-
     public float moveSpeed;
-    public float amplitudeMultiplier;
+    public float _sineAmplitudeMultiplier;
     public float upwardMultiplier; // New variable for upward movement
 
     float initialY;
@@ -34,7 +31,7 @@ public class EnemyMove : MonoBehaviour
 
     void Move()
     {
-        float amplitude = amplitudeMultiplier * moveSpeed;
+        float amplitude = _sineAmplitudeMultiplier * moveSpeed;
         float newY = initialY + Mathf.Sin(Time.time * amplitude);
 
         

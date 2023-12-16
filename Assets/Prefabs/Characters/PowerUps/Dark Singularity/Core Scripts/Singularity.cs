@@ -13,7 +13,8 @@ public class Singularity : MonoBehaviour
             GetComponent<CircleCollider2D>().isTrigger = true;
     }
     
-    void OnTriggerStay2D (Collider2D other) {
+    void OnTriggerEnter2D(Collider2D other) {
+    // void OnTriggerStay2D (Collider2D other) {
         if (other.attachedRigidbody && other.GetComponent<SingularityPullable>())
         {
             if (other.gameObject.GetComponent<EnemyIsHit>())

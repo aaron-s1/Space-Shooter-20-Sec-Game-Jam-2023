@@ -39,14 +39,14 @@ public class EnemyIsHit : MonoBehaviour
     }
 
 
-    void FixedUpdate()
-    {
-        if (alreadyHit)
-        {
-            if (GetComponent<EnemyMove>().moveSpeed != 0)
-                GetComponent<EnemyMove>().moveSpeed = 0;
-        }
-    }
+    // void FixedUpdate()
+    // {
+    //     if (alreadyHit)
+    //     {
+    //         if (GetComponent<EnemyMove>().moveSpeed != 0)
+    //             GetComponent<EnemyMove>().moveSpeed = 0;
+    //     }
+    // }
 
 
     void OnDisable() =>
@@ -118,7 +118,7 @@ public class EnemyIsHit : MonoBehaviour
         yield return StartCoroutine(DisableAfterParticleEnds(particle));
     }
 
-    ParticleSystem particleBlah;
+    // ParticleSystem particleBlah;
     // bool beganDisabling;
 
     // void FixedUpdate()

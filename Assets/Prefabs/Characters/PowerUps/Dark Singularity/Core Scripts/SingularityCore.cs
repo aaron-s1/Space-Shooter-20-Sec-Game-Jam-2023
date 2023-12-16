@@ -13,8 +13,6 @@ public class SingularityCore : MonoBehaviour
     {
         // Debug.Log("black hole saw something");
 
-            // Debug.Log("black hole ate enemy");
-        
         if (other.gameObject.GetComponent<SingularityPullable>().pullable)
         {
             // gameManager.AddToKills(true);

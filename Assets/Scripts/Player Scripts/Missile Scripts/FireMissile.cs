@@ -23,7 +23,7 @@ public class FireMissile : MonoBehaviour
 
 
     int _missileFireMultiplier = 1;
-    [SerializeField] float _finalFireRateMultiplier = 1f;
+    [SerializeField] float _finalFireRateDivisor = 1f;
     int _explosionChains = 0;
 
 
@@ -88,7 +88,7 @@ public class FireMissile : MonoBehaviour
 
     
     public void PrepFiringThenFire() =>
-        InvokeRepeating("PlayerStartsFiring", 0, (1 / (_missileFireMultiplier / _finalFireRateMultiplier)));
+        InvokeRepeating("PlayerStartsFiring", 0, (1 / (_missileFireMultiplier / _finalFireRateDivisor)));
 
 
     public void PlayerStartsFiring()
@@ -125,7 +125,7 @@ public class FireMissile : MonoBehaviour
         {
             ScaleUpTurrets(newMultiplier);
             CancelInvoke("PlayerStartsFiring");
-            InvokeRepeating("PlayerStartsFiring", 0, 1 / (fireRateMultiplier / _finalFireRateMultiplier));
+            InvokeRepeating("PlayerStartsFiring", 0, 1 / (fireRateMultiplier / _finalFireRateDivisor));
         }
     }
 
