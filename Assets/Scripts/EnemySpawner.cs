@@ -106,19 +106,9 @@ public class EnemySpawner : MonoBehaviour
     {
         GameObject prefab;
         int poolSize;
+        Transform enemyPoolParent; // Reference to the parent object
         List<GameObject> activeEnemyList;
         List<GameObject> inactiveEnemyList;
-
-        // public void ListEnemies()
-        // {
-        //     Debug.Log("ListEnemies() called");
-
-        //     foreach (var obj in activeEnemyList)
-        //         Debug.Log("active enemies = " + obj.name);
-
-        //     foreach (var obj in inactiveEnemyList)
-        //         Debug.Log("inactive enemies = " + obj.name);
-        // }
 
         public EnemyPool(GameObject prefab, int poolSize)
         {
@@ -129,12 +119,14 @@ public class EnemySpawner : MonoBehaviour
 
         void InitializePool()
         {
+            enemyPoolParent = new GameObject("Enemy Pool").transform;
+
             activeEnemyList = new List<GameObject>();
             inactiveEnemyList = new List<GameObject>();
 
             for (int i = 0; i < poolSize; i++)
             {
-                GameObject enemy = Object.Instantiate(prefab);
+                GameObject enemy = Object.Instantiate(prefab, enemyPoolParent);
                 Debug.Log("spawner disabled enemy");
                 enemy.SetActive(false);
                 inactiveEnemyList.Add(enemy);
@@ -151,7 +143,10 @@ public class EnemySpawner : MonoBehaviour
                 inactiveEnemyList.RemoveAt(inactiveEnemyList.Count - 1);
             }
             else
-                enemy = Object.Instantiate(prefab);
+            {
+                enemy = Object.Instantiate(prefab, enemyPoolParent);
+                Debug.Log("spawner created enemy");
+            }
 
             enemy.SetActive(true);
             activeEnemyList.Add(enemy);
@@ -170,6 +165,7 @@ public class EnemySpawner : MonoBehaviour
             }
         }
     }
+
 
 
     [System.Serializable]

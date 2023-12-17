@@ -17,24 +17,21 @@ public class FireMissile : MonoBehaviour
     [SerializeField] AudioSource firingSound;
 
     List<GameObject> missilePool;
-
-
-
+    Transform missilePoolParent;
 
 
     int _missileFireMultiplier = 1;
     [SerializeField] float _finalFireRateDivisor = 1f;
     int _explosionChains = 0;
+    
+
 
 
     void Awake() =>
         Instance = this;
 
 
-    void Update()
-    {
-    //    Debug.Log(_explosionChains); 
-    }
+    
     void Start()
     {
         firingSound = GetComponent<AudioSource>();
@@ -77,9 +74,10 @@ public class FireMissile : MonoBehaviour
 
     void InitializeMissilePool()
     {
+        missilePoolParent = new GameObject("Missile Pool").transform;
         for (int i = 0; i < poolSize; i++)
         {
-            GameObject missile = Instantiate(missilePrefab, Vector3.zero, Quaternion.identity);
+            GameObject missile = Instantiate(missilePrefab, Vector3.zero, Quaternion.identity, missilePoolParent);
             missile.SetActive(false);
             missilePool.Add(missile);
         }
