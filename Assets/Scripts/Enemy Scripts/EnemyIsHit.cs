@@ -15,6 +15,7 @@ public class EnemyIsHit : MonoBehaviour
     [SerializeField] [Range(0.994f, 0.999f)] float multiplicativeSpawnRateAdjustment;
 
     SpriteRenderer renderer;
+    Rigidbody2D rigidbody;
 
     [HideInInspector] bool canAddScoreFurther = true;
 
@@ -30,7 +31,7 @@ public class EnemyIsHit : MonoBehaviour
     {
         explosionParticle = GetComponentInChildren<ParticleSystem>();     
         renderer = GetComponent<SpriteRenderer>();
-        // Debug.Log("I'm an enemy!");
+        rigidbody = GetComponent<Rigidbody2D>();
     }
 
     void Start()
@@ -39,16 +40,14 @@ public class EnemyIsHit : MonoBehaviour
         Invoke("DisableAfterSeconds", 5f);
     }
 
-
-    // void FixedUpdate()
-    // {
-    //     if (alreadyHit)
-    //     {
-    //         if (GetComponent<EnemyMove>().moveSpeed != 0)
-    //             GetComponent<EnemyMove>().moveSpeed = 0;
-    //     }
-    // }
-
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "BlackHole")
+        {
+            Debug.Log("enemy saw black hole");
+            CancelInvoke("DisableAfterSeconds");
+        }
+    }    
 
     void OnDisable() =>
         ResetVariablesToDefaults();
@@ -64,7 +63,7 @@ public class EnemyIsHit : MonoBehaviour
     }
 
 
-
+    #region Handle death states.
     public IEnumerator StartDying(int totalExplosionChains = 0, bool dontExplode = false)
     {
         alreadyHit = true;
@@ -104,93 +103,58 @@ public class EnemyIsHit : MonoBehaviour
             
             if (!otherEnemy.alreadyHit)
                 StartCoroutine(otherEnemy.StartDying(totalExplosionChains - 1));
-        }        
+        }
+
+        // Stop logic/movement if black hole is active.
+        if (other.gameObject.tag == "BlackHole")
+        {
+            if (rigidbody.gravityScale != 0)
+            {
+                rigidbody.gravityScale = 0;
+                alreadyHit = true;
+                GetComponent<EnemyMove>().SetMovementParameters(0);
+                CancelInvoke("DisableAfterSeconds");
+                StopAllCoroutines();
+            }
+        }
     }
 
-    // void OnTriggerEnter2D(Collider2D other)
-    // {
-    //     if (other.gameObject.tag == "BlackHole")
-    //     {
-    //         Debug.Log("enemy saw black hole");
-    //         CancelInvoke("DisableAfterSeconds");
-    //     }
-    // }
-
-
-
+    
     // Can only trigger via another enemy instance.    
     IEnumerator HandleDeathFlagsThenDie(ParticleSystem particle)
     {
-        // alreadyHit = true;
         canAddScoreFurther = false;
         gameManager.AddToKills();
         renderer.enabled = false;
-        // GetComponent<Collider2D>().enabled = false;
         
         yield return StartCoroutine(DisableAfterParticleEnds(particle));
     }
 
-    // ParticleSystem particleBlah;
-    // bool beganDisabling;
-
-    // void FixedUpdate()
-    // {
-    //     // if (beganDisabling)
-    //         // Debug.Log(particleBlah.isPlaying);
-    // }
-    
-
 
     IEnumerator DisableAfterParticleEnds(ParticleSystem particle)
     {
-        var timeToWait = GetParticleTime(particle);
-        // Debug.Log("called particle end");
-        // particleBlah = particle;
-        // beganDisabling = true;
         particle.Play();
-        // Debug.Log($"began playing {particle}");
-
         yield return new WaitForSeconds(0.45f);
-        // Debug.Log($"should end playing {particle}");        
-        // particle.Stop();
-        // Debug.Log("hard wait of 0.45f");
-        var time1 = Time.timeSinceLevelLoad;
-
-        // yield return new WaitUntil(() => !explosionParticle.isPlaying);
-        var time2 = Time.timeSinceLevelLoad;
-        // Debug.Log(time2-time1); 
-        // Debug.Log($"actually ended playing {particle}");
-
-        
-        Debug.Log("disable after particle ends disabled object");
         gameObject.SetActive(false);
-        // Invoke("DisableAfterSeconds", 5f);
     }
 
-    float GetParticleTime(ParticleSystem particle)
-    {
-        if (particle == explosionParticle)
-            return 1f;
-        if (particle == poofParticle)
-            return 0.45f;
+    #endregion
 
-        Debug.Log("returned 0???");
-        return 0;
-    }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "BlackHole")
-        {
-            Debug.Log("enemy saw black hole");
-            CancelInvoke("DisableAfterSeconds");
-        }
-    }
 
     // Don't let an enemy persist for too long (if not interacted with).
-    void DisableAfterSeconds()
-    {
-        Debug.Log("enemy disabled itself.");
+    void DisableAfterSeconds() =>
         gameObject.SetActive(false);
-    }
 }
+
+
+// float GetParticleTime(ParticleSystem particle)
+// {
+//     if (particle == explosionParticle)
+//         return 1f;
+//     if (particle == poofParticle)
+//         return 0.45f;
+
+//     Debug.Log("returned 0???");
+//     return 0;
+// }

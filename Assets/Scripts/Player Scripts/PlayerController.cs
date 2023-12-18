@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
 
         if (canBecomeBlackHole)
         {
+            GameManager.Instance.blackHoleAteAllEnemies = false;
             GameObject blackHole = Instantiate(blackHolePrefab, transform.position, Quaternion.identity);
 
             ParticleSystem blackHoleParticle = blackHolePrefab.GetComponent<ParticleSystem>();
@@ -72,11 +73,14 @@ public class PlayerController : MonoBehaviour
 
             // .. before pulling things in
             blackHole.transform.GetChild(3).gameObject.SetActive(true);
+
+            // If a black hole is spawned, Singularity.cs will determine when this flag occurs.
+            yield return new WaitUntil(() => GameManager.Instance.blackHoleAteAllEnemies == true);
+
             Debug.Log("black hole ended");
         }
 
-        // wait for everything to be eaten
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
 
         Debug.Log("player fully died.");
         yield break;

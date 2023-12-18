@@ -12,26 +12,21 @@ Enemies
     - fix duplicate waves / inconsistency between spawning on each side
 
 
-- Missiles seem to disappear shortly after firing
-- Missile sometimes giving error
+- Missiles seem to disappear shortly after firing? (maybe just renderer)
+
     
 
 
 Powerups
     - Black Hole.
-        .. pulling in lots of enemies at once creates huge overhead/lag
-        .. pulling in strangely?
-        
         .. doesn't give enough points
             ...  possible fix: prevent currently active missiles from killing enemy while black hole is active
             ...  possible fix: increase multiplier value based upon powerups
 
 
-Value tweaking:
-    - enemy pool size
+Value tweaking:    
     - enemy spawn rate increase on kill
-    - enemy kills needed for next y offset randomization between waves
-    - enemy gravity scale
+    - enemy kills needed for next y offset randomization between waves    
     - tweak angle of when turrets should see mouse position
     
     

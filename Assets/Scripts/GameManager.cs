@@ -31,7 +31,9 @@ public class GameManager : MonoBehaviour
     bool gameHasStarted;
 
 
-    // bool enemiesNowExplode;
+    public bool blackHoleAteAllEnemies;
+
+
     
 
     // public int Score =>
@@ -46,15 +48,8 @@ public class GameManager : MonoBehaviour
         gameHasStarted = true;
         spawnEnemies = EnemySpawner.Instance.SpawnWaves();
         player = PlayerController.Instance;
-        // player = GameObject.FindGameObjectWithTag("Player");
-        // StartCoroutine("ActivateBlackHole");
-        // Invoke("ActivateBlackHole", 6f);
     }
     
-    // void StartGame()
-    // {
-    //     gameHasStarted = true;        
-    // }
 
     #region Handle game states.
     
@@ -64,12 +59,11 @@ public class GameManager : MonoBehaviour
         howToPlayScreen.SetActive(false);
         player.gameObject.SetActive(true);
         StartCoroutine(spawnEnemies);
-        // StartCoroutine(SpawnWaves());
 
         yield return StartCoroutine(CountdownBeforeGameStarts());
     }
 
-    // Give player a few seconds to get ready.
+    // Give player a few seconds to get ready. Add effects or countdown or something later.
     IEnumerator CountdownBeforeGameStarts()
     {
         for (int i = 0; i < 3; i++)
@@ -110,7 +104,7 @@ public class GameManager : MonoBehaviour
         {
             secondsRemainingUI.text = " ";
             yield return StartCoroutine("EndGame");
-        }        
+        }
         else
             yield return StartCoroutine("CountdownToEndGame");
     }
@@ -124,7 +118,7 @@ public class GameManager : MonoBehaviour
 
         Debug.Break();
         GameObject.FindObjectOfType<PowerUpSelector>().GetComponent<PowerUpSelector>().StopAllCoroutines();
-        
+
         yield return StartCoroutine(player.Die());
         Debug.Break();
 
