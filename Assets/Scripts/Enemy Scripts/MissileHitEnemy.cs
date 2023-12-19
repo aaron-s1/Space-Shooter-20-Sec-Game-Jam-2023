@@ -44,7 +44,7 @@ public class MissileHitEnemy : MonoBehaviour
 
             if (enemy.activeInHierarchy && !enemyIsHit.alreadyHit && gameObject.activeInHierarchy)
             {
-                Debug.Log("missile hit enemy");
+                // Debug.Log("missile hit enemy");
                 enemyIsHit.alreadyHit = true;
                 CancelInvoke("DisableAfterSeconds");
 

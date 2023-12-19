@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     
     public IEnumerator PrepStartOfGame(GameObject howToPlayScreen)
     {
+        yield return StartCoroutine(SoundManager.Instance.PlayStartButtonClip());
         blackBackgroundScreen.SetActive(false);
         howToPlayScreen.SetActive(false);
         player.gameObject.SetActive(true);
@@ -66,6 +67,7 @@ public class GameManager : MonoBehaviour
     // Give player a few seconds to get ready. Add effects or countdown or something later.
     IEnumerator CountdownBeforeGameStarts()
     {
+        // GetComponent<AudioSource>().Play();
         for (int i = 0; i < 3; i++)
         {
             yield return new WaitForSeconds(1f);
@@ -122,7 +124,7 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(player.Die());
         Debug.Break();
 
-        // blackBackgroundScreen.SetActive(true);
+        blackBackgroundScreen.SetActive(true);
         endGameScreen.SetActive(true);
         endGameScreen.GetComponent<EndGameScreen>().TallyUpKillsAndScore(regularKills, blackHoleKills);
 

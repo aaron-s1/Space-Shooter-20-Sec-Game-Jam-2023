@@ -1,11 +1,8 @@
 
 
 
-Audio Sounds
-    - ambience
-    - restart/start button click    
-    - poof 
-    - explosion
+Audio Sounds    
+    - poof     
 
 
 Enemies    
@@ -14,12 +11,12 @@ Enemies
 
 - Missiles seem to disappear shortly after firing? (maybe just renderer)
 
-    
+
 
 
 Powerups
     - Black Hole.
-        .. doesn't give enough points
+        ~ Doesn't give enough points if there aren't many enemies.
             ...  possible fix: prevent currently active missiles from killing enemy while black hole is active
             ...  possible fix: increase multiplier value based upon powerups
 
@@ -28,6 +25,7 @@ Value tweaking:
     - enemy spawn rate increase on kill
     - enemy kills needed for next y offset randomization between waves    
     - tweak angle of when turrets should see mouse position
+    - when ambience audio should begin
     
     
 
@@ -58,6 +56,7 @@ May or may not add this stuff.
 - local file backup
 - delete/add comments
 - clean up scripts
+- remove player being black hole by default
 
 - override/update prefabs
 - clean project folder

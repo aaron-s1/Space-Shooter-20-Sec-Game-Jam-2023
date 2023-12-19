@@ -143,8 +143,10 @@ public class EndGameScreen : MonoBehaviour
 
     IEnumerator CountUpTotalScore()
     {
-        var missileScore = missileKills * 10;
-        var blackHoleScore = GameManager.Instance.blackHoleKills * 40;
+        var missileScore = 10 * missileKills;
+
+        // improve later.
+        var blackHoleScore = 15 * GameManager.Instance.blackHoleKills * GameObject.Find("Power-Ups (+Canvas)").GetComponent<PowerUpSelector>().totalPowerUpsAcquired;
         var totalScore = blackHoleScore + missileScore;
 
         yield return new WaitForSeconds(1f);        

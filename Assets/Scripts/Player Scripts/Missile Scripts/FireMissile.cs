@@ -14,18 +14,15 @@ public class FireMissile : MonoBehaviour
     [SerializeField] Transform leftMissileOriginPoint;
     [SerializeField] Transform rightMissileOriginPoint;
 
-    [SerializeField] AudioSource firingSound;
-
     List<GameObject> missilePool;
     Transform missilePoolParent;
 
+    [HideInInspector] AudioSource firingSound;
 
     int _missileFireMultiplier = 1;
     [SerializeField] float _finalFireRateDivisor = 1f;
     int _explosionChains = 0;
     
-
-
 
     void Awake() =>
         Instance = this;

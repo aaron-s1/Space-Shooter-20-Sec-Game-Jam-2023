@@ -13,13 +13,10 @@ public class SingularityCore : MonoBehaviour
     {
         // if (other.gameObject.GetComponent<SingularityPullable>().pullable)
         // {
-            if (other.gameObject.tag == "Enemy")
-            {
-                Debug.Log("black hole CORE ate enemy");
-                GameManager.Instance.AddToKills(true);
-            }
+        if (other.gameObject.tag == "Enemy")
+            GameManager.Instance.AddToKills(true);
 
-            other.gameObject.SetActive(false);
+        other.gameObject.SetActive(false);
         // }
     }
 

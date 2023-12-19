@@ -34,7 +34,7 @@ public class PowerUpSelector : MonoBehaviour
 
     bool allowPowerUpChoice;
 
-    int totalPowerUpsAcquired;
+    public int totalPowerUpsAcquired;
 
 
     void Start()
@@ -234,6 +234,7 @@ public IEnumerator SpawnDrones()
         // var test = transform.TransformPoint(powerUpAttachPoint);
         Vector3 detachPointWithOffset = new Vector3(drone.transform.position.x, drone.transform.position.y - 0.6f, drone.transform.position.z);        
         yield return StartCoroutine(powerUpUI.GetComponent<DroppedPowerUpMovesToPlayer>().Move(detachPointWithOffset, this.gameObject));
+        GetComponent<AudioSource>().Play();
 
         // powerUpUI.GetComponent<DroppedPowerUpMovesToPlayer>().StartCoroutine("Move", drone.transform.localPosition, this.gameObject);
         // powerUpUI.SetActive(false);

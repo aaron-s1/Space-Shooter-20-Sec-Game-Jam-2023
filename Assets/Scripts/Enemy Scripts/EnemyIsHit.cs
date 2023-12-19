@@ -12,14 +12,14 @@ public class EnemyIsHit : MonoBehaviour
     
     [SerializeField] public ParticleSystem poofParticle;
     [SerializeField] public ParticleSystem explosionParticle;
-    [SerializeField] [Range(0.994f, 0.999f)] float multiplicativeSpawnRateAdjustment;
+    [SerializeField] [Range(0.98f, 0.999f)] float multiplicativeSpawnRateAdjustment;
 
     SpriteRenderer renderer;
     Rigidbody2D rigidbody;
 
     [HideInInspector] bool canAddScoreFurther = true;
 
-    public bool alreadyHit;
+    [HideInInspector] public bool alreadyHit;
     bool canExplodeOtherEnemies;
 
 
@@ -40,13 +40,11 @@ public class EnemyIsHit : MonoBehaviour
         Invoke("DisableAfterSeconds", 5f);
     }
 
+    // Don't disable if touching black hole. Let black hole disable instead.
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "BlackHole")
-        {
-            Debug.Log("enemy saw black hole");
             CancelInvoke("DisableAfterSeconds");
-        }
     }    
 
     void OnDisable() =>
@@ -84,6 +82,7 @@ public class EnemyIsHit : MonoBehaviour
         // OnTriggerStay2D will try to explode nearby enemies until explosionParticle stops playing.
         if (this.totalExplosionChains > 0)
         {
+            StartCoroutine(SoundManager.Instance.PlayExplosionClip());
             canExplodeOtherEnemies = true;
             activeParticle = explosionParticle;
         }
@@ -98,7 +97,7 @@ public class EnemyIsHit : MonoBehaviour
     void OnTriggerStay2D(Collider2D other)
     {        
         if (other.gameObject.tag == "Enemy" && canExplodeOtherEnemies)
-        {
+        {            
             EnemyIsHit otherEnemy = other.gameObject.GetComponent<EnemyIsHit>();
             
             if (!otherEnemy.alreadyHit)
@@ -120,7 +119,7 @@ public class EnemyIsHit : MonoBehaviour
     }
 
     
-    // Can only trigger via another enemy instance.    
+    
     IEnumerator HandleDeathFlagsThenDie(ParticleSystem particle)
     {
         canAddScoreFurther = false;

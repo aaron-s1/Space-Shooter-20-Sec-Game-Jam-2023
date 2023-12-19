@@ -77,12 +77,11 @@ public class PlayerController : MonoBehaviour
             // If a black hole is spawned, Singularity.cs will determine when this flag occurs.
             yield return new WaitUntil(() => GameManager.Instance.blackHoleAteAllEnemies == true);
 
-            Debug.Log("black hole ended");
         }
 
         yield return new WaitForSeconds(1f);
 
-        Debug.Log("player fully died.");
+        Debug.Log("Player fully died.");
         yield break;
     }
 

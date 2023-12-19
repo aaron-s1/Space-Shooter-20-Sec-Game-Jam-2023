@@ -9,7 +9,7 @@ public class Menu_Controller : MonoBehaviour {
 	[Tooltip("_sceneToLoadOnPlay is the name of the scene that will be loaded when users click play")]
 	public string _sceneToLoadOnPlay;
 	[Tooltip("_webpageURL defines the URL that will be opened when users click on your branding icon")]
-	public string _webpageURL = "http://www.alpaca.studio";
+	[HideInInspector] public string _webpageURL = "http://www.alpaca.studio";
 	[Tooltip("_soundButtons define the SoundOn[0] and SoundOff[1] Button objects.")]
 	public Button[] _soundButtons;
 	[Tooltip("_audioClip defines the audio to be played on button click.")]
@@ -37,15 +37,31 @@ public class Menu_Controller : MonoBehaviour {
 	}
 	
 	public void StartGame ()
-	{		
+	{
+		// StartCoroutine("WaitForAudioClip");
 		StartCoroutine(GameManager.Instance.PrepStartOfGame(gameObject.transform.parent.gameObject));
-		// _audioSource.PlayOneShot(_audioClip);
 		// PlayerPrefs.SetString("_LastScene", scene.name);
 		// UnityEngine.SceneManagement.SceneManager.LoadScene(_sceneToLoadOnPlay);
 	}
 
-	public void RestartGame() =>
-		SceneManager.LoadScene(scene.ToString());
+	public void RestartGame() 
+	{		
+		StartCoroutine(SoundManager.Instance.PlayStartButtonClip());
+		SceneManager.LoadScene(scene.name);
+		// SceneManager.LoadScene(scene.ToString());
+	}
+
+	// IEnumerator WaitForAudioClip()
+	// {
+		
+	// 	audioSource.clip.length;
+	// 	// _audioSource.PlayOneShot(_audioClip);
+
+	// 	Debug.Log(clipLength);
+	// 	Debug.Log("waiting...");
+	// 	yield return new WaitUntil(() => !audioSource.isPlaying);
+	// 	Debug.Log("waiting ended.");
+	// }
 
 
 	

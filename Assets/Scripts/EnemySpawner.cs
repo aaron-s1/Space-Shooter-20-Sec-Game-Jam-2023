@@ -52,7 +52,7 @@ public class EnemySpawner : MonoBehaviour
 
     public IEnumerator SpawnWaves()
     {
-        Debug.Break();
+        // Debug.Break();
         // Debug.Log("spawn waves called");
         while (true)
         {
