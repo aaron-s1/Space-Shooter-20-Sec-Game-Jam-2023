@@ -6,32 +6,25 @@ Audio Sounds
 
 
 Enemies    
-    - fix duplicate waves / inconsistency between spawning on each side
-
-
-- Missiles seem to disappear shortly after firing? (maybe just renderer)
-
-
-
+    - fix waves and performance issues
 
 Powerups
-    - Black Hole.
-        ~ Doesn't give enough points if there aren't many enemies.
-            ...  possible fix: prevent currently active missiles from killing enemy while black hole is active
-            ...  possible fix: increase multiplier value based upon powerups
+    - black hole isn't telling game manager it's eaten all Enemies
+
+
+
 
 
 Value tweaking:    
     - enemy spawn rate increase on kill
     - enemy kills needed for next y offset randomization between waves    
-    - tweak angle of when turrets should see mouse position
-    - when ambience audio should begin
+    - tweak angle of when turrets should see mouse position?
+    - at what point in ambience clip should it begin?
+    - black hole scoring formula
     
     
 
 
-Game Ending
-    - clean up end of game tallying positions    
 
 
 --------------------------------------------------
@@ -49,8 +42,6 @@ May or may not add this stuff.
 
 - add credits for sound effects
 - bug fixes
-- clean up hierarchy
-- clean up explorer
 - setup itch page
 - clean push
 - local file backup

@@ -37,7 +37,7 @@ public class EnemyIsHit : MonoBehaviour
     void Start()
     {
         gameManager = GameManager.Instance;
-        Invoke("DisableAfterSeconds", 5f);
+        Invoke("DisableAfterSeconds", 3f);
     }
 
     // Don't disable if touching black hole. Let black hole disable instead.
@@ -133,7 +133,21 @@ public class EnemyIsHit : MonoBehaviour
     IEnumerator DisableAfterParticleEnds(ParticleSystem particle)
     {
         particle.Play();
-        yield return new WaitForSeconds(0.45f);
+        var timeUntilCanNoLongerExplode = 0.1f;
+        var timeForParticleToPersist = 0.45f;
+
+        // yield return new WaitForSeconds(timeUntilCanNoLongerExplode);
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
+
+        // An exploding enemy can now only explode other enemies during the frame(s) it dies,
+        // rather than continuously exploding them until its explosion particle ends.
+        canExplodeOtherEnemies = false;
+        if (totalExplosionChains > 1)
+            totalExplosionChains--;
+
+        yield return new WaitForSeconds(timeForParticleToPersist);
+        // yield return new WaitForSeconds(timeForParticleToPersist - timeUntilCanNoLongerExplode);
         gameObject.SetActive(false);
     }
 

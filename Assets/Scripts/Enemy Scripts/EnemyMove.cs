@@ -16,12 +16,13 @@ public class EnemyMove : MonoBehaviour
     void Start() =>
         initialY = transform.position.y;
 
+
+    // void OnEnable() =>
+        // SetMovementParameters(3f);
+
     void FixedUpdate() =>
         Move();
 
-
-    // void OnEnable() =>
-        // Debug.Log("I became an active enemy!");
 
 
     public void SetMovementParameters(float speedMultiplier) =>
