@@ -36,7 +36,6 @@ public class PlayerController : MonoBehaviour
     public IEnumerator Die()
     {
         GetComponent<FireMissile>().StopFiring();
-        Debug.Break();
 
         foreach (Transform child in transform)
             child.gameObject.SetActive(false);

@@ -39,7 +39,8 @@ public class CustomPointer : MonoBehaviour {
 	}
 	
 	void Start () {
-		Screen.lockCursor = true;
+		// Screen.lockCursor = true;
+		Cursor.visible = false;
 		
 		deadzone_rect = new Rect((Screen.width / 2) - (deadzone_radius), (Screen.height / 2) - (deadzone_radius), deadzone_radius * 2, deadzone_radius * 2);
 	

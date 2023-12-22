@@ -19,36 +19,33 @@ public class Singularity : MonoBehaviour
 
     }
 
+    public int enemiesSeen;
+    public bool allEnemiesSeen;
+
     void OnTriggerStay2D(Collider2D other)
     {
         if (TryGetComponents(other, out var pullable, out var rb))
         {
-            Debug.Log("Components found");
-            // var enemy = other.gameObject.GetComponent<EnemyIsHit>();
-            var enemy = other.gameObject.GetComponent<SingularityPullable>();
-            Debug.Log("black hole touched: " + enemy.gameObject);
-            if (enemy == null)
-            {                
-                Debug.Log("No EnemyIsHit component");
-                GameManager.Instance.blackHoleAteAllEnemies = true;
-                return;
+            // Debug.Log("Black hole saw something pullable.");
+
+            if (other.gameObject.tag == "Enemy")
+            {
+                if (other.GetComponent<EnemyIsHit>().canBeSeenByBlackHole)
+                {
+                    // Debug.Log("Black hole sees enemy!");
+                    enemiesSeen++;
+                    other.GetComponent<EnemyIsHit>().canBeSeenByBlackHole = false;
+                }
             }
 
             float gravityIntensity = Vector2.Distance(gravityCenter, other.transform.position) / m_GravityRadius;
 
             rb.AddForce((gravityCenter - (Vector2)other.transform.position) * gravityIntensity * rb.mass * GRAVITY_PULL * Time.smoothDeltaTime);
         }
-
-        else
-        {
-            Debug.Log("????");
-            // GameManager.Instance.blackHoleAteAllEnemies = true;
-        }
     }
 
     bool TryGetComponents(Collider2D collider, out SingularityPullable pullable, out Rigidbody2D rb)
     {
-        // Debug.Log("black hole touched: " + collider.gameObject);
         pullable = collider.GetComponent<SingularityPullable>();
         rb = collider.attachedRigidbody;
 

@@ -14,8 +14,8 @@ public class EnemyIsHit : MonoBehaviour
     [SerializeField] public ParticleSystem explosionParticle;
     [SerializeField] [Range(0.98f, 0.999f)] float multiplicativeSpawnRateAdjustment;
 
-    SpriteRenderer renderer;
-    Rigidbody2D rigidbody;
+    new SpriteRenderer renderer;
+    new Rigidbody2D rigidbody;
 
     [HideInInspector] bool canAddScoreFurther = true;
 
@@ -109,6 +109,8 @@ public class EnemyIsHit : MonoBehaviour
         {
             if (rigidbody.gravityScale != 0)
             {
+                canBeSeenByBlackHole = true;
+
                 rigidbody.gravityScale = 0;
                 alreadyHit = true;
                 GetComponent<EnemyMove>().SetMovementParameters(0);
@@ -117,6 +119,8 @@ public class EnemyIsHit : MonoBehaviour
             }
         }
     }
+
+    public bool canBeSeenByBlackHole;// = true;
 
     
     
@@ -133,17 +137,16 @@ public class EnemyIsHit : MonoBehaviour
     IEnumerator DisableAfterParticleEnds(ParticleSystem particle)
     {
         particle.Play();
-        var timeUntilCanNoLongerExplode = 0.1f;
         var timeForParticleToPersist = 0.45f;
 
-        // yield return new WaitForSeconds(timeUntilCanNoLongerExplode);
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
 
-        // An exploding enemy can now only explode other enemies during the frame(s) it dies,
-        // rather than continuously exploding them until its explosion particle ends.
+        // An exploding enemy can now only explode other enemies for a few frames on death,
+        // rather than being able to do so until its explosion particle ends.
         canExplodeOtherEnemies = false;
-        if (totalExplosionChains > 1)
+        // if (totalExplosionChains > 1)
+        if (totalExplosionChains > 0)
             totalExplosionChains--;
 
         yield return new WaitForSeconds(timeForParticleToPersist);

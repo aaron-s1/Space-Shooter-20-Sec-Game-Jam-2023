@@ -2,29 +2,23 @@
 
 
 Audio Sounds    
-    - poof     
+    - poof for when enemy does not explode
+    - black hole sounds?
 
 
 Enemies    
     - fix waves and performance issues
-
-Powerups
-    - black hole isn't telling game manager it's eaten all Enemies
-
 
 
 
 
 Value tweaking:    
     - enemy spawn rate increase on kill
-    - enemy kills needed for next y offset randomization between waves    
     - tweak angle of when turrets should see mouse position?
     - at what point in ambience clip should it begin?
-    - black hole scoring formula
-    
     
 
-
+- fix weird console errors
 
 
 --------------------------------------------------
@@ -40,16 +34,15 @@ May or may not add this stuff.
 
 --------------------------------------------------
 
+
 - add credits for sound effects
+- script cleanup
 - bug fixes
 - setup itch page
 - clean push
 - local file backup
 - delete/add comments
-- clean up scripts
 - remove player being black hole by default
-
 - override/update prefabs
-- clean project folder
-- clean hierarchy
+
 

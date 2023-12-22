@@ -16,11 +16,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI secondsRemainingUI;
 
     [SerializeField] GameObject endGameScreen;
+    
     [SerializeField] GameObject blackBackgroundScreen;
     [Space(10)]
     [SerializeField] PowerUpSelector powerUpSelector;
 
     PlayerController player;
+    // EndGameScreen blackHoleScorePerEnemy;
     IEnumerator spawnEnemies;
     
     int secondsPassedSinceGameStart;
@@ -118,11 +120,11 @@ public class GameManager : MonoBehaviour
         StopCoroutine(spawnEnemies);
         // if (spawnEnemies != null)
 
-        Debug.Break();
+        // Debug.Break();
         GameObject.FindObjectOfType<PowerUpSelector>().GetComponent<PowerUpSelector>().StopAllCoroutines();
 
         yield return StartCoroutine(player.Die());
-        Debug.Break();
+        // Debug.Break();
 
         blackBackgroundScreen.SetActive(true);
         endGameScreen.SetActive(true);
@@ -159,10 +161,7 @@ public class GameManager : MonoBehaviour
         if (!killCameFromBlackHole)
             regularKills++;
         else
-        {
-            Debug.Log("Game Manager added to black hole kills");
             blackHoleKills++;
-        }
 
         totalKills++;
 
@@ -171,11 +170,11 @@ public class GameManager : MonoBehaviour
 
 
     void AdjustScore(bool killCameFromBlackHole = false)
-    {        
+    {
         if (!killCameFromBlackHole)
             score += 10;
         else
-            score += 10;
+            score += 15 * powerUpSelector.GetComponent<PowerUpSelector>().totalPowerUpsAcquired;
 
         scoreUI.text = score.ToString();        
     }

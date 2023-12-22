@@ -15,7 +15,7 @@ public class EnemySpawner : MonoBehaviour
         public SpeedRange speedRange;
     }
 
-    [SerializeField] int totalPoolSize;
+[SerializeField] int sizeOfAllPools;
     [SerializeField] GameObject enemyPrefabVariant1;
     [SerializeField] GameObject enemyPrefabVariant2;
     [SerializeField] float timeBetweenWaves;
@@ -43,8 +43,8 @@ public class EnemySpawner : MonoBehaviour
 
     void InitializeEnemyPools()
     {
-        enemyPoolVariant1 = new EnemyPool(enemyPrefabVariant1, totalPoolSize / 2);
-        enemyPoolVariant2 = new EnemyPool(enemyPrefabVariant2, totalPoolSize / 2);
+        enemyPoolVariant1 = new EnemyPool(enemyPrefabVariant1, sizeOfAllPools / 2);
+        enemyPoolVariant2 = new EnemyPool(enemyPrefabVariant2, sizeOfAllPools / 2);
     }
 
     public IEnumerator SpawnWaves()
@@ -218,7 +218,7 @@ public class EnemySpawner : MonoBehaviour
             for (int i = 0; i < poolSize; i++)
             {
                 GameObject enemy = Object.Instantiate(prefab, enemyPoolParent);
-                Debug.Log("spawner disabled enemy");
+                // Debug.Log("spawner disabled enemy");
                 enemy.SetActive(false);
                 inactiveEnemyList.Add(enemy);
             }
@@ -250,7 +250,7 @@ public class EnemySpawner : MonoBehaviour
             if (activeEnemyList.Contains(enemy))
             {
                 activeEnemyList.Remove(enemy);
-                Debug.Log("spawner disabled enemy");
+                // Debug.Log("spawner disabled enemy");
                 enemy.SetActive(false);
                 inactiveEnemyList.Add(enemy);
             }

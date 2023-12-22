@@ -7,17 +7,12 @@ public class ExampleShipControl : MonoBehaviour {
 	public float rotation_speed = 1f;
 	public GameObject turret;
 	public float turret_rotation_speed = 3f;
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
+
+
 	void Update () {
-	
-	
 		if (Input.GetKeyDown(KeyCode.Escape))
-			Screen.lockCursor = !Screen.lockCursor;	
+			Cursor.visible = false;
+			// Screen.lockCursor = !Screen.lockCursor;	
 	
 	
 	

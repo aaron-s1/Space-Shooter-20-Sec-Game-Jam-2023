@@ -99,7 +99,7 @@ public class EndGameScreen : MonoBehaviour
 
         if (typeIsAccruing == accruingMissileScore)
         {
-            Debug.Log("accruing missle score");
+            // Debug.Log("accruing missle score");
             accruingMissileScore = true;
         }
         else if (typeIsAccruing == accruingBlackHoleScore)
@@ -145,8 +145,9 @@ public class EndGameScreen : MonoBehaviour
     {
         var missileScore = 10 * missileKills;
 
-        // improve later.
-        var blackHoleScore = 15 * GameManager.Instance.blackHoleKills * GameObject.Find("Power-Ups (+Canvas)").GetComponent<PowerUpSelector>().totalPowerUpsAcquired;
+        blackHoleScorePerEnemy = 15 * GameObject.Find("Power-Ups (+Canvas)").GetComponent<PowerUpSelector>().totalPowerUpsAcquired;
+        var blackHoleScore = GameManager.Instance.blackHoleKills * blackHoleScorePerEnemy;
+
         var totalScore = blackHoleScore + missileScore;
 
         yield return new WaitForSeconds(1f);        
@@ -154,6 +155,8 @@ public class EndGameScreen : MonoBehaviour
         totalScoreTextObject.SetActive(true);
         totalScoreTextObject.GetComponent<TextMeshProUGUI>().text = totalScore.ToString();        
     }
+
+    public int blackHoleScorePerEnemy;
     
 
     IEnumerator ShowKillsOverTime()
