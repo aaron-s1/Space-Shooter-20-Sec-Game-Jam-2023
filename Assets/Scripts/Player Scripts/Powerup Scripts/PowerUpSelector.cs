@@ -239,7 +239,7 @@ public IEnumerator SpawnDrones()
         // powerUpUI.GetComponent<DroppedPowerUpMovesToPlayer>().StartCoroutine("Move", drone.transform.localPosition, this.gameObject);
         // powerUpUI.SetActive(false);
         
-        Debug.Log("drone disengaged");
+
         leftDroneAnim.SetTrigger("disengage");
         rightDroneAnim.SetTrigger("disengage");
         float droneDisengageLength = leftDroneAnim.GetCurrentAnimatorStateInfo(0).length;

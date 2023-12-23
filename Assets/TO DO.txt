@@ -7,15 +7,17 @@ Audio Sounds
 
 
 Enemies    
-    - fix waves and performance issues
+    - improve waves and performance issues
 
 
+- fix background scroll speed
 
 
 Value tweaking:    
     - enemy spawn rate increase on kill
     - tweak angle of when turrets should see mouse position?
     - at what point in ambience clip should it begin?
+    - sound volumes of all audio
     
 
 - fix weird console errors
@@ -35,14 +37,15 @@ May or may not add this stuff.
 --------------------------------------------------
 
 
-- add credits for sound effects
-- script cleanup
+- lots and lots and lots of testing
+- {remove player being black hole by default}
+- add credits for used sound effects
 - bug fixes
 - setup itch page
+- script cleanup
 - clean push
 - local file backup
 - delete/add comments
-- remove player being black hole by default
-- override/update prefabs
+
 
 

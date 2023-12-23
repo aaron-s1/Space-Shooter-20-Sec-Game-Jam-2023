@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    [SerializeField] float whenToStartAmbienceMusic;
     [HideInInspector] public bool gameHasEnded;
     [HideInInspector] public int regularKills;
     [HideInInspector] public int blackHoleKills;
@@ -69,7 +70,9 @@ public class GameManager : MonoBehaviour
     // Give player a few seconds to get ready. Add effects or countdown or something later.
     IEnumerator CountdownBeforeGameStarts()
     {
-        // GetComponent<AudioSource>().Play();
+        GetComponent<AudioSource>().time = whenToStartAmbienceMusic;
+        GetComponent<AudioSource>().Play();
+
         for (int i = 0; i < 3; i++)
         {
             yield return new WaitForSeconds(1f);
@@ -82,6 +85,10 @@ public class GameManager : MonoBehaviour
                 if (spawnEnemies != null)
                     StartCoroutine(spawnEnemies);
             }
+
+            if (secondsBeforeGameStart == 1)
+                player.gameObject.GetComponent<Animator>().SetTrigger("PlayerComesIn");
+
 
             if (secondsBeforeGameStart == 0)
             {

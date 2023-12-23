@@ -57,6 +57,9 @@ public class SingularityCore : MonoBehaviour
         // }
 
         other.gameObject.SetActive(false);
+        
+        if (other.gameObject.tag == "PowerUp")
+            Debug.Log("???");
 
         if (enemiesEaten == enemiesAvailable)
             gameManager.blackHoleAteAllEnemies = true;

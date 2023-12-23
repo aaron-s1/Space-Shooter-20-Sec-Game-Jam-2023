@@ -11,12 +11,13 @@ public class SoundManager : MonoBehaviour
     public AudioClip startButtonClip;
     public AudioClip enemyExplosionClip;
 
+    float volume;
 
     void Start()
     {
         Instance = this;
 
-        DontDestroyOnLoad(this.gameObject);
+        // DontDestroyOnLoad(this.gameObject);
 
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
@@ -24,12 +25,14 @@ public class SoundManager : MonoBehaviour
 
     public IEnumerator PlayStartButtonClip()
     {
+        audioSource.volume = 0.5f;
         audioSource.clip = startButtonClip;
         yield return StartCoroutine(PlayClip(audioSource.clip));
     }
 
     public IEnumerator PlayExplosionClip()
     {
+        audioSource.volume = 0.2f;
         audioSource.clip = enemyExplosionClip;
         yield return StartCoroutine(PlayClip(audioSource.clip));
     }
