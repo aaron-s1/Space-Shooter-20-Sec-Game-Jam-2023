@@ -24,12 +24,31 @@ https://assetstore.unity.com/packages/tools/particles-effects/dark-singularity-1
 
 
 "Free Fire VFX"
-"Vefects"
+by Vefects
 https://assetstore.unity.com/packages/vfx/particles/fire-explosions/free-fire-vfx-266227
 
 
 
 #  Audio  # 
+"SF Soundtrack Free" (start menu ambience)
+by Mike Berns Music
+https://assetstore.unity.com/packages/audio/music/electronic/sf-soundtrack-free-187496
+
+
+"Cyber Metal Music" (ambience)
+by Intersonic Sound
+https://assetstore.unity.com/packages/audio/music/rock/cyber-metal-music-213902
+
+
+"Game Menu Template" (menu click audio, UI)
+by Alpaca Studio
+https://assetstore.unity.com/packages/templates/systems/game-menu-template-107813
+
+
+"Sci Fi World Sounds - Free Package" (explosion sound)
+by Poligons Worlds
+https://assetstore.unity.com/packages/audio/music/sci-fi-world-sounds-free-package-123545
+
 
 
 

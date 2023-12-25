@@ -1,26 +1,24 @@
 
 
 
-Audio Sounds    
-    - poof for when enemy does not explode
-    - black hole sounds?
 
 
 Enemies    
     - improve waves and performance issues
 
 
-- fix background scroll speed
+- fix background scroll speed (if set to 0 on game end, sprite flips for some reason)
+
+- fix Instances combined with scene reloading
 
 
 Value tweaking:    
-    - enemy spawn rate increase on kill
+    - enemy spawn rate increase on kill 
     - tweak angle of when turrets should see mouse position?
     - at what point in ambience clip should it begin?
     - sound volumes of all audio
     
 
-- fix weird console errors
 
 
 --------------------------------------------------
@@ -29,20 +27,20 @@ May or may not add this stuff.
 
 - Leaderboard?
     (add credits if so)
+- Black hole sounds?
 - Piercing UI needs a better graphic?
-- Restrict targeting angle to frontwards of player?
 - Better player firing sound?
-- on game end, have black screen have a circular transition?
+- Restrict targeting angle to frontwards of player?
+- On game end, have black screen have a circular transition (if player becomes black hole)?
 
 --------------------------------------------------
 
 
-- lots and lots and lots of testing
 - {remove player being black hole by default}
-- add credits for used sound effects
-- bug fixes
+- lots and lots and lots of testing
+- inevitable random bugs
+
 - setup itch page
-- script cleanup
 - clean push
 - local file backup
 - delete/add comments

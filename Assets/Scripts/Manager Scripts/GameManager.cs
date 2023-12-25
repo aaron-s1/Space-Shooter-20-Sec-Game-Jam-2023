@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
 
     public bool blackHoleAteAllEnemies;
 
+    
+
 
     
 
@@ -67,11 +69,31 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(CountdownBeforeGameStarts());
     }
 
-    // Give player a few seconds to get ready. Add effects or countdown or something later.
+    public IEnumerator IncreaseVolumeOverTime(float overTimeLength)
+    {
+        AudioSource audioSource = GetComponent<AudioSource>();
+        audioSource.time = whenToStartAmbienceMusic;
+
+        audioSource.volume = 0.1f;
+
+        GetComponent<AudioSource>().Play();
+
+
+        // increases to 0.4f
+        for (int i = 0; i < 30; i++)
+        {
+            yield return new WaitForSeconds(overTimeLength / 30);
+            audioSource.volume += 0.01f;
+        }
+
+        yield break;
+    }
+
+    // Give player a few seconds to get ready. Add effects or countdown or something later.    
     IEnumerator CountdownBeforeGameStarts()
     {
-        GetComponent<AudioSource>().time = whenToStartAmbienceMusic;
-        GetComponent<AudioSource>().Play();
+        // yield return StartCoroutine(IncreaseVolumeOverTime(1.5f));
+        StartCoroutine(IncreaseVolumeOverTime(1.5f));
 
         for (int i = 0; i < 3; i++)
         {
