@@ -94,6 +94,8 @@ public class EnemySpawner : MonoBehaviour
         // Add the spawned enemy to the list
         // spawnedEnemies.Add(enemy);
     }
+
+    public void ResetSingleton() => Instance = null;
 }
 
 
@@ -255,6 +257,7 @@ public class EnemySpawner : MonoBehaviour
                 inactiveEnemyList.Add(enemy);
             }
         }
+    
     }
 
 
@@ -271,3 +274,4 @@ public class EnemySpawner : MonoBehaviour
         public float GetRandomSpeed() =>
             Random.Range(minSpeed, maxSpeed);
     }
+

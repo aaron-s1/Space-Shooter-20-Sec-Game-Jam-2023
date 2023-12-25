@@ -73,4 +73,6 @@ public class SoundManager : MonoBehaviour
             yield return new WaitUntil(() => !audioSource.isPlaying);
         yield break;
     }
+
+    public void ResetSingleton() => Instance = null;
 }

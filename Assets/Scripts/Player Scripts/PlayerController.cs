@@ -84,6 +84,9 @@ public class PlayerController : MonoBehaviour
         yield break;
     }
 
+
+    public void ResetSingleton() => Instance = null;
+
     // void Start() =>
         // Invoke("TestMultiplier", 3f);
 

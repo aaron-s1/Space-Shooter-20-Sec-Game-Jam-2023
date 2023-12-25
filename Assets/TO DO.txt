@@ -9,7 +9,6 @@ Enemies
 
 - fix background scroll speed (if set to 0 on game end, sprite flips for some reason)
 
-- fix Instances combined with scene reloading
 
 
 Value tweaking:    

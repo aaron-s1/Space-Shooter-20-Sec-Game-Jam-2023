@@ -171,4 +171,6 @@ public class FireMissile : MonoBehaviour
         CancelInvoke("PlayerStartsFiring");
         StopAllCoroutines();
     }
+
+    public void ResetSingleton() => Instance = null;
 }

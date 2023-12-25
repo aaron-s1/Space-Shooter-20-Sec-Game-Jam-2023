@@ -45,10 +45,23 @@ public class Menu_Controller : MonoBehaviour {
 	}
 
 	public void RestartGame() 
-	{		
+	{
 		StartCoroutine(SoundManager.Instance.PlayStartButtonClip());
+
+		ResetInstances();
 		SceneManager.LoadScene(scene.name);
 		// SceneManager.LoadScene(scene.ToString());
+	}
+
+
+	// Improve later.
+	void ResetInstances()
+	{
+		EnemySpawner.Instance.ResetSingleton();
+		FireMissile.Instance.ResetSingleton();
+		PlayerController.Instance.ResetSingleton();
+		SoundManager.Instance.ResetSingleton();
+		GameManager.Instance.ResetSingleton();
 	}
 
 	// IEnumerator WaitForAudioClip()

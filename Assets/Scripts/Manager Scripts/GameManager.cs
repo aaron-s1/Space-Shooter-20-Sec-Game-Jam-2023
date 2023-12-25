@@ -209,4 +209,6 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+
+    public void ResetSingleton() => Instance = null;
 }
