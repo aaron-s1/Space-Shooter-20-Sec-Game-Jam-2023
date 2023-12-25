@@ -140,7 +140,7 @@ public class EnemyIsHit : MonoBehaviour
         var timeForParticleToPersist = 0.45f;
 
         yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
+        // yield return new WaitForEndOfFrame();
 
         // An exploding enemy can now only explode other enemies for a few frames on death,
         // rather than being able to do so until its explosion particle ends.

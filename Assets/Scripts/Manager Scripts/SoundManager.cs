@@ -49,14 +49,12 @@ public class SoundManager : MonoBehaviour
     public IEnumerator PlayStartButtonClip()
     {
                             // (will by default use menuAmbienceClip)
-        yield return StartCoroutine(PlayClip(startButtonClip, 0.15f, false));
-        yield return new WaitForSeconds(0.35f); // shorter than button's clip length
-
         yield return StartCoroutine(PlayClip(menuAmbienceClip, 0.15f, false));
         yield return StartCoroutine(FadeVolumeOverTime(0.2f));
-
+        yield return StartCoroutine(PlayClip(startButtonClip, 0.15f, false));
+        yield return new WaitForSeconds(0.2f); // shorter than button's clip length
     }
-
+    
     public IEnumerator PlayExplosionClip()
     {
         yield return StartCoroutine(PlayClip(enemyExplosionClip, 0.2f, true));

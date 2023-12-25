@@ -150,7 +150,9 @@ public class GameManager : MonoBehaviour
         // if (spawnEnemies != null)
 
         // Debug.Break();
-        GameObject.FindObjectOfType<PowerUpSelector>().GetComponent<PowerUpSelector>().StopAllCoroutines();
+        // GameObject.FindObjectOfType<PowerUpSelector>().GetComponent<PowerUpSelector>().StopAllCoroutines();
+        GameObject.FindObjectOfType<PowerUpSelector>().StopAllCoroutines();
+        GameObject.FindObjectOfType<BackgroundScroll>().StopScrolling();
 
         yield return StartCoroutine(player.Die());
         // Debug.Break();

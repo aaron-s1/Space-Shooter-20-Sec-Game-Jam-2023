@@ -1,41 +1,19 @@
 
 
 
-
-
 Enemies    
     - improve waves and performance issues
 
 
-- fix background scroll speed (if set to 0 on game end, sprite flips for some reason)
 
 
-
-Value tweaking:    
-    - enemy spawn rate increase on kill 
-    - tweak angle of when turrets should see mouse position?
+Value tweaking:
+    - enemy spawn rate increase on kill     
     - at what point in ambience clip should it begin?
-    - sound volumes of all audio
-    
 
 
 
---------------------------------------------------
 
-May or may not add this stuff.
-
-- Leaderboard?
-    (add credits if so)
-- Black hole sounds?
-- Piercing UI needs a better graphic?
-- Better player firing sound?
-- Restrict targeting angle to frontwards of player?
-- On game end, have black screen have a circular transition (if player becomes black hole)?
-
---------------------------------------------------
-
-
-- {remove player being black hole by default}
 - lots and lots and lots of testing
 - inevitable random bugs
 
@@ -44,5 +22,20 @@ May or may not add this stuff.
 - local file backup
 - delete/add comments
 
+--------------------------------------------------
+
+May or may not add:
 
 
+- Leaderboard?
+    (add credits if so)
+- Explosion powerup still way too strong
+- Black hole audio?
+- Piercing UI needs a better graphic?
+- Better player firing sound?
+- Restrict targeting angle to frontwards of player?
+- On game end, have black screen have a circular transition (if player becomes black hole)?
+
+- Further tweak distance/angle for turrets seeing mouse position?
+
+--------------------------------------------------
