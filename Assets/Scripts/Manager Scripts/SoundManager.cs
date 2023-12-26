@@ -40,24 +40,31 @@ public class SoundManager : MonoBehaviour
         yield break;
     }
     
-    // IEnumerator PlayMenuAmbienceClip()
-    // {        
-    //     yield return StartCoroutine(PlayClip(menuAmbienceClip, 0.15f, true));
-    //     // yield return StartCoroutine(SoundManager.Instance.FadeVolumeOverTime(1f));
+    public IEnumerator PlayStartButtonClip()
+    {        
+        yield return StartCoroutine(PlayClip(startButtonClip, 0.15f, true));
+        // yield return StartCoroutine(SoundManager.Instance.FadeVolumeOverTime(1f));
+    }
+
+    // public IEnumerator RestartingGame()
+    // {
+    //     AudioSource gameplayAmbience = GameManager.Instance.GetComponent<AudioSource>();        
+    //     yield return StartCoroutine(PlayClip(gameplayAmbience.clip, gameplayAmbience.volume, false));
+
+    //     yield return StartCoroutine(FadeVolumeOverTime(0.2f));
     // }
 
-    public IEnumerator PlayStartButtonClip()
+    public IEnumerator PlayStartButtonThenStartGame()
     {
                             // (will by default use menuAmbienceClip)
         yield return StartCoroutine(PlayClip(menuAmbienceClip, 0.15f, false));
-        yield return StartCoroutine(FadeVolumeOverTime(0.2f));
         yield return StartCoroutine(PlayClip(startButtonClip, 0.15f, false));
         yield return new WaitForSeconds(0.2f); // shorter than button's clip length
     }
     
     public IEnumerator PlayExplosionClip()
     {
-        yield return StartCoroutine(PlayClip(enemyExplosionClip, 0.2f, true));
+        yield return StartCoroutine(PlayClip(enemyExplosionClip, 0.13f, true));
     }
 
 
@@ -66,6 +73,7 @@ public class SoundManager : MonoBehaviour
         audioSource.Stop();
         audioSource.clip = newClip;
         audioSource.Play();
+        audioSource.volume = newVolume;
 
         if (preventMultiplePlays)
             yield return new WaitUntil(() => !audioSource.isPlaying);

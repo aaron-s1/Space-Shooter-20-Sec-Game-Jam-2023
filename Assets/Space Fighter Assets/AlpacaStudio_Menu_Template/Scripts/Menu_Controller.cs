@@ -46,12 +46,16 @@ public class Menu_Controller : MonoBehaviour {
 
 	public void RestartGame() 
 	{
-		StartCoroutine(SoundManager.Instance.PlayStartButtonClip());
-
+		StartCoroutine(PrepRestart());
 		ResetInstances();
 		SceneManager.LoadScene(scene.name);
-		// SceneManager.LoadScene(scene.ToString());
 	}
+
+	IEnumerator PrepRestart()
+	{
+		yield return StartCoroutine(SoundManager.Instance.PlayStartButtonClip());
+	}
+
 
 
 	// Improve later.

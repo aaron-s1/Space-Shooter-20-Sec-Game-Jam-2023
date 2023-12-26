@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     bool gameHasStarted;
 
 
-    public bool blackHoleAteAllEnemies;
+    [HideInInspector] public bool blackHoleAteAllEnemies;
 
     
 
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
     
     public IEnumerator PrepStartOfGame(GameObject howToPlayScreen)
     {
-        yield return StartCoroutine(SoundManager.Instance.PlayStartButtonClip());
+        yield return StartCoroutine(SoundManager.Instance.PlayStartButtonThenStartGame());
         blackBackgroundScreen.SetActive(false);
         howToPlayScreen.SetActive(false);
         player.gameObject.SetActive(true);
@@ -157,7 +157,12 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(player.Die());
         // Debug.Break();
 
+
+        // not dynamic. set to above blackBackgroundScreen's animation length.
         blackBackgroundScreen.SetActive(true);
+        blackBackgroundScreen.GetComponent<Animator>().SetTrigger("FadeIn");
+        yield return new WaitForSeconds(0.6f);
+
         endGameScreen.SetActive(true);
         endGameScreen.GetComponent<EndGameScreen>().TallyUpKillsAndScore(regularKills, blackHoleKills);
 

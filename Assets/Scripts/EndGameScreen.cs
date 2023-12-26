@@ -111,9 +111,9 @@ public class EndGameScreen : MonoBehaviour
 
     IEnumerator CountUpMissileKills()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         missileKillsTitleObject.SetActive(true);        
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         missileKillsTextObject.SetActive(true);
 
 
@@ -127,9 +127,9 @@ public class EndGameScreen : MonoBehaviour
 
     IEnumerator CountUpBlackHoleKills()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         blackHoleKillsTitleObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         blackHoleKillsTextObject.SetActive(true);
 
         blackHoleKills = GameManager.Instance.blackHoleKills;
@@ -150,7 +150,7 @@ public class EndGameScreen : MonoBehaviour
 
         var totalScore = blackHoleScore + missileScore;
 
-        yield return new WaitForSeconds(1f);        
+        yield return new WaitForSeconds(0.5f);        
         totalScoreTitleObject.SetActive(true);
         totalScoreTextObject.SetActive(true);
         totalScoreTextObject.GetComponent<TextMeshProUGUI>().text = totalScore.ToString();        
@@ -177,7 +177,7 @@ public class EndGameScreen : MonoBehaviour
 
         if (PlayerController.Instance.canBecomeBlackHole)
         {
-            killsAmountAccrualPerFrame = 2;
+            killsAmountAccrualPerFrame = 1;
             yield return StartCoroutine(CountUpBlackHoleKills());
             yield return new WaitUntil(() => accruingBlackHoleScore == false);
         }

@@ -8,19 +8,19 @@ Enemies
 
 
 Value tweaking:
-    - enemy spawn rate increase on kill     
-    - at what point in ambience clip should it begin?
+    - turret/mouse aiming isn't that smooth
+    - enemy spawn rate increase on kill
+    
 
 
 
 
-- lots and lots and lots of testing
 - inevitable random bugs
 
 - setup itch page
 - clean push
 - local file backup
-- delete/add comments
+
 
 --------------------------------------------------
 

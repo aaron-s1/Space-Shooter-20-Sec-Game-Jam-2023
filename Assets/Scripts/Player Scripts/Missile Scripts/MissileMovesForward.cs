@@ -5,9 +5,14 @@ using UnityEngine;
 public class MissileMovesForward : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
+
+    Rigidbody2D rb;
+
+    void Start() =>
+        rb = GetComponent<Rigidbody2D>();
     
-    void FixedUpdate()
-    {
-        transform.Translate(0, moveSpeed, 0);
-    }
+    
+    void FixedUpdate() =>
+        rb.MovePosition(rb.position + (Vector2)transform.up * moveSpeed * Time.deltaTime);
+        // transform.Translate(0, moveSpeed, 0);
 }
