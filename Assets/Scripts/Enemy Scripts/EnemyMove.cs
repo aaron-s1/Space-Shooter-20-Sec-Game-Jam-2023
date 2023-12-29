@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    public float moveSpeed;
+    float moveSpeed;
     public float _sineAmplitudeMultiplier;
     public float upwardMultiplier; // New variable for upward movement
 

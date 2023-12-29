@@ -33,7 +33,7 @@ public class SingularityCore : MonoBehaviour
         // yield return new WaitForEndOfFrame();
         // yield return new WaitForEndOfFrame();
         // yield return new WaitForEndOfFrame();
-        enemiesAvailable = singularity.GetComponentInChildren<Singularity>().enemiesSeen;
+        enemiesAvailable = singularity.GetComponentInChildren<Singularity>().totalEnemiesSeen;
 
         canStartEating = true;
         yield break;

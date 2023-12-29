@@ -14,6 +14,8 @@ public class EnemyIsHit : MonoBehaviour
     [SerializeField] public ParticleSystem explosionParticle;
     [SerializeField] [Range(0.98f, 0.999f)] float multiplicativeSpawnRateAdjustment;
 
+    SoundManager soundManager;
+
     new SpriteRenderer renderer;
     new Rigidbody2D rigidbody;
 
@@ -37,7 +39,8 @@ public class EnemyIsHit : MonoBehaviour
     void Start()
     {
         gameManager = GameManager.Instance;
-        Invoke("DisableAfterSeconds", 3f);
+        soundManager = SoundManager.Instance;
+        Invoke("DisableAfterSeconds", 4f);
     }
 
     // Don't disable if touching black hole. Let black hole disable instead.
@@ -79,10 +82,9 @@ public class EnemyIsHit : MonoBehaviour
 
         ParticleSystem activeParticle;
 
-        // OnTriggerStay2D will try to explode nearby enemies until explosionParticle stops playing.
         if (this.totalExplosionChains > 0)
         {
-            StartCoroutine(SoundManager.Instance.PlayExplosionClip());
+            StartCoroutine(soundManager.PlayExplosionClip());
             canExplodeOtherEnemies = true;
             activeParticle = explosionParticle;
         }
@@ -95,10 +97,14 @@ public class EnemyIsHit : MonoBehaviour
 
 
     void OnTriggerStay2D(Collider2D other)
-    {        
+    {
+        // Explode other enemies.
         if (other.gameObject.tag == "Enemy" && canExplodeOtherEnemies)
-        {            
+        {
             EnemyIsHit otherEnemy = other.gameObject.GetComponent<EnemyIsHit>();
+
+            // testing limiting explosions
+            // canExplodeOtherEnemies = false;
             
             if (!otherEnemy.alreadyHit)
                 StartCoroutine(otherEnemy.StartDying(totalExplosionChains - 1));
@@ -139,13 +145,9 @@ public class EnemyIsHit : MonoBehaviour
         particle.Play();
         var timeForParticleToPersist = 0.45f;
 
+        // Other enemies can now only be exploded at the moment an exploding enemy dies.
         yield return new WaitForEndOfFrame();
-        // yield return new WaitForEndOfFrame();
-
-        // An exploding enemy can now only explode other enemies for a few frames on death,
-        // rather than being able to do so until its explosion particle ends.
         canExplodeOtherEnemies = false;
-        // if (totalExplosionChains > 1)
         if (totalExplosionChains > 0)
             totalExplosionChains--;
 

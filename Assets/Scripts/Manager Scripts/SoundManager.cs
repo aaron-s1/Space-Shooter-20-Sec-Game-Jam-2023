@@ -70,6 +70,12 @@ public class SoundManager : MonoBehaviour
 
     IEnumerator PlayClip(AudioClip newClip, float newVolume, bool preventMultiplePlays)
     {
+        if (audioSource.loop == true)
+        {
+            if (newClip != menuAmbienceClip)
+                audioSource.loop = false;
+        }
+
         audioSource.Stop();
         audioSource.clip = newClip;
         audioSource.Play();

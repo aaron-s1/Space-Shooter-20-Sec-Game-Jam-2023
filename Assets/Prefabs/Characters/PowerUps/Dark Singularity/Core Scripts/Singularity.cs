@@ -9,6 +9,10 @@ public class Singularity : MonoBehaviour
     Vector2 gravityCenter;
 
 
+    [HideInInspector] public int totalEnemiesSeen;
+    [HideInInspector] public bool allEnemiesSeen;
+
+
     void Start()
     {
         m_GravityRadius = GetComponent<CircleCollider2D>().radius;
@@ -19,21 +23,18 @@ public class Singularity : MonoBehaviour
 
     }
 
-    public int enemiesSeen;
-    public bool allEnemiesSeen;
 
     void OnTriggerStay2D(Collider2D other)
     {
         if (TryGetComponents(other, out var pullable, out var rb))
         {
             // Debug.Log("Black hole saw something pullable.");
-
             if (other.gameObject.tag == "Enemy")
             {
                 if (other.GetComponent<EnemyIsHit>().canBeSeenByBlackHole)
                 {
                     // Debug.Log("Black hole sees enemy!");
-                    enemiesSeen++;
+                    totalEnemiesSeen++;
                     other.GetComponent<EnemyIsHit>().canBeSeenByBlackHole = false;
                 }
             }

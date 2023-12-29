@@ -5,19 +5,18 @@ Enemies
     - improve waves and performance issues
 
 
+Player
+    - weird display issues with missile at first
 
 
-Value tweaking:
-    - turret/mouse aiming isn't that smooth
-    - enemy spawn rate increase on kill
-    
+- Background is repeating weirdly
+
 
 
 
 
 - inevitable random bugs
 
-- setup itch page
 - clean push
 - local file backup
 

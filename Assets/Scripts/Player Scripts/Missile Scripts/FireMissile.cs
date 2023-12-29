@@ -124,11 +124,8 @@ public class FireMissile : MonoBehaviour
         }
     }
 
-    void OnExplodeChainIncrementation()
-    {
+    void OnExplodeChainIncrementation() =>
         NewMissilesExplodeMoreEnemies();
-    }
-
 
 
     
@@ -145,6 +142,7 @@ public class FireMissile : MonoBehaviour
             leftTurretAnim.SetTrigger("level2");
             rightTurretAnim.SetTrigger("level2");
         }
+        
         if (multiplier == 3)
         {
             leftTurretAnim.SetTrigger("level3");
