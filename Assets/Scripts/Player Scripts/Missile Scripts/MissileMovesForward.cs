@@ -14,5 +14,8 @@ public class MissileMovesForward : MonoBehaviour
     
     void FixedUpdate() =>
         rb.MovePosition(rb.position + (Vector2)transform.up * moveSpeed * Time.deltaTime);
+
+    // void Update() =>
+        // rb.MovePosition(rb.position + (Vector2)transform.up * moveSpeed * Time.deltaTime);
         // transform.Translate(0, moveSpeed, 0);
 }

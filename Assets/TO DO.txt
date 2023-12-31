@@ -1,21 +1,11 @@
 
 
-
-Enemies    
-    - improve waves and performance issues
-
-
 Player
     - weird display issues with missile at first
+Enemies    
+    - Improve performance
 
 
-- Background is repeating weirdly
-
-
-
-
-
-- inevitable random bugs
 
 - clean push
 - local file backup
@@ -23,7 +13,8 @@ Player
 
 --------------------------------------------------
 
-May or may not add:
+~ May or may not add ~
+
 
 
 - Leaderboard?

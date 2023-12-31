@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     int totalKills;
     int score;
 
-    bool gameHasStarted;
+    public bool gameHasStarted;
 
 
     [HideInInspector] public bool blackHoleAteAllEnemies;
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        gameHasStarted = true;
+        // gameHasStarted = true;
         spawnEnemies = EnemySpawner.Instance.SpawnWaves();
         player = PlayerController.Instance;
     }
@@ -63,6 +63,9 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(SoundManager.Instance.PlayStartButtonThenStartGame());
         blackBackgroundScreen.SetActive(false);
         howToPlayScreen.SetActive(false);
+
+        gameHasStarted = true;
+        
         player.gameObject.SetActive(true);
         StartCoroutine(spawnEnemies);
 
@@ -148,14 +151,12 @@ public class GameManager : MonoBehaviour
         
         StopCoroutine(spawnEnemies);
         // if (spawnEnemies != null)
-
-        // Debug.Break();
+        
         // GameObject.FindObjectOfType<PowerUpSelector>().GetComponent<PowerUpSelector>().StopAllCoroutines();
         GameObject.FindObjectOfType<PowerUpSelector>().StopAllCoroutines();
-        GameObject.FindObjectOfType<BackgroundScroll>().StopScrolling();
+        // GameObject.FindObjectOfType<BackgroundScroll>().StopScrolling();
 
         yield return StartCoroutine(player.Die());
-        // Debug.Break();
 
 
         // not dynamic. set to above blackBackgroundScreen's animation length.

@@ -35,10 +35,10 @@ public class MissileHitEnemy : MonoBehaviour
     }
     
 
-    void OnTriggerEnter2D(Collider2D other) {
+    void OnTriggerEnter2D(Collider2D other)
+    {
         if (other.gameObject.tag == "Enemy")
         {
-            // GameObject enemy = other.gameObject;
             EnemyIsHit enemyIsHit = other.GetComponent<EnemyIsHit>();
             GameObject enemy = enemyIsHit.gameObject;
 
@@ -51,12 +51,8 @@ public class MissileHitEnemy : MonoBehaviour
                 IEnumerator startDying = enemyIsHit.StartDying(totalExplosionChains);
                 StartCoroutine(startDying);
 
-
                 if (bulletCanPierce)
-                {
                     bulletCanPierce = false;
-                    // Invoke("DisableAfterSeconds", 0.25f);
-                }
                 else
                     gameObject.SetActive(false);
             }
