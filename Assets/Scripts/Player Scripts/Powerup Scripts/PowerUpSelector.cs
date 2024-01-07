@@ -51,7 +51,7 @@ public class PowerUpSelector : MonoBehaviour
 
     void Update()
     {
-        if (!allowPowerUpChoice)
+        if (!allowPowerUpChoice || gameManager.gameHasEnded)
             return;
 
         if (Input.GetMouseButton(0))

@@ -1,14 +1,14 @@
 
 
 Player
-    - weird display issues with missile at first
+    - weird display issues with missiles at first
 Enemies    
     - Improve performance
 
 
-
 - clean push
-- local file backup
+- make webGL build
+- fully bring up itch.io page
 
 
 --------------------------------------------------

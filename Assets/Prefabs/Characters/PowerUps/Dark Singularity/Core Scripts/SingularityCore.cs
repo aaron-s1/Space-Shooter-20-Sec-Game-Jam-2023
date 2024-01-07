@@ -30,9 +30,6 @@ public class SingularityCore : MonoBehaviour
     {
         yield return new WaitUntil(() => singularity.activeInHierarchy == true);
         yield return new WaitForSeconds(0.7f);
-        // yield return new WaitForEndOfFrame();
-        // yield return new WaitForEndOfFrame();
-        // yield return new WaitForEndOfFrame();
         enemiesAvailable = singularity.GetComponentInChildren<Singularity>().totalEnemiesSeen;
 
         canStartEating = true;
@@ -46,11 +43,11 @@ public class SingularityCore : MonoBehaviour
     {
         if (!canStartEating)
             return;
+            
         // if (other.gameObject.GetComponent<SingularityPullable>().pullable)
         // {
             if (other.gameObject.tag == "Enemy")
-            {
-                // Debug.Log("core incremented enemiesEaten");
+            {                
                 enemiesEaten++;
                 gameManager.AddToKills(true);
             }

@@ -9,7 +9,7 @@ public class TurretsLookAtMouse : MonoBehaviour
     [SerializeField] float minDistanceToStopRotation = 1f;
 
 
-    void FixedUpdate()
+    void Update()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 

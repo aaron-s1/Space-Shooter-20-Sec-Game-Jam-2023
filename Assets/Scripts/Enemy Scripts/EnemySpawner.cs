@@ -69,8 +69,6 @@ public class EnemySpawner : MonoBehaviour
 
             // Clear the list for the next wave
             // spawnedEnemies.Clear();
-
-            yield return null;
         }
     }
 
