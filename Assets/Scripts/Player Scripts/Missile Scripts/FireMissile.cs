@@ -8,7 +8,6 @@ public class FireMissile : MonoBehaviour
     public static FireMissile Instance { get; private set; }
     
     [SerializeField] GameObject missilePrefab;
-    // [SerializeField] float timeBetweenMissileFirings = 1f;
     [SerializeField] int poolSize = 150;
     [Space(10)]
     [SerializeField] Transform leftMissileOriginPoint;
@@ -19,14 +18,13 @@ public class FireMissile : MonoBehaviour
 
     [HideInInspector] AudioSource firingSound;
 
-    int _missileFireMultiplier = 1;
     [SerializeField] float _finalFireRateDivisor = 1f;
+    int _missileFireMultiplier = 1;
     int _explosionChains = 0;
     
 
     void Awake() =>
         Instance = this;
-
 
     
     void Start()
@@ -34,39 +32,7 @@ public class FireMissile : MonoBehaviour
         firingSound = GetComponent<AudioSource>();
         missilePool = new List<GameObject>();
         InitializeMissilePool();
-
-        // InvokeRepeating("PlayerStartsFiring", 2f, 1 / _missileFireMultiplier);
     }
-
-
-    public int fireRateMultiplier
-    {
-        get { return _missileFireMultiplier; }
-
-        set
-        {
-            if (_missileFireMultiplier != value)
-            {
-                _missileFireMultiplier = value;
-                OnMissileFireRateMultiplierChanged(_missileFireMultiplier);
-            }
-        }
-    }
-
-    public int explosionChains
-    {
-        get { return _explosionChains; }
-
-        set
-        {
-            if (_explosionChains != value)
-            {
-                _explosionChains = value;
-                OnExplodeChainIncrementation();
-            }
-        }
-    }    
-
 
 
     void InitializeMissilePool()
@@ -79,7 +45,6 @@ public class FireMissile : MonoBehaviour
             missilePool.Add(missile);
         }
     }
-
 
     
     public void PrepFiringThenFire() =>
@@ -114,6 +79,8 @@ public class FireMissile : MonoBehaviour
         missilePool.Find(missile => !missile.activeInHierarchy);
 
 
+
+    #region Handle fire rate / explosion amount changes.
     void OnMissileFireRateMultiplierChanged(int newMultiplier)
     {
         if (newMultiplier != 0)
@@ -124,11 +91,55 @@ public class FireMissile : MonoBehaviour
         }
     }
 
+
     void OnExplodeChainIncrementation() =>
         NewMissilesExplodeMoreEnemies();
 
 
+    public void NewMissilesNowPierce()
+    {
+        foreach (GameObject bullet in missilePool)
+            bullet.GetComponent<MissileHitEnemy>().StartPiercingWhenEnabledAgain();
+    }
+
+    public void NewMissilesExplodeMoreEnemies()
+    {
+        foreach (GameObject bullet in missilePool)
+            bullet.GetComponent<MissileHitEnemy>().IncrementExplosionsWhenEnabledAgain(_explosionChains);
+    }
+
+
+    public int fireRateMultiplier
+        {
+            get { return _missileFireMultiplier; }
+
+            set
+            {
+                if (_missileFireMultiplier != value)
+                {
+                    _missileFireMultiplier = value;
+                    OnMissileFireRateMultiplierChanged(_missileFireMultiplier);
+                }
+            }
+        }
+
+    public int explosionChains
+    {
+        get { return _explosionChains; }
+
+        set
+        {
+            if (_explosionChains != value)
+            {
+                _explosionChains = value;
+                OnExplodeChainIncrementation();
+            }
+        }
+    }    
+    #endregion
     
+
+
     public void ScaleUpTurrets(int multiplier)
     {
         if (multiplier > 3)
@@ -150,18 +161,6 @@ public class FireMissile : MonoBehaviour
         }
     }
 
-
-    public void NewMissilesNowPierce()
-    {
-        foreach (GameObject bullet in missilePool)
-            bullet.GetComponent<MissileHitEnemy>().StartPiercingWhenEnabledAgain();
-    }
-
-    public void NewMissilesExplodeMoreEnemies()
-    {
-        foreach (GameObject bullet in missilePool)
-            bullet.GetComponent<MissileHitEnemy>().IncrementChainExplosionsWhenEnabledAgain(_explosionChains);
-    }
 
     public void StopFiring()
     {

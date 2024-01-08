@@ -72,30 +72,10 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(CountdownBeforeGameStarts());
     }
 
-    public IEnumerator IncreaseVolumeOverTime(float overTimeLength)
-    {
-        AudioSource audioSource = GetComponent<AudioSource>();
-        audioSource.time = whenToStartAmbienceMusic;
 
-        audioSource.volume = 0.1f;
-
-        GetComponent<AudioSource>().Play();
-
-
-        // increases to 0.4f
-        for (int i = 0; i < 30; i++)
-        {
-            yield return new WaitForSeconds(overTimeLength / 30);
-            audioSource.volume += 0.01f;
-        }
-
-        yield break;
-    }
-
-    // Give player a few seconds to get ready. Add effects or countdown or something later.    
+    // Give player a few seconds to get ready.
     IEnumerator CountdownBeforeGameStarts()
     {
-        // yield return StartCoroutine(IncreaseVolumeOverTime(1.5f));
         StartCoroutine(IncreaseVolumeOverTime(1.5f));
 
         for (int i = 0; i < 3; i++)
@@ -144,20 +124,18 @@ public class GameManager : MonoBehaviour
         else
             yield return StartCoroutine("CountdownToEndGame");
     }
+    
 
     IEnumerator EndGame()
     {
         gameHasEnded = true;
         
-        StopCoroutine(spawnEnemies);
-        // if (spawnEnemies != null)
+        if (spawnEnemies != null)
+            StopCoroutine(spawnEnemies);
         
-        // GameObject.FindObjectOfType<PowerUpSelector>().GetComponent<PowerUpSelector>().StopAllCoroutines();
         GameObject.FindObjectOfType<PowerUpSelector>().StopAllCoroutines();
-        // GameObject.FindObjectOfType<BackgroundScroll>().StopScrolling();
 
         yield return StartCoroutine(player.Die());
-
 
         // not dynamic. set to above blackBackgroundScreen's animation length.
         blackBackgroundScreen.SetActive(true);
@@ -165,11 +143,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
 
         endGameScreen.SetActive(true);
-        endGameScreen.GetComponent<EndGameScreen>().TallyUpKillsAndScore(regularKills, blackHoleKills);
+        endGameScreen.GetComponent<EndGameScreen>().TallyUpKillsAndScore(regularKills, blackHoleKills);        
 
-        // GetComponent<EnemySpawner>().GetComponent<EnemyPool>().ListEnemies();
-
-        // FullyEndGame();
+        FullyEndGame();
 
         yield break;
     }
@@ -181,18 +157,27 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    #region Power-ups.
 
+    public IEnumerator IncreaseVolumeOverTime(float overTimeLength)
+        {
+            AudioSource audioSource = GetComponent<AudioSource>();
+            audioSource.time = whenToStartAmbienceMusic;
 
+            audioSource.volume = 0.1f;
 
-    
-    
+            GetComponent<AudioSource>().Play();
 
-    #endregion
+            // increases volume to 0.4f
+            for (int i = 0; i < 30; i++)
+            {
+                yield return new WaitForSeconds(overTimeLength / 30);
+                audioSource.volume += 0.01f;
+            }
 
+            yield break;
+    }
 
-
-    #region Score system.
+    #region Scoring.
     public void AddToKills(bool killCameFromBlackHole = false)
     {        
         if (!killCameFromBlackHole)
@@ -211,12 +196,14 @@ public class GameManager : MonoBehaviour
         if (!killCameFromBlackHole)
             score += 10;
         else
-            score += 15 * powerUpSelector.GetComponent<PowerUpSelector>().totalPowerUpsAcquired;
+            score += 15 * powerUpSelector.GetComponent<PowerUpSelector>().TotalPowerUpsAcquired;
 
         scoreUI.text = score.ToString();        
     }
     #endregion
 
+
+   
 
     public void ResetSingleton() => Instance = null;
 }

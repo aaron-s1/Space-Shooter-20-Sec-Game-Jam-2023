@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class BackgroundScroll : MonoBehaviour
 {
-    // Gave up trying to get sprite repeating to work. 
-    // For now, just made a bunch of copies of the sprite background.
+    // For now, gave up trying to get sprite repeating to work. 
+    // Just made a bunch of copies of the sprite background. Works fine.
 
 
     public float scrollSpeed = 2.0f;
@@ -37,11 +37,7 @@ public class BackgroundScroll : MonoBehaviour
     void Update()
     {
         if (scrollSpeed > 0)
-        {
             transform.position -= new Vector3(0f, scrollSpeed * Time.deltaTime, 0f);
-            // float newPosition = Mathf.Repeat(Time.time * scrollSpeed, 5);
-            // transform.position = new Vector3(transform.position.x, initialY - newPosition, transform.position.z);
-        }
     }
 
     public void StopScrolling() => scrollSpeed = 0;

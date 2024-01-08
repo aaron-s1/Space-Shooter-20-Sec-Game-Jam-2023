@@ -145,7 +145,7 @@ public class EndGameScreen : MonoBehaviour
     {
         var missileScore = 10 * missileKills;
 
-        blackHoleScorePerEnemy = 15 * GameObject.Find("Power-Ups (+Canvas)").GetComponent<PowerUpSelector>().totalPowerUpsAcquired;
+        blackHoleScorePerEnemy = 15 * GameObject.Find("Power-Ups (+Canvas)").GetComponent<PowerUpSelector>().TotalPowerUpsAcquired;
         var blackHoleScore = GameManager.Instance.blackHoleKills * blackHoleScorePerEnemy;
 
         var totalScore = blackHoleScore + missileScore;

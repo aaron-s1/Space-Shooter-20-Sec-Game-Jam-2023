@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
 
     float volume;
 
+
     void Start()
     {
         Instance = this;
@@ -28,7 +29,6 @@ public class SoundManager : MonoBehaviour
 
     public IEnumerator FadeVolumeOverTime(float fadeTime)
     {
-        // float currentVolume = audioSource.volume;
         int fadeIncrementations = 40;
 
         for (int i = 0; i < fadeIncrementations; i++)
@@ -40,10 +40,9 @@ public class SoundManager : MonoBehaviour
         yield break;
     }
     
-    public IEnumerator PlayStartButtonClip()
+    public IEnumerator PlayStartButtonClip() 
     {        
         yield return StartCoroutine(PlayClip(startButtonClip, 0.15f, true));
-        // yield return StartCoroutine(SoundManager.Instance.FadeVolumeOverTime(1f));
     }
 
     // public IEnumerator RestartingGame()
@@ -56,7 +55,7 @@ public class SoundManager : MonoBehaviour
 
     public IEnumerator PlayStartButtonThenStartGame()
     {
-                            // (will by default use menuAmbienceClip)
+                                            // (will by default use menuAmbienceClip)
         yield return StartCoroutine(PlayClip(menuAmbienceClip, 0.15f, false));
         yield return StartCoroutine(PlayClip(startButtonClip, 0.15f, false));
         yield return new WaitForSeconds(0.2f); // shorter than button's clip length

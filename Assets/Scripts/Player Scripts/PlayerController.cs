@@ -9,9 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject shockwavePrefab;
     [SerializeField] GameObject blackHolePrefab;
     
-
     public bool canBecomeBlackHole;
-
 
 
     void Awake()
@@ -30,8 +28,6 @@ public class PlayerController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // void Start() => StartCoroutine(Die());
-
 
     public IEnumerator Die()
     {
@@ -43,9 +39,8 @@ public class PlayerController : MonoBehaviour
         
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
 
-        // yield return new WaitForSeconds(3f);
 
-        // handle particles.
+        // Creates some shockwaves before blowing up.
         Quaternion flippedRotation = Quaternion.Euler(0f, 0f, 90f);
 
         ParticleSystem shockWave1 = Instantiate(shockwavePrefab, transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
@@ -54,9 +49,6 @@ public class PlayerController : MonoBehaviour
         shockWave2.Play();
 
         yield return new WaitForSeconds(shockWave1.main.duration);
-
-        // yield return new WaitForSeconds(3f);
-        // Debug.Log($"Die() waited for shockwave for {shockWave1.main.duration}");
 
 
         if (canBecomeBlackHole)
@@ -86,11 +78,4 @@ public class PlayerController : MonoBehaviour
 
 
     public void ResetSingleton() => Instance = null;
-
-    // void Start() =>
-        // Invoke("TestMultiplier", 3f);
-
-
-    // void TestMultiplier() =>
-        // FireMissile.Instance.fireRateMultiplier = 10;
 }

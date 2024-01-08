@@ -28,12 +28,10 @@ public class Singularity : MonoBehaviour
     {
         if (TryGetComponents(other, out var pullable, out var rb))
         {
-            // Debug.Log("Black hole saw something pullable.");
             if (other.gameObject.tag == "Enemy")
             {
                 if (other.GetComponent<EnemyIsHit>().canBeSeenByBlackHole)
                 {
-                    // Debug.Log("Black hole sees enemy!");
                     totalEnemiesSeen++;
                     other.GetComponent<EnemyIsHit>().canBeSeenByBlackHole = false;
                 }

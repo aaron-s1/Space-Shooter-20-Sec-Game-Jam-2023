@@ -2,8 +2,7 @@
 
 Player
     - weird display issues with missiles at first
-Enemies    
-    - Improve performance
+
 
 
 - clean push

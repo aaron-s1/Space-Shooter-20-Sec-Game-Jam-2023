@@ -8,31 +8,19 @@ public class MissileHitEnemy : MonoBehaviour
 {
     GameManager gameManager;
 
-    // check what abilities the missile has.
     bool bulletCanPierce;
     bool startPiercingWhenEnabledAgain;        
     bool canExplodeEnemiesWhenEnabledAgain;
-    int totalExplosionChains = 0;
 
-    // new Collider2D collider;
-    // bool canAddScore = true;
+    int totalExplosionChains;
 
 
-    // void Awake()
-    // {
-    //     collider = GetComponent<Collider2D>();
-    // }
-
-    void Start() 
-    {
+    void Start() =>
         gameManager = GameManager.Instance;
-    }
 
 
     void OnEnable()
     {
-        // collider.enabled = true;
-
         Invoke("DisableAfterSeconds", 3f);
 
         if (startPiercingWhenEnabledAgain)
@@ -45,30 +33,26 @@ public class MissileHitEnemy : MonoBehaviour
         }
     }
 
-    // public Collider2D[] inwardsEnemies;
-    // public Collider2D[] outwardsEnemies;
-    
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D enemy)
     {
-        if (other.gameObject.layer == 6)
-        // if (enemy.activeInHierarchy && !enemyIsHit.alreadyHit && gameObject.activeInHierarchy)
+        if (enemy.gameObject.layer == 6)
         {
-            GameObject enemy = other.gameObject;
-            EnemyIsHit enemyIsHit = enemy.GetComponent<EnemyIsHit>();
-            if (enemyIsHit == null || enemyIsHit.alreadyHit)
-                return;
+            EnemyIsHit enemyIsHit = enemy.gameObject.GetComponent<EnemyIsHit>();
+            
+            if (enemyIsHit != null && !enemyIsHit.alreadyHit)
+            {
+                CancelInvoke("DisableAfterSeconds");
+                StartCoroutine(HandlePiercingThenDisable());
 
-            CancelInvoke("DisableAfterSeconds");
-            StartCoroutine(DisableTest());
-
-            StartCoroutine(KillStruckEnemy(other, totalExplosionChains));
-            ExplodeEnemiesAroundStruckEnemy(enemy);
-
+                StartCoroutine(KillStruckEnemy(enemy, totalExplosionChains));
+                ExplodeNearbyEnemies(enemy.gameObject);
+            }
         }
     }
 
-    IEnumerator DisableTest()
+
+    IEnumerator HandlePiercingThenDisable()
     {
         if (bulletCanPierce)
             bulletCanPierce = false;
@@ -88,11 +72,10 @@ public class MissileHitEnemy : MonoBehaviour
         StartCoroutine(enemyIsHit.StartDying(explosionChains));
 
         yield break;
-            // collider.enabled = false;
     }
 
 
-    void ExplodeEnemiesAroundStruckEnemy(GameObject enemy)
+    void ExplodeNearbyEnemies(GameObject enemy)
     {
         if (totalExplosionChains >= 1)
         {
@@ -115,8 +98,6 @@ public class MissileHitEnemy : MonoBehaviour
 
 
 
-
-
     void DisableAfterSeconds() =>
         gameObject.SetActive(false);
 
@@ -124,6 +105,6 @@ public class MissileHitEnemy : MonoBehaviour
     public void StartPiercingWhenEnabledAgain() =>
         startPiercingWhenEnabledAgain = true;
 
-    public void IncrementChainExplosionsWhenEnabledAgain(int newChainAmount) =>
+    public void IncrementExplosionsWhenEnabledAgain(int newChainAmount) =>
         canExplodeEnemiesWhenEnabledAgain = true;
 }

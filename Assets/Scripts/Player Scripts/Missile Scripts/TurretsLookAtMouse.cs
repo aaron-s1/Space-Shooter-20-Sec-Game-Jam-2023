@@ -18,10 +18,6 @@ public class TurretsLookAtMouse : MonoBehaviour
 
         float distanceToMouse = directionToMouse.magnitude;
 
-        //
-        // Debug.DrawLine(originPoint.position, originPoint.position + directionToMouse.normalized * minDistanceToStopRotation, Color.green);
-        // VisualizeAllowedAngle(directionToMouse);
-
         float angleToMouse = Vector3.Angle(transform.up, directionToMouse);
 
         if (distanceToMouse > minDistanceToStopRotation && IsWithinAllowedAngle(angleToMouse))

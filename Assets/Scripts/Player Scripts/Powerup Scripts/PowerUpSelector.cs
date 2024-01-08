@@ -12,35 +12,30 @@ public class PowerUpSelector : MonoBehaviour
     GameManager gameManager;
     FireMissile playerMissiles;
 
-    [SerializeField] GameObject leftDrone;
-    [SerializeField] GameObject rightDrone;
+    public List<GameObject> powerUpsUIList;
+    [SerializeField] float baseDroneRespawnTime = 3f;
     [SerializeField] Vector3 powerUpAttachPoint;
 
-    public float baseDroneRespawnTime = 3f;
-
-    public List<GameObject> powerUpsUIList;
-    GameObject leftDronePowerUpUI;
-    GameObject rightDronePowerUpUI;
-
-    Animator leftDroneAnim;
-    Animator rightDroneAnim;
+    [Space(15)]
+    [SerializeField] GameObject leftDrone;
+    [SerializeField] GameObject rightDrone;
+    GameObject leftDronePowerUpUI, rightDronePowerUpUI;    
+    Animator leftDroneAnim,rightDroneAnim;
+    PowerUp leftDronePowerUp, rightDronePowerUp;
 
     List<PowerUp> availablePowerUps;
-    PowerUp leftDronePowerUp;
-    PowerUp rightDronePowerUp;    
 
     public string Name { get; set; }
 
     bool allowPowerUpChoice;
 
-    [HideInInspector] public int totalPowerUpsAcquired;
+    int totalPowerUpsAcquired;
 
 
     void Start()
     {
         gameManager = GameManager.Instance;
         playerMissiles = FireMissile.Instance;
-    
 
         leftDroneAnim = leftDrone.GetComponent<Animator>();
         rightDroneAnim = rightDrone.GetComponent<Animator>();
@@ -104,7 +99,7 @@ public class PowerUpSelector : MonoBehaviour
 
         yield return new WaitForSeconds(droneToPlayerEngageLengths);
 
-        // Player can finally now choose a power-up.    
+        // Player can finally now choose a power-up.
         allowPowerUpChoice = true;
     }
 
@@ -113,17 +108,18 @@ public class PowerUpSelector : MonoBehaviour
         int randomIndex = Random.Range(0, availablePowerUps.Count);        
         currentPowerUpLeft = availablePowerUps[randomIndex];
 
-        // Remove, then add it back afterwards, so that right powerUp can't select what left selected
+        // (1) Quickly prevent second drone from from selecting first one's powerup.
         availablePowerUps.Remove(currentPowerUpLeft);
 
         randomIndex = Random.Range(0, availablePowerUps.Count);
         currentPowerUpRight = availablePowerUps[randomIndex];
 
+        // (2) Add it back.
         availablePowerUps.Add(currentPowerUpLeft);
     }        
 
 
-    // Not how I wanted to do it but works for now.
+    // Not how I wanted to do it, but works.
     GameObject GetUIOfPowerUp(PowerUp powerUp)
     {
         foreach (GameObject powerUpUI in powerUpsUIList)
@@ -301,10 +297,14 @@ public class PowerUpSelector : MonoBehaviour
     #endregion
 
 
-    IEnumerator WaitForSomething(float length)
+    IEnumerator WaitForSomething(float length)    
     {
         yield return new WaitForSeconds(length);        
     }
+
+
+    public int TotalPowerUpsAcquired {get { return totalPowerUpsAcquired; }}
+    
 }
 
 
